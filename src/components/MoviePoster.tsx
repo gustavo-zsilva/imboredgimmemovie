@@ -8,16 +8,26 @@ export function MoviePoster() {
 
     return (
         <Flex
-            boxShadow="-8px 8px 0 #48327e"
-            border="10px solid #fff"
+            boxShadow="0 0 5px 5px rgba(0, 0, 0, 0.1)"
+            p="6px"
+            bg="transparent"
             borderRadius=".2rem"
             overflow="hidden"
+            justifyContent="center"
         >
-            <Image
-                width={300}
-                height={445}
-                src={movie.Poster}
+            <Flex
+                bgImage={movie.Poster}
+                filter="blur(10px)"
+                w="100%"
             />
+            <Flex border="6px solid #312F2F">
+                <Image
+                    width={300}
+                    height={445}
+                    src={movie.Poster}
+                    alt={movie.Title}
+                />
+            </Flex>
         </Flex>
     )
 }

@@ -3,10 +3,12 @@ import Head from 'next/head'
 
 import { MovieProvider } from '../contexts/MovieContext'
 import { MoviePoster } from '../components/MoviePoster'
-import { MovieInfo } from '../components/MovieInfo'
+import { MovieHeader } from '../components/MovieHeader'
 
-import { Flex } from '@chakra-ui/react'
+import { Flex, Divider } from '@chakra-ui/react'
 import { api } from '../services/api'
+import { MovieDescription } from '../components/MovieDescription'
+import { Other } from '../components/Other'
 
 type HomeProps = {
     movie: {
@@ -23,21 +25,26 @@ type HomeProps = {
 }
 
 export default function Home({ movie }: HomeProps) {
-
     console.log(movie)
 
     return (
         <MovieProvider defaultMovie={movie}>
-            <Flex justifyContent="center">
+            <Flex justifyContent="center" flexDir="column">
                 <Head>
                     <title>imboredgimmemovie | Movie Randomizer</title>
                 </Head>
 
-                <Flex>
-                    
+                <Flex display="grid" gridTemplateColumns="1fr 1fr" gridGap="1rem">
+                    <Flex flexDir="column" gridGap="1rem">
+                        <MoviePoster />
+                        <MovieHeader />
+                        <MovieDescription />
+                    </Flex>
+
+                    <Other />
                 </Flex>
-                <MoviePoster />
-                <MovieInfo />
+
+                <Divider  />
             </Flex>
         </MovieProvider>
     )
