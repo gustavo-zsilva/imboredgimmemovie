@@ -7,15 +7,16 @@ import { useMovie } from '../hooks/useMovie'
 
 export function Controller() {
 
-    const { movie } = useMovie()
-
-    function handleSearchMovie() {
-        window.open(`https://google.com/search?q=${movie.Title} watch`)
-    }
+    const { getNewMovie, handleSearchMovie } = useMovie()
 
     return (
-        <Flex>
-            <Button>
+        <Flex
+            gridArea="Controller"
+            mt="4rem"
+            gridGap="1rem"
+            justifyContent="center"
+        >
+            <Button onClick={getNewMovie}>
                 <FiShuffle color="#000" size={28} />
             </Button>
             <Button bg="primary.100" onClick={handleSearchMovie}>

@@ -27,8 +27,6 @@ type HomeProps = {
 }
 
 export default function Home({ movie }: HomeProps) {
-    console.log(movie)
-
     return (
         <MovieProvider defaultMovie={movie}>
             <Head>
@@ -38,8 +36,8 @@ export default function Home({ movie }: HomeProps) {
             <Flex
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
-                gridTemplateRows="6rem auto"
-                gridTemplateAreas={`'Header Header' 'Movie Other'`}
+                gridTemplateRows="6rem auto auto"
+                gridTemplateAreas={`'Header Header' 'Movie Other' 'Controller Controller'`}
             >
                 <Header />
 
@@ -50,11 +48,9 @@ export default function Home({ movie }: HomeProps) {
                 </Flex>
 
                 <Other />
+
+                <Controller />
             </Flex>
-
-            {/* <Divider /> */}
-
-            <Controller />
 
         </MovieProvider>
     )
@@ -63,8 +59,7 @@ export default function Home({ movie }: HomeProps) {
 export const getServerSideProps: GetServerSideProps = async () => {
     const response = await api.get('/', {
         params: {
-            apikey: process.env.API_KEY,
-            t: 'ninjago'
+            t: 'ninjago',
         }
     })
     const movie = response.data
