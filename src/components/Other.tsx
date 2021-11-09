@@ -7,7 +7,7 @@ export function Other() {
     const { movie } = useMovie()
 
     return (
-        <Flex flexDir="column" alignItems="center">
+        <Flex flexDir="column" alignItems="center" gridArea="Other">
             <Bubble title="Director" description={movie.Director} />
             <Bubble title="Awards" description={movie.Awards} />
             <Bubble title="Genre" description={movie.Genre} />

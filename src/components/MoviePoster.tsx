@@ -14,13 +14,20 @@ export function MoviePoster() {
             borderRadius=".2rem"
             overflow="hidden"
             justifyContent="center"
+            pos="relative"
         >
             <Flex
                 bgImage={movie.Poster}
+                bgPos="center"
+                bgRepeat="no-repeat"
+                bgSize="cover"
                 filter="blur(10px)"
                 w="100%"
+                pos="absolute"
+                top="0"
+                bottom="0"
             />
-            <Flex border="6px solid #312F2F">
+            <Flex m=".4rem 0">
                 <Image
                     width={300}
                     height={445}

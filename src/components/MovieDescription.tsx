@@ -5,7 +5,7 @@ export function MovieDescription() {
     const { movie } = useMovie()
 
     return (
-        <Flex maxW="20rem" ml=".8rem">
+        <Flex borderLeft="6px solid" borderColor="primary.100" pl="1rem">
             <Text>{movie.Plot}</Text>
         </Flex>
     )
