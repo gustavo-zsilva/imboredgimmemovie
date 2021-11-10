@@ -9,8 +9,9 @@ import { Other } from '../components/Other'
 import { Header } from '../components/Header'
 import { Controller } from '../components/Controller'
 
-import { Flex, Divider } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { api } from '../services/api'
+import axios from 'axios'
 
 type HomeProps = {
     movie: {
@@ -24,6 +25,14 @@ type HomeProps = {
         Awards: string,
         Poster: string,
     }
+}
+
+type TMDBMovieProps = {
+    title: string,
+}
+
+type TMDBPageProps = {
+    results: TMDBMovieProps[]
 }
 
 export default function Home({ movie }: HomeProps) {
@@ -57,9 +66,22 @@ export default function Home({ movie }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+
+    const page = Math.floor(Math.random() * 500)
+    const movieIndex = Math.floor(Math.random() * 20)
+
+    const randomPage = await axios.get<TMDBPageProps>(`https://api.themoviedb.org/3/movie/popular`, {
+        params: {
+            api_key: process.env.TMDB_API_KEY,
+            page,
+        }
+    })
+
+    const randomMovie = randomPage.data.results[movieIndex].title
+
     const response = await api.get('/', {
         params: {
-            t: 'ninjago',
+            t: randomMovie,
         }
     })
     const movie = response.data

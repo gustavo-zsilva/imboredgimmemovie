@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Flex } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
 import { useMovie } from '../hooks/useMovie'
 
 export function MoviePoster() {
@@ -28,12 +28,17 @@ export function MoviePoster() {
                 bottom="0"
             />
             <Flex m=".4rem 0">
-                <Image
-                    width={300}
-                    height={445}
-                    src={movie.Poster}
-                    alt={movie.Title}
-                />
+                {movie.Poster ? (
+                    <Image
+                        width={300}
+                        height={445}
+                        src={movie.Poster}
+                        alt={movie.Title}
+                    />
+                ) : (
+                    <Text>Poster not found</Text>
+                )}
+                
             </Flex>
         </Flex>
     )
