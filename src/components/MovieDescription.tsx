@@ -5,7 +5,13 @@ export function MovieDescription() {
     const { movie } = useMovie()
 
     return (
-        <Flex borderLeft="6px solid" borderColor="primary.100" pl="1rem">
+        <Flex
+            borderLeft="6px solid"
+            borderColor="primary.100"
+            pl="1rem"
+            maxH="150px"
+            overflowY="scroll"
+        >
             <Text>{movie.overview}</Text>
         </Flex>
     )

@@ -1,4 +1,4 @@
-import { Progress, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { useMovie } from '../hooks/useMovie'
 
 export function MovieRating() {
@@ -8,20 +8,27 @@ export function MovieRating() {
 
     return (
         <Flex w="85%" alignItems="center" textAlign="right">
-            <Progress
-                colorScheme="blue"
-                size="lg"
+            <Flex
                 h="2rem"
                 w="100%"
                 bg="dark.200"
-                value={ratingPercentage}
                 borderRadius=".1rem"
-            />
+            >
+                <Flex
+                    w={`${ratingPercentage}%`}
+                    bg="primary.100"
+                    borderRadius=".1rem"
+                />
+            </Flex>
             <Flex flexDir="column">
                 <Text fontSize="2.2rem">
                     {movie.vote_average}
                 </Text>
-                <Text fontSize=".8rem" transform="translateY(-10%)" filter="brightness(0.6)">
+                <Text
+                    fontSize=".8rem"
+                    transform="translateY(-10%)"
+                    filter="brightness(0.6)"
+                >
                     Average Rating
                 </Text>
             </Flex>
