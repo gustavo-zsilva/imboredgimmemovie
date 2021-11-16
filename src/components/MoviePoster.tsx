@@ -17,7 +17,7 @@ export function MoviePoster() {
             pos="relative"
         >
             <Flex
-                bgImage={movie.Poster}
+                bgImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 bgPos="center"
                 bgRepeat="no-repeat"
                 bgSize="cover"
@@ -28,15 +28,17 @@ export function MoviePoster() {
                 bottom="0"
             />
             <Flex m=".4rem 0">
-                {movie.Poster ? (
+                {movie.poster_path ? (
                     <Image
                         width={300}
                         height={445}
-                        src={movie.Poster}
-                        alt={movie.Title}
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        alt={movie.title}
                     />
                 ) : (
-                    <Text>Poster not found</Text>
+                    <Flex w="300px" h="445px">
+                        <Text>Poster not found</Text>
+                    </Flex>
                 )}
                 
             </Flex>

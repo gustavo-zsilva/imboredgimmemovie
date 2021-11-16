@@ -6,7 +6,7 @@ export function MovieDescription() {
 
     return (
         <Flex borderLeft="6px solid" borderColor="primary.100" pl="1rem">
-            <Text>{movie.Plot}</Text>
+            <Text>{movie.overview}</Text>
         </Flex>
     )
 }

@@ -20,7 +20,7 @@ export function Bubble({ title, description }: BubbleProps) {
             _even={{ transform: 'translateY(-25%) translateX(35%)', bg: '#3c5fd4' }}
         >
             <Text fontSize="1.2rem" fontWeight="bold">{title}</Text>
-            <Text ml=".8rem">{description}</Text>
+            <Text ml=".8rem">{description || `There are no ${title} currently.`}</Text>
         </Flex>
     )
 }
