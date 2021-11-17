@@ -4,10 +4,20 @@ import { FiShuffle } from 'react-icons/fi'
 import { MdMovie } from 'react-icons/md'
 import { Flex } from '@chakra-ui/react'
 import { useMovie } from '../hooks/useMovie'
+import { useEffect } from 'react'
 
 export function Controller() {
 
     const { getNewMovie, handleSearchMovie } = useMovie()
+
+    useEffect(() => {
+        window.document.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                getNewMovie()
+            }
+        }
+            
+    }, [getNewMovie])
 
     return (
         <Flex

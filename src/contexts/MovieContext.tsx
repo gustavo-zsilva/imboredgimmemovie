@@ -51,8 +51,6 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
 
             const randomMovie = response.data.results[movie]
 
-            console.log(randomMovie)
-
             setMovie(randomMovie)
         } catch (err) {
             console.error(err)
