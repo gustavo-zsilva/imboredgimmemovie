@@ -6,8 +6,10 @@ export const MovieContext = createContext({} as MovieContextProps)
 
 type MovieContextProps = {
     movie: MovieProps,
+    movieRecommendations: MovieProps[],
     handleSearchMovie: () => void,
-    getNewMovie: () => void,
+    handleGetRandomMovie: () => void,
+    handleChangeMovie: (newMovie: MovieProps) => void,
 }
 
 type MovieProps = {
@@ -32,20 +34,36 @@ type MovieProvider = {
 export function MovieProvider({ children, defaultMovie }: MovieProvider) {
 
     const [movie, setMovie] = useState<MovieProps>(() => defaultMovie)
+    const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
+
+    async function handleGetMovieRecommendations() {
+        const response = await api.get(`/movie/${movie.id}/recommendations`)
+
+        setMovieRecommendations(response.data.results.slice(0, 5))
+    }
+
+    function handleChangeMovie(newMovie: MovieProps) {
+        setMovie(newMovie)
+    }
 
     function handleSearchMovie() {
         window.open(`https://google.com/search?q=watch ${movie.title}`)
+
+        handleGetMovieRecommendations()
+
+        console.log(movieRecommendations)
     }
 
-    async function getNewMovie() {
+    async function handleGetRandomMovie() {
         try {
+            setMovieRecommendations([])
+
             const page = Math.floor(Math.random() * 500)
             const movie = Math.floor(Math.random() * 20)
             
             const response = await api.get('/movie/popular', {
                 params: {
                     page,
-                    api_key: process.env.API_KEY,
                 }
             })
 
@@ -62,7 +80,9 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
             value={{
                 movie,
                 handleSearchMovie,
-                getNewMovie,
+                handleGetRandomMovie,
+                movieRecommendations,
+                handleChangeMovie,
             }}
         >
             {children}

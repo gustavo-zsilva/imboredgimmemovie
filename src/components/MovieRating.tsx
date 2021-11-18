@@ -5,6 +5,7 @@ export function MovieRating() {
     const { movie } = useMovie()
 
     const ratingPercentage = movie.vote_average * 10
+    const rating = String(movie.vote_average).slice(0, 3)
 
     return (
         <Flex w="85%" alignItems="center" textAlign="right">
@@ -22,7 +23,7 @@ export function MovieRating() {
             </Flex>
             <Flex flexDir="column">
                 <Text fontSize="2.2rem">
-                    {movie.vote_average}
+                    {rating}
                 </Text>
                 <Text
                     fontSize=".8rem"

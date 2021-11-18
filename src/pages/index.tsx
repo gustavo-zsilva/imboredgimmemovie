@@ -11,6 +11,8 @@ import { Controller } from '../components/Controller'
 
 import { Flex } from '@chakra-ui/react'
 import { api } from '../services/api'
+import { MovieRecommendations } from '../components/MovieRecommendations'
+import { useMovie } from '../hooks/useMovie'
 
 type MovieProps = {
     title: string,
@@ -40,9 +42,15 @@ export default function Home({ movie }: HomeProps) {
 
             <Flex
                 display="grid"
+                mb="4rem"
                 gridTemplateColumns="1fr 1fr"
-                gridTemplateRows="6rem auto auto"
-                gridTemplateAreas={`'Header Header' 'Movie Other' 'Controller Controller'`}
+                gridTemplateRows="6rem auto auto auto"
+                gridTemplateAreas={`
+                    'Header Header'
+                    'Movie Other'
+                    'Controller Controller'
+                    'Recommendations Recommendations'
+                `}
             >
                 <Header />
 
@@ -55,6 +63,8 @@ export default function Home({ movie }: HomeProps) {
                 <Other />
 
                 <Controller />
+
+                <MovieRecommendations />
             </Flex>
 
         </MovieProvider>
@@ -69,7 +79,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const response = await api.get('/movie/popular', {
         params: {
             page,
-            api_key: process.env.API_KEY,
         }
     })
 

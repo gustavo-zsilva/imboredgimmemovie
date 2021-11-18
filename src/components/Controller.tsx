@@ -8,16 +8,16 @@ import { useEffect } from 'react'
 
 export function Controller() {
 
-    const { getNewMovie, handleSearchMovie } = useMovie()
+    const { handleGetRandomMovie, handleSearchMovie } = useMovie()
 
     useEffect(() => {
         window.document.onkeydown = (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                getNewMovie()
+                handleGetRandomMovie()
             }
         }
             
-    }, [getNewMovie])
+    }, [handleGetRandomMovie])
 
     return (
         <Flex
@@ -26,7 +26,7 @@ export function Controller() {
             gridGap="1rem"
             justifyContent="center"
         >
-            <Button onClick={getNewMovie}>
+            <Button onClick={handleGetRandomMovie}>
                 <FiShuffle color="#000" size={28} />
             </Button>
             <Button bg="primary.100" onClick={handleSearchMovie}>

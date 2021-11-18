@@ -40,11 +40,8 @@ export function Other() {
     const [genres, setGenres] = useState('')
 
     useEffect(() => {
-        api.get<GenreListProps>('/genre/movie/list', {
-            params: {
-                api_key: process.env.API_KEY,
-            }
-        }).then(response => {
+        api.get<GenreListProps>('/genre/movie/list')
+        .then(response => {
             const { genres } = response.data
             const parsedGenres = genres.map(genre => movie.genre_ids.includes(genre.id) && genre.name)
                 .filter(Boolean)
@@ -58,11 +55,8 @@ export function Other() {
     }, [movie])
 
     useEffect(() => {
-        api.get<CreditsProps>(`/movie/${movie.id}/credits`, {
-            params: {
-                api_key: process.env.API_KEY,
-            }
-        }).then(response => {
+        api.get<CreditsProps>(`/movie/${movie.id}/credits`)
+        .then(response => {
 
             const { cast, crew } = response.data
 
