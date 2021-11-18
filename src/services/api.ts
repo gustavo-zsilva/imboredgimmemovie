@@ -7,8 +7,8 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use(config => {
+    config.params = config.params || {}
+    config.params['api_key'] = apiKey
 
-    // config.params['api_key'] = apiKey
-
-    return Promise.resolve(config)
+    return config
 })
