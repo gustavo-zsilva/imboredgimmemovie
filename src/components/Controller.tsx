@@ -1,10 +1,11 @@
-import { Button } from '../components/Button'
-
-import { FiShuffle } from 'react-icons/fi'
-import { MdMovie } from 'react-icons/md'
-import { Flex } from '@chakra-ui/react'
-import { useMovie } from '../hooks/useMovie'
 import { useEffect } from 'react'
+import { Button } from '../components/Button'
+import { useMovie } from '../hooks/useMovie'
+
+import { MdMovie } from 'react-icons/md'
+import { FiShuffle } from 'react-icons/fi'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
 
@@ -31,6 +32,9 @@ export function Controller() {
             </Button>
             <Button bg="primary.100" onClick={handleSearchMovie}>
                 <MdMovie size={28} />
+            </Button>
+            <Button bg="primary.400">
+                <AiOutlineHeart size={32} />
             </Button>
         </Flex>
     )

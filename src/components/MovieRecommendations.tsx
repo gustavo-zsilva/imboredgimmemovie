@@ -23,7 +23,6 @@ export function MovieRecommendations() {
                             key={movie.id}
                             flexDir="column"
                             maxW="200px"
-                            
                             p=".2rem"
                             borderRadius=".2rem"
                             transition=".2s"

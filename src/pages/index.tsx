@@ -13,6 +13,7 @@ import { Flex } from '@chakra-ui/react'
 import { api } from '../services/api'
 import { MovieRecommendations } from '../components/MovieRecommendations'
 import { useMovie } from '../hooks/useMovie'
+import { MovieWatchProviders } from '../components/MovieWatchProviders'
 
 type MovieProps = {
     title: string,
@@ -57,6 +58,7 @@ export default function Home({ movie }: HomeProps) {
                 <Flex flexDir="column" gridGap="1rem" gridArea="Movie">
                     <MoviePoster />
                     <MovieHeader />
+                    <MovieWatchProviders />
                     <MovieDescription />
                 </Flex>
 

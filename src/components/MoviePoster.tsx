@@ -1,6 +1,8 @@
 import Image from 'next/image'
-import { Flex, Text } from "@chakra-ui/react"
 import { useMovie } from '../hooks/useMovie'
+
+import { BiGhost } from 'react-icons/bi'
+import { Flex, Text } from "@chakra-ui/react"
 
 export function MoviePoster() {
 
@@ -36,7 +38,17 @@ export function MoviePoster() {
                         alt={movie.title}
                     />
                 ) : (
-                    <Flex w="300px" h="445px">
+                    <Flex
+                        w="300px"
+                        h="445px"
+                        bg="dark.100"
+                        zIndex="9999"
+                        flexDir="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        borderRadius=".2rem"
+                    >
+                        <BiGhost size={32} />
                         <Text>Poster not found</Text>
                     </Flex>
                 )}
