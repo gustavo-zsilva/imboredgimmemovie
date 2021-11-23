@@ -14,6 +14,7 @@ import { api } from '../services/api'
 import { MovieRecommendations } from '../components/MovieRecommendations'
 import { useMovie } from '../hooks/useMovie'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
+import { LikedMovieList } from '../components/LikedMovieList'
 
 type MovieProps = {
     title: string,

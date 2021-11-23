@@ -2,10 +2,18 @@ import { useEffect, useState } from 'react'
 
 import { useMovie } from '../hooks/useMovie'
 import { Bubble } from './Bubble'
+import { MovieRating } from './MovieRating'
+import { LikedMovieList } from './LikedMovieList'
 
 import { api } from '../services/api'
-import { Flex } from '@chakra-ui/react'
-import { MovieRating } from './MovieRating'
+import {
+    Flex,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+} from '@chakra-ui/react'
 
 type Actors = {
     name: string,
@@ -84,13 +92,25 @@ export function Other() {
     }, [movie])
 
     return (
-        <Flex flexDir="column" alignItems="center" gridArea="Other">
-            <Bubble title="Cast" description={cast} />
-            <Bubble title="Directors" description={directors} />
-            <Bubble title="Producers" description={producers} />
-            <Bubble title="Genres" description={genres} />
+        <Tabs gridArea="Other" variant="solid-rounded" colorScheme="primary" display="flex" flexDir="column" alignItems="center">
+            <TabList justifyContent="center">
+                <Tab>Credits</Tab>
+                <Tab>Movies</Tab>
+            </TabList>
+
+            <TabPanels display="inherit">
+                <TabPanel m="auto">
+                    <Bubble title="Cast" description={cast} />
+                    <Bubble title="Directors" description={directors} />
+                    <Bubble title="Producers" description={producers} />
+                    <Bubble title="Genres" description={genres} />
+                </TabPanel>
+                <TabPanel w="100%">
+                    <LikedMovieList />
+                </TabPanel>
+            </TabPanels>
 
             <MovieRating />
-        </Flex>
+        </Tabs>
     )
 }
