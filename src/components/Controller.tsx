@@ -9,7 +9,7 @@ import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
 
-    const { handleGetRandomMovie, handleSearchMovie } = useMovie()
+    const { handleGetRandomMovie, handleSearchMovie, movie } = useMovie()
 
     useEffect(() => {
         window.document.onkeydown = (e) => {
@@ -19,6 +19,13 @@ export function Controller() {
         }
             
     }, [handleGetRandomMovie])
+
+    function handleAddToLikedMovies() {
+        const savedMovies = JSON.parse(localStorage.getItem('igbm.likedMovies')) || []
+        if (savedMovies.includes(movie)) return
+        savedMovies.push(movie)
+        localStorage.setItem('ibgm.likedMovies', JSON.stringify(savedMovies))
+    }
 
     return (
         <Flex
@@ -33,7 +40,7 @@ export function Controller() {
             <Button bg="primary.100" onClick={handleSearchMovie}>
                 <MdMovie size={28} />
             </Button>
-            <Button bg="primary.400">
+            <Button bg="primary.400" onClick={handleAddToLikedMovies}>
                 <AiOutlineHeart size={32} />
             </Button>
         </Flex>

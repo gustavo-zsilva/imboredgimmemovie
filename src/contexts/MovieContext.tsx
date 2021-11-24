@@ -35,6 +35,7 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
 
     const [movie, setMovie] = useState<MovieProps>(() => defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
+    const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
 
     async function handleGetMovieRecommendations() {
         const response = await api.get(`/movie/${movie.id}/recommendations`)
