@@ -7,6 +7,7 @@ type MovieContextProps = {
     movie: MovieProps,
     movieRecommendations: MovieProps[],
     likedMovies: MovieProps[],
+    isCurrentMovieLiked: boolean,
     handleSearchMovie: () => void,
     handleGetRandomMovie: () => void,
     handleChangeMovie: (newMovie: MovieProps) => void,
@@ -37,6 +38,7 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
     const [movie, setMovie] = useState<MovieProps>(() => defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
+    const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie.id)
 
     async function handleGetMovieRecommendations() {
         const response = await api.get(`/movie/${movie.id}/recommendations`)
@@ -78,7 +80,11 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
     }
 
     function handleAddToLikedMovies() {
-        if (likedMovies.includes(movie)) return
+        if (likedMovies.some(({ id }) => id === movie.id)) {
+            const newLikedMovies = likedMovies.filter(({ id }) => id !== movie.id)
+            setLikedMovies(newLikedMovies)
+            return
+        }
         localStorage.setItem('ibgm.likedMovies', JSON.stringify([...likedMovies, movie]))
         setLikedMovies([...likedMovies, movie])
     }
@@ -98,6 +104,7 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
                 handleChangeMovie,
                 handleAddToLikedMovies,
                 likedMovies,
+                isCurrentMovieLiked,
             }}
         >
             {children}
