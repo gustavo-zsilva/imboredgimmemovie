@@ -9,7 +9,7 @@ import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
 
-    const { handleGetRandomMovie, handleSearchMovie, handleAddToLikedMovies } = useMovie()
+    const { handleGetRandomMovie, handleSearchMovie, handleAddToLikedMovies, isCurrentMovieLiked } = useMovie()
 
     useEffect(() => {
         window.document.onkeydown = (e) => {
@@ -36,7 +36,11 @@ export function Controller() {
                 <MdMovie size={28} />
             </Button>
             <Button bg="primary.400" onClick={handleAddToLikedMovies}>
-                <AiOutlineHeart size={32} />
+                {isCurrentMovieLiked ? (
+                    <AiFillHeart size={32} />
+                ) : (
+                    <AiOutlineHeart size={32} />
+                )}
             </Button>
         </Flex>
     )
