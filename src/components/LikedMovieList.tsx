@@ -1,3 +1,5 @@
+import { BiGhost } from 'react-icons/bi'
+
 import {
     Flex,
     Text,
@@ -9,16 +11,18 @@ export function LikedMovieList() {
     const { likedMovies } = useMovie()
 
     return (
-        <Flex flexDir="column" w="100%" gridGap="1.2rem">
+        <Flex flexDir="column" w="100%" gridGap="1.2rem" h="100%" overflowY="scroll">
 
-            {likedMovies.map(movie => {
+            {likedMovies.length > 0 ? likedMovies.map(movie => {
                 return (
                     <Flex
                         pos="relative"
-                        p="1rem"
+                        px="1rem"
                         borderRadius=".2rem"
                         overflow="hidden"
                         justifyContent="center"
+                        alignItems="center"
+                        minH="5rem"
                         key={movie.id}
                     >
                         <Flex
@@ -31,20 +35,24 @@ export function LikedMovieList() {
                             pos="absolute"
                             top="0"
                             bottom="0"
-                            
                         />
                         <Text
                             bg="rgba(49, 47, 47, 0.6)"
                             zIndex="9999"
                             p=".4rem"
                             borderRadius=".2rem"
-                            textAlign="left"
+                            h="fit-content"
                         >
                             {movie.title}
                         </Text>
                     </Flex>
                 )
-            })}
+            }) : (
+                <Flex flexDir="column" alignItems="center" m="auto" maxW="15rem">
+                    <BiGhost size={32} />
+                    <Text textAlign="center" mt="1rem">No favorite movie huh? I see, you are a tough one.</Text>
+                </Flex>
+            )}
             
         </Flex>
     )
