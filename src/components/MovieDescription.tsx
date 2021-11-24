@@ -3,7 +3,7 @@ import { useMovie } from "../hooks/useMovie"
 
 export function MovieDescription() {
     const { movie } = useMovie()
-
+    
     return (
         <Flex
             borderLeft="6px solid"

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useMovie } from '../hooks/useMovie'
 
 import { api } from '../services/api'
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Tooltip } from '@chakra-ui/react'
 import axios from 'axios'
 
 type UserLocation = {
@@ -16,12 +16,6 @@ type Provider = {
     logo_path: string,
     provider_name: string,
     provider_id: number,
-}
-
-type ProvidersListProps = {    
-    flatrate: Provider[],
-    buy: Provider[],
-    rent: Provider[],
 }
 
 export function MovieWatchProviders() {
@@ -60,19 +54,25 @@ export function MovieWatchProviders() {
             ) : (
                 providersList.map(provider => {
                     return (
-                        <Flex
+                        <Tooltip
+                            label={provider.provider_name}
                             key={provider.provider_id}
-                            borderRadius=".2rem"
-                            overflow="hidden"
-                            cursor="pointer"
+                            bg="dark.200"
+                            color="primary.200"
                         >
-                            <Image
-                                src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
-                                width={50}
-                                height={50}
-                                alt={provider.provider_name}
-                            />
-                        </Flex>
+                            <Flex
+                                borderRadius=".2rem"
+                                overflow="hidden"
+                                cursor="pointer"
+                            >
+                                <Image
+                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
+                                    width={50}
+                                    height={50}
+                                    alt={provider.provider_name}
+                                />
+                            </Flex>
+                        </Tooltip>
                     )
                 })
             )}
