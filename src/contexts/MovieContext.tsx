@@ -1,5 +1,4 @@
-import { createContext, ReactNode, useState, KeyboardEvent } from "react";
-import axios from 'axios'
+import { createContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../services/api";
 
 export const MovieContext = createContext({} as MovieContextProps)
@@ -7,9 +6,11 @@ export const MovieContext = createContext({} as MovieContextProps)
 type MovieContextProps = {
     movie: MovieProps,
     movieRecommendations: MovieProps[],
+    likedMovies: MovieProps[],
     handleSearchMovie: () => void,
     handleGetRandomMovie: () => void,
     handleChangeMovie: (newMovie: MovieProps) => void,
+    handleAddToLikedMovies: () => void,
 }
 
 type MovieProps = {
@@ -76,6 +77,17 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
         } 
     }
 
+    function handleAddToLikedMovies() {
+        if (likedMovies.includes(movie)) return
+        localStorage.setItem('ibgm.likedMovies', JSON.stringify([...likedMovies, movie]))
+        setLikedMovies([...likedMovies, movie])
+    }
+
+    useEffect(() => {
+        const savedMovies = JSON.parse(localStorage.getItem('ibgm.likedMovies')) || []
+        setLikedMovies(savedMovies)
+    }, [])
+
     return (
         <MovieContext.Provider
             value={{
@@ -84,6 +96,8 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
                 handleGetRandomMovie,
                 movieRecommendations,
                 handleChangeMovie,
+                handleAddToLikedMovies,
+                likedMovies,
             }}
         >
             {children}

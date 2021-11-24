@@ -9,7 +9,7 @@ import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
 
-    const { handleGetRandomMovie, handleSearchMovie, movie } = useMovie()
+    const { handleGetRandomMovie, handleSearchMovie, handleAddToLikedMovies } = useMovie()
 
     useEffect(() => {
         window.document.onkeydown = (e) => {
@@ -20,12 +20,7 @@ export function Controller() {
             
     }, [handleGetRandomMovie])
 
-    function handleAddToLikedMovies() {
-        const savedMovies = JSON.parse(localStorage.getItem('igbm.likedMovies')) || []
-        if (savedMovies.includes(movie)) return
-        savedMovies.push(movie)
-        localStorage.setItem('ibgm.likedMovies', JSON.stringify(savedMovies))
-    }
+    
 
     return (
         <Flex
