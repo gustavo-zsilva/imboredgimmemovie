@@ -8,7 +8,7 @@ import { useMovie } from '../hooks/useMovie'
 
 export function LikedMovieList() {
 
-    const { likedMovies } = useMovie()
+    const { likedMovies, handleChangeMovie } = useMovie()
 
     return (
         <Flex flexDir="column" w="100%" gridGap="1.2rem" h="100%" overflowY="scroll">
@@ -16,6 +16,7 @@ export function LikedMovieList() {
             {likedMovies.length > 0 ? likedMovies.map(movie => {
                 return (
                     <Flex
+                        key={movie.id}
                         pos="relative"
                         px="1rem"
                         borderRadius=".2rem"
@@ -23,7 +24,8 @@ export function LikedMovieList() {
                         justifyContent="center"
                         alignItems="center"
                         minH="5rem"
-                        key={movie.id}
+                        cursor="pointer"
+                        onClick={() => handleChangeMovie(movie)}
                     >
                         <Flex
                             bgImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
