@@ -44,7 +44,6 @@ export default function Home({ movie }: HomeProps) {
 
             <Flex
                 display="grid"
-                mb="4rem"
                 gridTemplateColumns="1fr 1fr"
                 gridTemplateRows="6rem auto auto auto"
                 gridTemplateAreas={`
@@ -53,6 +52,18 @@ export default function Home({ movie }: HomeProps) {
                     'Controller Controller'
                     'Recommendations Recommendations'
                 `}
+                css={{
+                    '&::-webkit-scrollbar': {
+                        width: '10px'
+                    },
+                    '&::-webkit-scrollbar-track': {
+                        color: 'gray.400'
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        background: 'gray.900',
+                        
+                    }
+                }}
             >
                 <Header />
 
