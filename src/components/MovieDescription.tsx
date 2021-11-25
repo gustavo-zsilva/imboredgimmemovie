@@ -9,7 +9,7 @@ export function MovieDescription() {
             borderLeft="6px solid"
             borderColor="primary.100"
             pl="1rem"
-            maxH="150px"
+            maxH="140px"
             overflowY="scroll"
         >
             <Text>{movie.overview}</Text>
