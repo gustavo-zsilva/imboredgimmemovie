@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState, useEffect } from "react";
+import { createContext, ReactNode, useState, useEffect, useRef } from "react";
 import { api } from "../services/api";
 
 export const MovieContext = createContext({} as MovieContextProps)
@@ -8,10 +8,12 @@ type MovieContextProps = {
     movieRecommendations: MovieProps[],
     likedMovies: MovieProps[],
     isCurrentMovieLiked: boolean,
+    isLazyMovie: boolean,
     handleSearchMovie: () => void,
     handleGetRandomMovie: () => void,
     handleChangeMovie: (newMovie: MovieProps) => void,
     handleAddToLikedMovies: () => void,
+    handleLazyMovie: () => void,
 }
 
 type MovieProps = {
@@ -38,7 +40,23 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
     const [movie, setMovie] = useState<MovieProps>(() => defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
+    const [isLazyMovie, setIsLazyMovie] = useState(false)
     const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie.id)
+    const intervalId = useRef<NodeJS.Timeout>(null)
+
+    function handleLazyMovie() {
+        if (isLazyMovie) {
+            setIsLazyMovie(false)
+            clearInterval(intervalId.current)
+            return
+        }
+
+        intervalId.current = setInterval(() => {
+            handleGetRandomMovie()
+        }, 8000)
+
+        setIsLazyMovie(true)
+    }
 
     async function handleGetMovieRecommendations() {
         const response = await api.get(`/movie/${movie.id}/recommendations`)
@@ -54,8 +72,6 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
         window.open(`https://google.com/search?q=watch ${movie.title}`)
 
         handleGetMovieRecommendations()
-
-        console.log(movieRecommendations)
     }
 
     async function handleGetRandomMovie() {
@@ -105,6 +121,8 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
                 handleAddToLikedMovies,
                 likedMovies,
                 isCurrentMovieLiked,
+                handleLazyMovie,
+                isLazyMovie,
             }}
         >
             {children}

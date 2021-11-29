@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import { useMovie } from '../hooks/useMovie'
 
 import { Flex, Heading, Text } from '@chakra-ui/react'

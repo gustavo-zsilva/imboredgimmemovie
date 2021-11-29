@@ -105,7 +105,7 @@ export function Other() {
                     <Bubble title="Producers" description={producers} />
                     <Bubble title="Genres" description={genres} />
                 </TabPanel>
-                <TabPanel w="90%" m="auto" h="34rem">
+                <TabPanel w="90%" m="auto">
                     <LikedMovieList />
                 </TabPanel>
             </TabPanels>
