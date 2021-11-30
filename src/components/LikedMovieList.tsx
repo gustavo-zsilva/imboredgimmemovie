@@ -11,7 +11,7 @@ export function LikedMovieList() {
     const { likedMovies, handleChangeMovie } = useMovie()
 
     return (
-        <Flex flexDir="column" w="100%" gridGap="1.2rem" h="100%" overflowY="scroll">
+        <Flex flexDir="column" w="100%" maxH="58vh" gridGap="1.2rem" h="100%" overflowY="scroll">
 
             {likedMovies.length > 0 ? likedMovies.map(movie => {
                 return (
