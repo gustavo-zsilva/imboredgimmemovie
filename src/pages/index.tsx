@@ -5,7 +5,7 @@ import { MovieProvider } from '../contexts/MovieContext'
 import { MoviePoster } from '../components/MoviePoster'
 import { MovieHeader } from '../components/MovieHeader'
 import { MovieDescription } from '../components/MovieDescription'
-import { Other } from '../components/Other'
+import { Other } from '../components/Tabs'
 import { Header } from '../components/Header'
 import { Controller } from '../components/Controller'
 
@@ -46,24 +46,19 @@ export default function Home({ movie }: HomeProps) {
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
                 gridTemplateRows="6rem auto auto auto"
-                gridTemplateAreas={`
+                gridTemplateAreas={{sm: `
+                    'Header Header'
+                    'Movie Movie'
+                    'Controller Controller'
+                    'Other Other'
+                    'Recommendations Recommendations'
+                    `, md: `
                     'Header Header'
                     'Movie Other'
                     'Controller Controller'
                     'Recommendations Recommendations'
-                `}
-                css={{
-                    '&::-webkit-scrollbar': {
-                        width: '10px'
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        color: 'gray.400'
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        background: 'gray.900',
-                        
-                    }
-                }}
+                `}}
+                mx={[ '2rem', '0rem' ]}
             >
                 <Header />
 
