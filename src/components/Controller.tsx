@@ -62,22 +62,12 @@ export function Controller() {
                     <AiOutlineHeart size={32} />
                 )}
             </Button>
-            
-            <CircularProgress
-                size={isLazyMovie ? '80px' : '0'}
-                value={lazyMoviePercentage}
-                color="green.400"
+            <Button
+                onClick={handleLazyMovie}
+                bg={isLazyMovie ? "green.400" : "primary.200"}
             >
-                <CircularProgressLabel>
-                    <Button
-                        onClick={handleLazyMovie}
-                        bg={isLazyMovie ? "green.400" : "primary.200"}
-                    >
-                        <FiRepeat size={28} color={isLazyMovie ? "#F7F4F3" : "#000"} />
-                    </Button>
-                </CircularProgressLabel>
-            </CircularProgress>
-            
+                <FiRepeat size={28} color={isLazyMovie ? "#F7F4F3" : "#000"} />
+            </Button>
         </Flex>
     )
 }
