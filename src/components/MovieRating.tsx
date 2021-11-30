@@ -8,7 +8,7 @@ export function MovieRating() {
     const rating = String(movie.vote_average).slice(0, 3)
 
     return (
-        <Flex w="85%" alignItems="center" textAlign="right">
+        <Flex w="100%" px={{ md: "1rem", lg: "3rem" }} alignItems="center" textAlign="right">
             <Flex
                 h="2rem"
                 w="100%"
