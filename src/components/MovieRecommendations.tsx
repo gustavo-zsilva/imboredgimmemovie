@@ -1,21 +1,38 @@
 import { useMovie } from '../hooks/useMovie'
 
-import { Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, Heading, Text, Grid } from '@chakra-ui/react'
 
 export function MovieRecommendations() {
 
     const { movieRecommendations, handleChangeMovie } = useMovie()
 
     return (
-        <Flex gridArea="Recommendations" flexDir="column" my={movieRecommendations.length > 0 && "4rem"}>
+        <Flex
+            gridArea="Recommendations"
+            flexDir="column"
+            my={movieRecommendations.length > 0 && "4rem"}
+        >
             {movieRecommendations.length > 0 &&
-                <Heading as="h3" fontSize="1.4rem" display="flex" gridGap=".6rem" alignItems="baseline">
+                <Heading
+                    as="h3"
+                    fontSize="1.4rem"
+                    display="flex"
+                    gridGap=".6rem"
+                    alignItems="baseline"
+                >
                     Recommendations for you
                     <Text color="gray.500" fontSize="1rem">{movieRecommendations.length}</Text>
                 </Heading>
             }
 
-            <Flex justifyContent="space-between" mt="2rem">
+            <Grid
+                display={{ sm: "grid", lg: "flex" }}
+                
+                gridTemplateColumns="1fr 1fr"
+                gridRowGap="1rem"
+                justifyContent="space-between"
+                mt="2rem"
+            >
                 {movieRecommendations.map(movie => {
                     return (
                         <Flex
@@ -45,7 +62,7 @@ export function MovieRecommendations() {
                         </Flex>
                     )
                 })}
-            </Flex>
+            </Grid>
         </Flex>
     )
 }
