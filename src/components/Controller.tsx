@@ -5,7 +5,7 @@ import { useMovie } from '../hooks/useMovie'
 import { MdMovie } from 'react-icons/md'
 import { FiShuffle, FiRepeat } from 'react-icons/fi'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { Flex, CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
 
@@ -17,8 +17,8 @@ export function Controller() {
         isCurrentMovieLiked,
         isLazyMovie,
     } = useMovie()
-    const [lazyMovieCounter, setLazyMovieCounter] = useState(1)
-    const lazyMoviePercentage = (lazyMovieCounter / 8) * 100
+    // const [lazyMovieCounter, setLazyMovieCounter] = useState(1)
+    // const lazyMoviePercentage = (lazyMovieCounter / 8) * 100
 
     useEffect(() => {
         window.document.onkeydown = (e) => {
@@ -28,19 +28,19 @@ export function Controller() {
         }
     }, [handleGetRandomMovie])
 
-    useEffect(() => {
-        if (!isLazyMovie || lazyMovieCounter >= 8) {
-            setLazyMovieCounter(0)
-            return
-        }
+    // useEffect(() => {
+    //     if (!isLazyMovie || lazyMovieCounter >= 8) {
+    //         setLazyMovieCounter(0)
+    //         return
+    //     }
         
-        const timeoutId = setTimeout(() => {
-            setLazyMovieCounter(prevState => prevState + 1)
-        }, 1000)
+    //     const timeoutId = setTimeout(() => {
+    //         setLazyMovieCounter(prevState => prevState + 1)
+    //     }, 1000)
 
-        return () => clearTimeout(timeoutId)
+    //     return () => clearTimeout(timeoutId)
         
-    }, [isLazyMovie, lazyMovieCounter, lazyMoviePercentage])
+    // }, [isLazyMovie, lazyMovieCounter, lazyMoviePercentage])
 
     return (
         <Flex
