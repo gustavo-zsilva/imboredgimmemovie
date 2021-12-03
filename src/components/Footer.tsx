@@ -36,7 +36,7 @@ export function Footer() {
             <Flex>
                 <Text>
                     Made by {}
-                    <Link>Gustavo Silva</Link>
+                    <Link href="https://github.com/gustavo-zsilva" isExternal>Gustavo Silva</Link>
                 </Text>
             </Flex>
         </Flex>
