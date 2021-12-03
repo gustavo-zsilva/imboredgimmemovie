@@ -7,8 +7,7 @@ import { LikedMovieList } from './LikedMovieList'
 
 import { api } from '../services/api'
 import {
-    Flex,
-    Tabs,
+    Tabs as ChakraTabs,
     TabList,
     TabPanels,
     Tab,
@@ -38,7 +37,7 @@ type GenreListProps = {
     genres: Genre[],
 }
 
-export function Other() {
+export function Tabs() {
 
     const { movie } = useMovie()
 
@@ -92,7 +91,7 @@ export function Other() {
     }, [movie])
 
     return (
-        <Tabs
+        <ChakraTabs
             gridArea="Other"
             variant="solid-rounded"
             colorScheme="primary"
@@ -124,6 +123,6 @@ export function Other() {
             </TabPanels>
 
             <MovieRating />
-        </Tabs>
+        </ChakraTabs>
     )
 }

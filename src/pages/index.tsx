@@ -5,16 +5,15 @@ import { MovieProvider } from '../contexts/MovieContext'
 import { MoviePoster } from '../components/MoviePoster'
 import { MovieHeader } from '../components/MovieHeader'
 import { MovieDescription } from '../components/MovieDescription'
-import { Other } from '../components/Tabs'
+import { Tabs } from '../components/Tabs'
 import { Header } from '../components/Header'
 import { Controller } from '../components/Controller'
-
-import { Flex } from '@chakra-ui/react'
-import { api } from '../services/api'
 import { MovieRecommendations } from '../components/MovieRecommendations'
-import { useMovie } from '../hooks/useMovie'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
-import { LikedMovieList } from '../components/LikedMovieList'
+import { Footer } from '../components/Footer'
+
+import { api } from '../services/api'
+import { Flex } from '@chakra-ui/react'
 
 type MovieProps = {
     title: string,
@@ -45,18 +44,20 @@ export default function Home({ movie }: HomeProps) {
             <Flex
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
-                gridTemplateRows="6rem auto auto auto"
+                gridTemplateRows="6rem auto auto auto auto"
                 gridTemplateAreas={{sm: `
                     'Header Header'
                     'Movie Movie'
                     'Controller Controller'
                     'Other Other'
                     'Recommendations Recommendations'
+                    'Footer Footer'
                     `, md: `
                     'Header Header'
                     'Movie Other'
                     'Controller Controller'
                     'Recommendations Recommendations'
+                    'Footer Footer'
                 `}}
                 mx={[ '2rem', '0rem' ]}
             >
@@ -69,11 +70,13 @@ export default function Home({ movie }: HomeProps) {
                     <MovieDescription />
                 </Flex>
 
-                <Other />
+                <Tabs />
 
                 <Controller />
 
                 <MovieRecommendations />
+
+                <Footer />
             </Flex>
 
         </MovieProvider>
@@ -92,8 +95,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     })
 
     const movie = response.data.results[movieIndex]
-
-    console.log(movie)
 
     return {
         props: {
