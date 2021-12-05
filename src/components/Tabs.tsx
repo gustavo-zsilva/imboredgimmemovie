@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useMovie } from '../hooks/useMovie'
 import { Bubble } from './Bubble'
-import { MovieRating } from './MovieRating'
 import { LikedMovieList } from './LikedMovieList'
 
 import { api } from '../services/api'
@@ -92,7 +91,6 @@ export function Tabs() {
 
     return (
         <ChakraTabs
-            gridArea="Other"
             variant="solid-rounded"
             colorScheme="primary"
             display="flex"
@@ -111,19 +109,19 @@ export function Tabs() {
                     display={{ sm: 'grid', md: 'initial' }}
                     gridTemplateColumns={{ sm: '1fr 1fr', md: '1fr' }}
                     gridGap={{ sm: '1rem', md: '0' }}
-                    h="35.375rem"
                 >
                     <Bubble title="Cast" description={cast} />
                     <Bubble title="Directors" description={directors} />
                     <Bubble title="Producers" description={producers} />
                     <Bubble title="Genres" description={genres} />
                 </TabPanel>
-                <TabPanel w="100%" m={{ sm: "auto", lg: "auto 2rem" }}>
+                <TabPanel
+                    w="100%"
+                    m={{ sm: "auto", lg: "auto 2rem" }}
+                >
                     <LikedMovieList />
                 </TabPanel>
             </TabPanels>
-
-            <MovieRating />
         </ChakraTabs>
     )
 }

@@ -8,6 +8,7 @@ import { MovieDescription } from '../components/MovieDescription'
 import { Tabs } from '../components/Tabs'
 import { Header } from '../components/Header'
 import { Controller } from '../components/Controller'
+import { MovieRating } from '../components/MovieRating'
 import { MovieRecommendations } from '../components/MovieRecommendations'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { Footer } from '../components/Footer'
@@ -44,7 +45,7 @@ export default function Home({ movie }: HomeProps) {
             <Flex
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
-                gridTemplateRows="6rem auto auto auto auto"
+                gridTemplateRows="6rem 45rem auto auto auto"
                 gridTemplateAreas={{sm: `
                     'Header Header'
                     'Movie Movie'
@@ -70,15 +71,23 @@ export default function Home({ movie }: HomeProps) {
                     <MovieDescription />
                 </Flex>
 
-                <Tabs />
+                <Flex
+                    gridArea="Other"
+                    flexDir="column"
+                    justifyContent="space-between"
+                >
+                    <Tabs />
+                    <MovieRating />
+                </Flex>
+
 
                 <Controller />
 
                 <MovieRecommendations />
 
                 <Footer />
-            </Flex>
 
+            </Flex>
         </MovieProvider>
     )
 }
