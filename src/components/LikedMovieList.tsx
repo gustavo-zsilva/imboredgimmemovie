@@ -1,22 +1,30 @@
-import { BiGhost } from 'react-icons/bi'
+import { useMovie } from '../hooks/useMovie'
+import { Skeleton } from './Skeleton'
 
+import { BiGhost } from 'react-icons/bi'
 import {
     Flex,
     Text,
 } from '@chakra-ui/react'
-import { useMovie } from '../hooks/useMovie'
 
 export function LikedMovieList() {
 
     const { likedMovies, handleChangeMovie } = useMovie()
 
     return (
-        <Flex flexDir="column" w="100%" maxH="33.43rem" gridGap="1.2rem" h="100%" overflowY="scroll">
+        <Flex
+            flexDir="column"
+            w="100%"
+            maxH="32rem"
+            gridGap="1.2rem"
+            h="100%"
+            overflowY="scroll"
+        >
 
             {likedMovies.length > 0 ? likedMovies.map(movie => {
                 return (
+                    <Skeleton key={movie.id}>
                     <Flex
-                        key={movie.id}
                         pos="relative"
                         px="1rem"
                         borderRadius=".2rem"
@@ -48,6 +56,7 @@ export function LikedMovieList() {
                             {movie.title}
                         </Text>
                     </Flex>
+                    </Skeleton>
                 )
             }) : (
                 <Flex flexDir="column" alignItems="center" m="auto" maxW="15rem">
