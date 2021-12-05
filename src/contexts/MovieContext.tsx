@@ -101,7 +101,6 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
             setLikedMovies(newLikedMovies)
             return
         }
-        localStorage.setItem('ibgm.likedMovies', JSON.stringify([...likedMovies, movie]))
         setLikedMovies([...likedMovies, movie])
     }
 
@@ -109,6 +108,10 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
         const savedMovies = JSON.parse(localStorage.getItem('ibgm.likedMovies')) || []
         setLikedMovies(savedMovies)
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('ibgm.likedMovies', JSON.stringify(likedMovies))
+    }, [likedMovies])
 
     return (
         <MovieContext.Provider
