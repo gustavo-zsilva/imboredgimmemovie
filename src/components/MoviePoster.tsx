@@ -1,5 +1,10 @@
+import { useEffect } from 'react'
 import Image from 'next/image'
+
 import { useMovie } from '../hooks/useMovie'
+import { Skeleton } from './Skeleton'
+
+import { getPlaiceholder } from 'plaiceholder'
 
 import { BiGhost } from 'react-icons/bi'
 import { Flex, Text } from "@chakra-ui/react"
@@ -31,12 +36,16 @@ export function MoviePoster() {
             />
             <Flex m=".4rem 0">
                 {movie.poster_path ? (
-                    <Image
-                        width={300}
-                        height={445}
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                    />
+                    <Skeleton>
+                        <Image
+                            width={300}
+                            height={445}
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            // placeholder="blur"
+                            // blurDataURL=""
+                        />
+                    </Skeleton>
                 ) : (
                     <Flex
                         w="300px"

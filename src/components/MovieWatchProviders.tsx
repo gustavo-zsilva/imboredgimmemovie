@@ -6,6 +6,7 @@ import { useMovie } from '../hooks/useMovie'
 import { api } from '../services/api'
 import { Flex, Text, Tooltip } from '@chakra-ui/react'
 import axios from 'axios'
+import { Skeleton } from './Skeleton'
 
 type UserLocation = {
     country: string,
@@ -50,7 +51,7 @@ export function MovieWatchProviders() {
     return (
         <Flex gridGap="1rem">
             {!providersList ? (
-                <Text fontSize=".9rem">There are no providers for this movie in {userLocation.country}.</Text>
+                <Text fontSize=".9rem" alignSelf="center">There are no providers for this movie in {userLocation.country}.</Text>
             ) : (
                 providersList.map(provider => {
                     return (
@@ -64,13 +65,16 @@ export function MovieWatchProviders() {
                                 borderRadius=".2rem"
                                 overflow="hidden"
                                 cursor="pointer"
+                                lineHeight="0"
                             >
-                                <Image
-                                    src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
-                                    width={50}
-                                    height={50}
-                                    alt={provider.provider_name}
-                                />
+                                <Skeleton>
+                                    <Image
+                                        src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
+                                        width={50}
+                                        height={50}
+                                        alt={provider.provider_name}
+                                    />
+                                </Skeleton>
                             </Flex>
                         </Tooltip>
                     )
