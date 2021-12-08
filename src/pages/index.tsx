@@ -13,7 +13,6 @@ import { MovieRecommendations } from '../components/MovieRecommendations'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { Footer } from '../components/Footer'
 
-import { getPlaiceholder } from 'plaiceholder'
 import { api } from '../services/api'
 import { Flex } from '@chakra-ui/react'
 
@@ -44,7 +43,7 @@ export default function Home({ movie }: HomeProps) {
             <Flex
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
-                gridTemplateRows="6rem 45rem auto auto auto"
+                gridTemplateRows="10vh 75vh 15vh auto auto"
                 gridTemplateAreas={{sm: `
                     'Header Header'
                     'Movie Movie'
@@ -79,13 +78,11 @@ export default function Home({ movie }: HomeProps) {
                     <MovieRating />
                 </Flex>
 
-
                 <Controller />
 
                 <MovieRecommendations />
 
                 <Footer />
-
             </Flex>
         </MovieProvider>
     )
