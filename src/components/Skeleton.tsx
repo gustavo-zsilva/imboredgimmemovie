@@ -8,7 +8,6 @@ export function Skeleton({ ...props }: SkeletonProps) {
             {...props}
             startColor="primary.100"
             endColor="primary.200"
-            isLoaded
         />
     )
 }
