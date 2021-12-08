@@ -37,9 +37,9 @@ export function Controller() {
     return (
         <Flex
             gridArea="Controller"
-            mt="4rem"
             gridGap="1rem"
             justifyContent="center"
+            alignItems="center"
         >
             <Button onClick={handleGetRandomMovie}>
                 <FiShuffle color="#000" size={28} />
