@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 import { useMovie } from '../hooks/useMovie'
+import { Skeleton } from './Skeleton'
 
+import axios from 'axios'
 import { api } from '../services/api'
 import { Flex, Text, Tooltip } from '@chakra-ui/react'
-import axios from 'axios'
-import { Skeleton } from './Skeleton'
 
 type UserLocation = {
     country: string,
@@ -24,6 +24,7 @@ export function MovieWatchProviders() {
     const { movie } = useMovie()
     const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [userLocation, setUserLocation] = useState<UserLocation>({ country: 'United States', countryCode: 'US' })
+    const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     useEffect(() => {
         axios.get<UserLocation>('http://ip-api.com/json', {
@@ -38,6 +39,8 @@ export function MovieWatchProviders() {
     }, [])
 
     useEffect(() => {
+        setIsImageLoaded(false)
+
         api.get(`/movie/${movie.id}/watch/providers`)
         .then(response => {
             const localeList = response.data.results[userLocation.countryCode]?.flatrate
@@ -56,8 +59,8 @@ export function MovieWatchProviders() {
                 providersList.map(provider => {
                     return (
                         <Tooltip
-                            label={provider.provider_name}
                             key={provider.provider_id}
+                            label={provider.provider_name}
                             bg="dark.200"
                             color="primary.200"
                         >
@@ -67,12 +70,13 @@ export function MovieWatchProviders() {
                                 cursor="pointer"
                                 lineHeight="0"
                             >
-                                <Skeleton>
+                                <Skeleton isLoaded={isImageLoaded}>
                                     <Image
                                         src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
                                         width={50}
                                         height={50}
                                         alt={provider.provider_name}
+                                        onLoadingComplete={() => setIsImageLoaded(true)}
                                     />
                                 </Skeleton>
                             </Flex>
