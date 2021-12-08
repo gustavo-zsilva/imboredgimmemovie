@@ -1,5 +1,4 @@
 import { useMovie } from '../hooks/useMovie'
-import { Skeleton } from './Skeleton'
 
 import { BiGhost } from 'react-icons/bi'
 import {
@@ -23,8 +22,8 @@ export function LikedMovieList() {
 
             {likedMovies.length > 0 ? likedMovies.map(movie => {
                 return (
-                    <Skeleton key={movie.id}>
                     <Flex
+                        key={movie.id}
                         pos="relative"
                         px="1rem"
                         borderRadius=".2rem"
@@ -56,7 +55,6 @@ export function LikedMovieList() {
                             {movie.title}
                         </Text>
                     </Flex>
-                    </Skeleton>
                 )
             }) : (
                 <Flex flexDir="column" alignItems="center" m="auto" maxW="15rem">
