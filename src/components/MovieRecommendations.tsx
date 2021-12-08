@@ -6,25 +6,25 @@ export function MovieRecommendations() {
 
     const { movieRecommendations, handleChangeMovie } = useMovie()
 
+    if (movieRecommendations.length <= 0) return null
+
     return (
         <Flex
             gridArea="Recommendations"
             flexDir="column"
-            my={movieRecommendations.length > 0 && "4rem"}
+            my="2rem"
         >
-            {movieRecommendations.length > 0 &&
-                <Heading
-                    as="h3"
-                    fontSize="1.4rem"
-                    display="flex"
-                    gridGap=".6rem"
-                    alignItems="baseline"
-                >
-                    Recommendations for you
-                    <Text color="gray.500" fontSize="1rem">{movieRecommendations.length}</Text>
-                </Heading>
-            }
-
+            <Heading
+                as="h3"
+                fontSize="1.4rem"
+                display="flex"
+                gridGap=".6rem"
+                alignItems="baseline"
+            >
+                Recommendations for you
+                <Text color="gray.500" fontSize="1rem">{movieRecommendations.length}</Text>
+            </Heading>
+            
             <Grid
                 display={{ sm: "grid", lg: "flex" }}
                 
