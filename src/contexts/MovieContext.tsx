@@ -23,7 +23,6 @@ type MovieProps = {
     overview: string,
     adult: boolean,
     release_date: string,
-    runtime: number,
     genre_ids: number[],
     vote_average: number,
     popularity: number,
@@ -36,14 +35,19 @@ type MovieProvider = {
 }
 
 export function MovieProvider({ children, defaultMovie }: MovieProvider) {
-
+    
     const [movie, setMovie] = useState<MovieProps>(() => defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
     const [isLazyMovie, setIsLazyMovie] = useState(false)
     const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie.id)
     const intervalId = useRef<NodeJS.Timeout>(null)
-
+    const playAudio = (url: string) => {
+        const audio = new Audio(url)
+        audio.volume = 0.1
+        audio.play()
+    }
+    
     function handleLazyMovie() {
         if (isLazyMovie) {
             setIsLazyMovie(false)
@@ -51,6 +55,7 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
             return
         }
 
+        playAudio('/assets/long-pop.wav')
         intervalId.current = setInterval(() => {
             handleGetRandomMovie()
         }, 8000)
@@ -70,7 +75,8 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
 
     function handleSearchMovie() {
         window.open(`https://google.com/search?q=watch ${movie.title}`)
-
+        
+        playAudio('/assets/dry-pop.wav')
         handleGetMovieRecommendations()
     }
 
@@ -99,9 +105,12 @@ export function MovieProvider({ children, defaultMovie }: MovieProvider) {
         if (likedMovies.some(({ id }) => id === movie.id)) {
             const newLikedMovies = likedMovies.filter(({ id }) => id !== movie.id)
             setLikedMovies(newLikedMovies)
+            playAudio('/assets/electric-pop.wav')
             return
         }
+
         setLikedMovies([...likedMovies, movie])
+        playAudio('/assets/soap-bubble-pop.wav')
     }
 
     useEffect(() => {
