@@ -13,7 +13,6 @@ export function MovieHeader() {
         api.get(`/movie/${movie.id}`)
         .then(response => {
             setRuntime(response.data.runtime)
-            console.log(response.data)
         }).catch(err => {
             console.error(err)
         })
@@ -34,7 +33,7 @@ export function MovieHeader() {
                     bg="dark.200"
                     color="primary.200"
                 >
-                    <Text>{runtime}</Text>
+                    <Text>{runtime} min</Text>
                 </Tooltip>
             </Flex>
         </Flex>
