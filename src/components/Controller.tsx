@@ -20,14 +20,6 @@ export function Controller() {
     // const [lazyMovieCounter, setLazyMovieCounter] = useState(1)
     // const lazyMoviePercentage = (lazyMovieCounter / 8) * 100
 
-    useEffect(() => {
-        window.document.onkeydown = (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                handleGetRandomMovie()
-            }
-        }
-    }, [handleGetRandomMovie])
-
     // useEffect(() => {
     //     if (!isLazyMovie || lazyMovieCounter >= 8) {
     //         setLazyMovieCounter(0)
