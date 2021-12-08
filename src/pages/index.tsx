@@ -13,6 +13,7 @@ import { MovieRecommendations } from '../components/MovieRecommendations'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { Footer } from '../components/Footer'
 
+import { getPlaiceholder } from 'plaiceholder'
 import { api } from '../services/api'
 import { Flex } from '@chakra-ui/react'
 
@@ -23,7 +24,6 @@ type MovieProps = {
     overview: string,
     adult: boolean,
     release_date: string,
-    runtime: number,
     genre_ids: number[],
     vote_average: number,
     popularity: number,
@@ -33,7 +33,6 @@ type MovieProps = {
 type HomeProps = {
     movie: MovieProps,
 }
-
 
 export default function Home({ movie }: HomeProps) {
     return (
