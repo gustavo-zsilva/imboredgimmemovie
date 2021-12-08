@@ -34,6 +34,17 @@ export const theme = extendTheme({
                 maxWidth: '80rem',
                 margin: 'auto',
                 background: '#312F2F',
+            },
+            "::-webkit-scrollbar": {
+                width: '8px'
+            },
+            "::-webkit-scrollbar-track": {
+                width: '10px',
+                background: '#282728'
+            },
+            "::-webkit-scrollbar-thumb": {
+                background: '#696869',
+                borderRadius: '24px',
             }
         }
     },
