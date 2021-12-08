@@ -11,6 +11,8 @@ export function Footer() {
             maxW="80rem"
             alignItems="center"
             justifyContent="space-between"
+            gridGap={{ sm: "2rem", md: "0" }}
+            fontSize={{ sm: "90%", md: "initial" }}
         >
             <Flex flexDir="column">
                 <Flex alignItems="center" gridGap=".6rem">
@@ -33,7 +35,7 @@ export function Footer() {
                 </Text>
             </Flex>
 
-            <Flex>
+            <Flex alignSelf="flex-start">
                 <Text>
                     Made by {}
                     <Link href="https://github.com/gustavo-zsilva" isExternal>Gustavo Silva</Link>
