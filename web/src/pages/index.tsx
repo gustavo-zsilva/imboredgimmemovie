@@ -15,6 +15,7 @@ import { Footer } from '../components/Footer'
 
 import { api } from '../services/api'
 import { Flex } from '@chakra-ui/react'
+import { AdBanner } from '../components/AdBanner'
 
 type MovieProps = {
     title: string,

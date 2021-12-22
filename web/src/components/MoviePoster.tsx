@@ -37,6 +37,7 @@ export function MoviePoster() {
                         height={445}
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                         alt={movie.title}
+                        objectFit="contain"
                     />
                 ) : (
                     <Flex

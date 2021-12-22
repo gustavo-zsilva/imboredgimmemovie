@@ -27,7 +27,6 @@ export function MovieRecommendations() {
             
             <Grid
                 display={{ sm: "grid", lg: "flex" }}
-                
                 gridTemplateColumns="1fr 1fr"
                 gridRowGap="1rem"
                 justifyContent="space-between"

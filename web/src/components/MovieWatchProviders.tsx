@@ -27,7 +27,7 @@ export function MovieWatchProviders() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     useEffect(() => {
-        axios.get<UserLocation>('http://ip-api.com/json', {
+        axios.get<UserLocation>('//ip-api.com/json', {
             params: {
                 fields: 3,
             }
