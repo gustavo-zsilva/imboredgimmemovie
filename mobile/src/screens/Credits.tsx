@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, VStack } from 'native-base'
+import { Container, VStack, Divider } from 'native-base'
 import { Bubble } from '../components/Bubble'
 import { Header } from '../components/Header'
 
@@ -14,8 +14,15 @@ export function Credits() {
                 credits
             </Header>
 
-            <VStack>
-                <Bubble content="Salve salve galerinha" />
+            <VStack
+                w="100%"
+                space="20px"
+            >
+                <Bubble title="Cast" content="Salve salve galerinha" />
+                
+                <Bubble title="Directors" content="Salve salve galerinha" />
+                <Bubble title="Producers" content="Salve salve galerinha" />
+                <Bubble title="Genres" content="Salve salve galerinha" />
             </VStack>
         </Container>
     )
