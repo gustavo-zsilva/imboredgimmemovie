@@ -19,7 +19,6 @@ export function Credits() {
                 space="20px"
             >
                 <Bubble title="Cast" content="Salve salve galerinha" />
-                
                 <Bubble title="Directors" content="Salve salve galerinha" />
                 <Bubble title="Producers" content="Salve salve galerinha" />
                 <Bubble title="Genres" content="Salve salve galerinha" />

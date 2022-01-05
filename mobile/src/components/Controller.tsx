@@ -5,8 +5,12 @@ import { Button } from './Button'
 import FiIcon from 'react-native-vector-icons/Feather'
 import AiIcon from 'react-native-vector-icons/AntDesign'
 import { HStack } from 'native-base'
+import { useMovie } from '../hooks/useMovie'
 
 export function Controller() {
+
+    const { handleGetRandomMovie } = useMovie()
+
     return (
         <HStack
             justifyContent="center"
@@ -21,7 +25,7 @@ export function Controller() {
             <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }}>
                 <AiIcon name="hearto" size={25} color="#F7F4F3" />
             </Button>
-            <Button w="65px" h="65px">
+            <Button w="65px" h="65px" onPress={handleGetRandomMovie}>
                 <FiIcon name="shuffle" size={32} />
             </Button>
             <Button>

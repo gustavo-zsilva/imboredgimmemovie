@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import { Button as NativeButton, IButtonProps } from "native-base"
 
 type ButtonProps = IButtonProps

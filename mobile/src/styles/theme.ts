@@ -41,6 +41,6 @@ export const theme = extendTheme({
             defaultProps: {
                 color: 'white.100'
             },
-        }
+        },
     }
 })

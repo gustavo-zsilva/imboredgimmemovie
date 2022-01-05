@@ -1,7 +1,11 @@
 import React from 'react'
-import { Flex, Text, ScrollView } from 'native-base'
+import { Text, ScrollView } from 'native-base'
+import { useMovie } from '../hooks/useMovie'
 
 export function MovieOverview() {
+
+    const { movie } = useMovie()
+
     return (
         <ScrollView
             bg="base.700"
@@ -11,7 +15,7 @@ export function MovieOverview() {
             borderRadius="4px"
         >
             <Text fontSize="16px">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum ex laudantium eligendi ad aliquam obcaecati asperiores consequuntur nobis minus cupiditate repudiandae minima sit odit tempore laboriosam, dolorem ea, voluptatum porro.
+                {movie?.overview}
             </Text>
         </ScrollView>
     )

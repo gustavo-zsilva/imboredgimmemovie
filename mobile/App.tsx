@@ -11,6 +11,7 @@ import {
     Poppins_700Bold
 } from '@expo-google-fonts/poppins'
 
+import { MovieProvider } from "./src/contexts/MovieContext";
 import { Routes } from "./src/routes";
 
 import { theme } from './src/styles/theme'
@@ -27,9 +28,11 @@ export default function App() {
     }
 
     return (
-        <NativeBaseProvider theme={theme}>
-            <StatusBar style="light" />
-            <Routes />
-        </NativeBaseProvider>
+        <MovieProvider>
+            <NativeBaseProvider theme={theme}>
+                <StatusBar style="light" />
+                <Routes />
+            </NativeBaseProvider>
+        </MovieProvider>
     );
 }
