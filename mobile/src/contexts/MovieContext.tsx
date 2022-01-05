@@ -1,11 +1,13 @@
 import React, { ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../services/api";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const MovieContext = createContext({} as MovieContextProps)
 
 type MovieContextProps = {
     movie: MovieProps | null,
     handleGetRandomMovie: () => void,
+    handleAddToLikedMovies: () => void,
 }
 
 type MovieProviderProps = {
@@ -31,6 +33,7 @@ type MovieProps = {
 export function MovieProvider({ children }: MovieProviderProps) {
 
     const [movie, setMovie] = useState<MovieProps | null>(null)
+    const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
 
     
     useEffect(() => {
@@ -40,7 +43,6 @@ export function MovieProvider({ children }: MovieProviderProps) {
     function handleGetRandomMovie() {
         const randomPage = Math.floor(Math.random() * 500)
         const randomMovie = Math.floor(Math.random() * 20)
-
         
         api.get('/movie/popular', {
             params: {
@@ -55,8 +57,33 @@ export function MovieProvider({ children }: MovieProviderProps) {
     }
 
     async function handleGetMovieDetails(id: number) {
-        const rawMovieDetails = await api.get<MovieProps>(`/movie/${id}`)
-        setMovie(rawMovieDetails.data)
+        const rawDetails = await api.get<MovieProps>(`/movie/${id}`)
+        const movieDetails = {
+            title: rawDetails.data.title,
+            overview: rawDetails.data.overview,
+            id: rawDetails.data.id,
+            poster_path: rawDetails.data.poster_path,
+            release_date: rawDetails.data.release_date,
+            runtime: rawDetails.data.runtime,
+            vote_average: rawDetails.data.vote_average,
+            genres: rawDetails.data.genres,
+        }
+        setMovie(movieDetails)
+    }
+
+    async function handleAddToLikedMovies() {
+        if (likedMovies.some(({ id }) => movie.id === id)) {
+            const newLikedMovies = likedMovies.filter(({ id }) => id !== movie.id)
+            setLikedMovies(newLikedMovies)
+            return
+        }
+
+        try {
+            await AsyncStorage.setItem('@ibgm_likedMovies', JSON.stringify([...likedMovies, movie]))
+            setLikedMovies([...likedMovies, movie])
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
@@ -64,6 +91,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
             value={{
                 movie,
                 handleGetRandomMovie,
+                handleAddToLikedMovies,
             }}
         >
             {children}

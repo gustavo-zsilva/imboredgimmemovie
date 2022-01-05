@@ -9,7 +9,7 @@ import { useMovie } from '../hooks/useMovie'
 
 export function Controller() {
 
-    const { handleGetRandomMovie } = useMovie()
+    const { handleGetRandomMovie, handleAddToLikedMovies } = useMovie()
 
     return (
         <HStack
@@ -22,7 +22,7 @@ export function Controller() {
             p="10px"
             borderRadius="4px"
         >
-            <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }}>
+            <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }} onPress={handleAddToLikedMovies}>
                 <AiIcon name="hearto" size={25} color="#F7F4F3" />
             </Button>
             <Button w="65px" h="65px" onPress={handleGetRandomMovie}>
