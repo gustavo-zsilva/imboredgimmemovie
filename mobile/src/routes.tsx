@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { ForYou } from './screens/ForYou'
 import { Credits } from './screens/Credits'
+import { Liked } from './screens/Liked'
 
 export function Routes() {
     const { Screen, Navigator } = createMaterialTopTabNavigator()
@@ -19,6 +20,7 @@ export function Routes() {
             }}>
                 <Screen name="Credits" component={Credits} />
                 <Screen name="ForYou" component={ForYou} />
+                <Screen name="Liked" component={Liked} />
             </Navigator>
         </NavigationContainer>
     )
