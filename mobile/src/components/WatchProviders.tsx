@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import { useMovie } from "../hooks/useMovie"
 import { api } from "../services/api"
+import axios from 'axios'
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import { HStack, Image, Text, Flex } from "native-base"
@@ -24,7 +25,9 @@ export function WatchProviders() {
     const [userRegion, setUserRegion] = useState<RegionProps>({ country: 'United States', countryCode: 'US' })
 
     useEffect(() => {
-        api.get(`/movie/${movie?.id}/watch/providers`)
+        if (!movie) return
+
+        api.get(`/movie/${movie.id}/watch/providers`)
         .then(response => {
             setWatchProviders(response.data.results[userRegion.countryCode]?.flatrate || [])
         })
@@ -34,7 +37,7 @@ export function WatchProviders() {
     }, [movie])
 
     useEffect(() => {
-        api.get('http://ip-api.com/json?fields=country,countryCode')
+        axios.get('http://ip-api.com/json?fields=country,countryCode')
         .then(response => {
             setUserRegion(response.data)
         })
@@ -45,7 +48,7 @@ export function WatchProviders() {
 
     return (
         <HStack mb="20px" h="45px" alignItems="center" space="12px">
-            {watchProviders.length > 0 ? watchProviders.map(provider => (
+            {watchProviders.length > 0 && movie ? watchProviders.map(provider => (
                 <Image
                     key={provider.provider_id}
                     w="45px"
