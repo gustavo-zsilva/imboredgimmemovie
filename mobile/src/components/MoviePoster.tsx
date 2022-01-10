@@ -43,7 +43,8 @@ export function MoviePoster() {
                 <Flex
                     w="200px"
                     h="300px"
-                    bg="white.100"
+                    bg="base.700"
+                    alignSelf="center"
                 />
             )}
         </Flex>

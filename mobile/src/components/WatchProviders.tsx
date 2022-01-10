@@ -5,7 +5,7 @@ import { api } from "../services/api"
 import axios from 'axios'
 
 import Icon from 'react-native-vector-icons/AntDesign'
-import { HStack, Image, Text, Flex } from "native-base"
+import { Row, Image, Text, Flex } from "native-base"
 
 type WatchProviderProps = {
     provider_name: string,
@@ -47,7 +47,7 @@ export function WatchProviders() {
     }, [])
 
     return (
-        <HStack mb="20px" h="45px" alignItems="center" space="12px">
+        <Row mb="20px" h="45px" alignItems="center" space="12px" flexShrink="1">
             {watchProviders.length > 0 && movie ? watchProviders.map(provider => (
                 <Image
                     key={provider.provider_id}
@@ -60,13 +60,13 @@ export function WatchProviders() {
                     accessibilityLabel={provider.provider_name}
                 />
             )) : (
-                <HStack alignItems="center" space="8px">
+                <Row alignItems="baseline" space="8px">
                     <Icon name="exclamationcircleo" size={24} color="#F7F4F3" />
                     <Text>
                         There are no providers for {userRegion.country}.
                     </Text>
-                </HStack>
+                </Row>
             )}
-        </HStack>
+        </Row>
     )
 }

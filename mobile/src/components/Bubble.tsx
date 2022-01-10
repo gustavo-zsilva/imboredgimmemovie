@@ -23,7 +23,7 @@ export function Bubble({ title, content }: BubbleProps) {
             </HStack>
 
             <Text textAlign="center" mx="2px">
-                {content}
+                {!content ? `There are no ${title.toLowerCase()} currently.` : content}
             </Text>
         </Flex>
     )

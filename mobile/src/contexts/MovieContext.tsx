@@ -6,8 +6,12 @@ export const MovieContext = createContext({} as MovieContextProps)
 
 type MovieContextProps = {
     movie: MovieProps | null,
+    likedMovies: MovieProps[],
+    isLazyMovieOn: boolean,
     handleGetRandomMovie: () => void,
     handleAddToLikedMovies: () => void,
+    handleSetMovie: (movie: MovieProps) => void,
+    handleLazyMovie: () => void,
 }
 
 type MovieProviderProps = {
@@ -34,11 +38,24 @@ export function MovieProvider({ children }: MovieProviderProps) {
 
     const [movie, setMovie] = useState<MovieProps | null>(null)
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
-
+    const [isLazyMovieOn, setIsLazyMovieOn] = useState(false)
+    let intervalId: NodeJS.Timeout
     
     useEffect(() => {
         handleGetRandomMovie()
+        handleGetLikedMovies()
     }, [])
+
+    useEffect(() => {
+        if (!setIsLazyMovieOn) return clearInterval(intervalId)
+
+        intervalId = setInterval(() => {
+            handleGetRandomMovie()
+            console.log(isLazyMovieOn)
+        }, 6000)
+
+        return () => clearInterval(intervalId)
+    }, [isLazyMovieOn])
 
     function handleGetRandomMovie() {
         const randomPage = Math.floor(Math.random() * 500)
@@ -79,19 +96,47 @@ export function MovieProvider({ children }: MovieProviderProps) {
         }
 
         try {
-            await AsyncStorage.setItem('@ibgm_likedMovies', JSON.stringify([...likedMovies, movie]))
             setLikedMovies([...likedMovies, movie])
+            await AsyncStorage.setItem('@ibgm_likedMovies', JSON.stringify([...likedMovies, movie]))
         } catch (err) {
             console.error(err)
         }
+    }
+
+    async function handleGetLikedMovies() {
+        try {
+            const rawLikedMovies = await AsyncStorage.getItem('@ibgm_likedMovies')
+
+            if (rawLikedMovies !== null) {
+                setLikedMovies(JSON.parse(rawLikedMovies))
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    function handleSetMovie(movie: MovieProps) {
+        setMovie(movie)
+    }
+
+    function handleLazyMovie() {
+        if (isLazyMovieOn) {
+            return setIsLazyMovieOn(false)
+        }
+
+        setIsLazyMovieOn(true)
     }
 
     return (
         <MovieContext.Provider
             value={{
                 movie,
+                likedMovies,
+                isLazyMovieOn,
                 handleGetRandomMovie,
                 handleAddToLikedMovies,
+                handleSetMovie,
+                handleLazyMovie,
             }}
         >
             {children}
