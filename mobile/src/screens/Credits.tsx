@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, VStack } from 'native-base'
+import { Container, Column, Flex } from 'native-base'
 import { Bubble } from '../components/Bubble'
 import { Header } from '../components/Header'
+import { MovieRating } from '../components/MovieRating'
 import { useMovie } from '../hooks/useMovie'
 import { api } from '../services/api'
 
@@ -24,32 +25,44 @@ type Response = {
 export function Credits() {
 
     const { movie } = useMovie()
+    const [cast, setCast] = useState('')
     const [producers, setProducers] = useState('')
     const [directors, setDirectors] = useState('')
     const [genres, setGenres] = useState('')
 
     useEffect(() => {
+        if (!movie) return
+
         api.get<Response>(`/movie/${movie?.id}/credits`)
         .then(response => {
             const cast = response.data.cast
             const crew = response.data.crew
 
-            const parsedCast = cast.map(actor => ({
-                name: actor.name,
-                popularity: actor.popularity,
-            })).filter(Boolean)
+            const actorPopularities = cast.map(actor => actor.popularity)
+            const mathMax = []
+
+            for (let i = 0; i <= 2; i++) {
+                const max = Math.max(...actorPopularities)
+                mathMax.push(max)
+                actorPopularities.splice(actorPopularities.indexOf(max), 1)
+            }
             
-            const directors = crew.filter(({ department }) => department === 'Directing')
+            const popularCast = cast.filter(actor => mathMax.includes(actor.popularity) && actor)
                 .slice(0, 3)
                 .map(({ name }) => name)
                 .join(', ')
-            const producers = crew.filter(({ department }) => department === 'Production')
+            const directors = crew.filter(({ department, name }) => department === 'Directing' && name)
+                .slice(0, 3)
+                .map(({ name }) => name)
+                .join(', ')
+            const producers = crew.filter(({ department, name }) => department === 'Production' && name)
                 .slice(0, 3)
                 .map(({ name }) => name)
                 .join(', ')
             const genres = movie.genres.map(({ name }) => name)
                 .join(', ')
             
+            setCast(popularCast)
             setDirectors(directors)
             setProducers(producers)
             setGenres(genres)
@@ -60,23 +73,24 @@ export function Credits() {
     }, [movie])
 
     return (
-        <Container
-            w="100%"
-            flex="1"
-        >
+        <Container>
             <Header>
                 credits
             </Header>
 
-            <VStack
-                w="100%"
-                space="20px"
-            >
-                <Bubble title="Cast" content="Salve salve galerinha" />
-                <Bubble title="Directors" content={directors} />
-                <Bubble title="Producers" content={producers} />
-                <Bubble title="Genres" content={genres} />
-            </VStack>
+            <Flex w="100%" flex="1" justifyContent="space-between">
+                <Column
+                    w="100%"
+                    space="20px"
+                >
+                    <Bubble title="Cast" content={cast} />
+                    <Bubble title="Directors" content={directors} />
+                    <Bubble title="Producers" content={producers} />
+                    <Bubble title="Genres" content={genres} />
+                </Column>
+
+                <MovieRating />
+            </Flex>
         </Container>
     )
 }

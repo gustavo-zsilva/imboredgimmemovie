@@ -1,7 +1,6 @@
 import React from 'react'
-import { Flex, Text, Image } from "native-base"
-import { ImageBackground } from 'react-native'
 import { useMovie } from '../hooks/useMovie'
+import { Flex, Image } from "native-base"
 
 export function MoviePoster() {
 
@@ -16,20 +15,22 @@ export function MoviePoster() {
             borderRadius="2px"
             position="relative"
         >
-            <Image
-                key={movie?.poster_path}
-                flex="1"
-                position="absolute"
-                resizeMode="cover"
-                top="0"
-                bottom="0"
-                left="0"
-                right="0"
-                blurRadius={8}
-                borderRadius="2px"
-                source={{ uri: imageUri }}
-                alt="Poster Background"
-            />
+            {movie?.poster_path && (
+                <Image
+                    key={movie?.poster_path}
+                    flex="1"
+                    position="absolute"
+                    resizeMode="cover"
+                    top="0"
+                    bottom="0"
+                    left="0"
+                    right="0"
+                    blurRadius={8}
+                    borderRadius="2px"
+                    source={{ uri: imageUri }}
+                    alt="Poster Background"
+                />
+            )}
             {movie ? (    
                 <Image
                     key={movie.id}

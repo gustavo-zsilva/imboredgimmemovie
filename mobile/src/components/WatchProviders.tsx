@@ -37,7 +37,7 @@ export function WatchProviders() {
     }, [movie])
 
     useEffect(() => {
-        axios.get('http://ip-api.com/json?fields=country,countryCode')
+        axios.get<RegionProps>('http://ip-api.com/json?fields=country,countryCode')
         .then(response => {
             setUserRegion(response.data)
         })
@@ -47,7 +47,7 @@ export function WatchProviders() {
     }, [])
 
     return (
-        <Row mb="20px" h="45px" alignItems="center" space="12px" flexShrink="1">
+        <Row mb="20px" alignItems="center" space="12px" flexWrap="wrap">
             {watchProviders.length > 0 && movie ? watchProviders.map(provider => (
                 <Image
                     key={provider.provider_id}
@@ -67,6 +67,7 @@ export function WatchProviders() {
                     </Text>
                 </Row>
             )}
+            
         </Row>
     )
 }

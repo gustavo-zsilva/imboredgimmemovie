@@ -8,7 +8,9 @@ type MovieContextProps = {
     movie: MovieProps | null,
     likedMovies: MovieProps[],
     isLazyMovieOn: boolean,
+    isRefreshingLikedMovies: boolean,
     handleGetRandomMovie: () => void,
+    handleGetLikedMovies: () => void,
     handleAddToLikedMovies: () => void,
     handleSetMovie: (movie: MovieProps) => void,
     handleLazyMovie: () => void,
@@ -38,6 +40,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
 
     const [movie, setMovie] = useState<MovieProps | null>(null)
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
+    const [isRefreshingLikedMovies, setIsRefreshingLikedMovies] = useState(false)
     const [isLazyMovieOn, setIsLazyMovieOn] = useState(false)
     let intervalId: NodeJS.Timeout
     
@@ -47,11 +50,10 @@ export function MovieProvider({ children }: MovieProviderProps) {
     }, [])
 
     useEffect(() => {
-        if (!setIsLazyMovieOn) return clearInterval(intervalId)
+        if (!isLazyMovieOn) return clearInterval(intervalId)
 
         intervalId = setInterval(() => {
             handleGetRandomMovie()
-            console.log(isLazyMovieOn)
         }, 6000)
 
         return () => clearInterval(intervalId)
@@ -105,6 +107,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
 
     async function handleGetLikedMovies() {
         try {
+            setIsRefreshingLikedMovies(true)
             const rawLikedMovies = await AsyncStorage.getItem('@ibgm_likedMovies')
 
             if (rawLikedMovies !== null) {
@@ -113,6 +116,8 @@ export function MovieProvider({ children }: MovieProviderProps) {
         } catch (err) {
             console.error(err)
         }
+
+        setIsRefreshingLikedMovies(false)
     }
 
     function handleSetMovie(movie: MovieProps) {
@@ -133,7 +138,9 @@ export function MovieProvider({ children }: MovieProviderProps) {
                 movie,
                 likedMovies,
                 isLazyMovieOn,
+                isRefreshingLikedMovies,
                 handleGetRandomMovie,
+                handleGetLikedMovies,
                 handleAddToLikedMovies,
                 handleSetMovie,
                 handleLazyMovie,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text, Box, HStack } from 'native-base'
+import { Flex, Text, Box, Row } from 'native-base'
 
 type BubbleProps = {
     title: string,
@@ -13,14 +13,15 @@ export function Bubble({ title, content }: BubbleProps) {
             pb="14px"
             bg="primary"
             borderRadius="2px"
+            shadow="6"
         >
-            <HStack alignItems="center" space="6px" mb="2px">
+            <Row alignItems="center" space="6px" mb="2px">
                 <Box h="2px" bg="white.100" flex="1" />
                 <Text fontSize="20px" fontWeight="bold" textAlign="center">
                     {title}
                 </Text>
                 <Box h="2px" bg="white.100" flex="1" />
-            </HStack>
+            </Row>
 
             <Text textAlign="center" mx="2px">
                 {!content ? `There are no ${title.toLowerCase()} currently.` : content}
