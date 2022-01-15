@@ -16,7 +16,7 @@ export function Liked() {
                 liked
             </Header>
             <FlatList
-                data={[]}
+                data={likedMovies}
                 renderItem={({ item }) => (
                     <LikedMovieCard movie={item} />
                 )}
@@ -24,10 +24,8 @@ export function Liked() {
                 ListEmptyComponent={LikedMovieEmpty}
                 onRefresh={handleGetLikedMovies}
                 refreshing={isRefreshingLikedMovies}
-
-                flex="1"
                 w="100%"
-                contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
+                contentContainerStyle={{ minHeight: '100%' }}
             />
         </Container>
     )

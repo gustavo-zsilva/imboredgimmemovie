@@ -1,13 +1,13 @@
 import React from 'react'
 
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
-import { Flex, Column, Text } from 'native-base'
+import { Flex, Text } from 'native-base'
 
 export function LikedMovieEmpty() {
     return (
-        <Flex justifyContent="center" alignItems="center">
+        <Flex alignItems="center" m="auto">
             <Icon name="ghost" size={32} color="#F7F4F3" />
-            <Text>Looks like nothing is in here.</Text>
+            <Text mt="12px">Looks like nothing is here.</Text>
         </Flex>
     )
 }
