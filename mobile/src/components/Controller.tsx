@@ -8,14 +8,12 @@ import { Row } from 'native-base'
 import { useMovie } from '../hooks/useMovie'
 
 export function Controller() {
-
     const {
         handleGetRandomMovie,
         handleAddToLikedMovies,
         handleLazyMovie,
         isLazyMovieOn,
-        likedMovies,
-        movie,
+        isCurrentMovieLiked,
     } = useMovie()
 
     return (
@@ -36,7 +34,7 @@ export function Controller() {
                 <FiIcon name="shuffle" size={32} />
             </Button>
             <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }} onPress={handleAddToLikedMovies}>
-                {likedMovies.some(({ id }) => id === movie?.id) ? (
+                {isCurrentMovieLiked ? (
                     <AiIcon name="heart" size={25} color="#F7F4F3" />
                 ) : (
                     <AiIcon name="hearto" size={25} color="#F7F4F3" />

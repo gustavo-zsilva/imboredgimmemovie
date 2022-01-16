@@ -9,6 +9,7 @@ type MovieContextProps = {
     likedMovies: MovieProps[],
     isLazyMovieOn: boolean,
     isRefreshingLikedMovies: boolean,
+    isCurrentMovieLiked: boolean,
     handleGetRandomMovie: () => void,
     handleGetLikedMovies: () => void,
     handleAddToLikedMovies: () => void,
@@ -42,6 +43,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
     const [isRefreshingLikedMovies, setIsRefreshingLikedMovies] = useState(false)
     const [isLazyMovieOn, setIsLazyMovieOn] = useState(false)
+    const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie?.id)
     let intervalId: NodeJS.Timeout
     
     useEffect(() => {
@@ -91,7 +93,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
     }
 
     async function handleAddToLikedMovies() {
-        if (likedMovies.some(({ id }) => movie.id === id)) {
+        if (isCurrentMovieLiked) {
             const newLikedMovies = likedMovies.filter(({ id }) => id !== movie.id)
             setLikedMovies(newLikedMovies)
             return
@@ -139,6 +141,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
                 likedMovies,
                 isLazyMovieOn,
                 isRefreshingLikedMovies,
+                isCurrentMovieLiked,
                 handleGetRandomMovie,
                 handleGetLikedMovies,
                 handleAddToLikedMovies,
