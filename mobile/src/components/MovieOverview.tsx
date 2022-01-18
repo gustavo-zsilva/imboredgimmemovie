@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, ScrollView, Flex } from 'native-base'
 import { useMovie } from '../hooks/useMovie'
+
+import { Text, ScrollView, Flex } from 'native-base'
 
 export function MovieOverview() {
 

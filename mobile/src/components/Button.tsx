@@ -1,9 +1,9 @@
-import React, { ButtonHTMLAttributes } from 'react'
+import React from 'react'
 import { Button as NativeButton, IButtonProps } from "native-base"
 
 type ButtonProps = IButtonProps
 
-export function Button({ ...props }: ButtonProps) {
+export function Button({ children, ...props }: ButtonProps) {
     return (
         <NativeButton
             w="50px"
@@ -13,6 +13,8 @@ export function Button({ ...props }: ButtonProps) {
             color="base.700"
             _pressed={{ bg: "white.200" }}
             {...props}
-        />
+        >
+            {!props.isLoading && children}
+        </NativeButton>
     )
 }

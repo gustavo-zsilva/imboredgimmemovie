@@ -1,18 +1,22 @@
 import React from 'react'
 import { useMovie } from '../hooks/useMovie'
-import { Flex, Image } from "native-base"
+
+import { Skeleton } from 'moti/skeleton'
+import { Flex, Image, Factory } from "native-base"
 
 export function MoviePoster() {
 
     const { movie } = useMovie()
-    const imageUri = `https://image.tmdb.org/t/p/original${movie?.poster_path}`
+    const imageUri = `https://image.tmdb.org/t/p/original${movie?.poster_path || '#'}`
+    const FactorySkeleton = Factory(Skeleton)
 
     return (
         <Flex
-            w="100%"
+            borderRadius="2px"
+            width="100%"
             py="8px"
             shadow="1"
-            borderRadius="2px"
+            alignItems="center"
             position="relative"
         >
             {movie?.poster_path && (
@@ -31,21 +35,23 @@ export function MoviePoster() {
                     alt="Poster Background"
                 />
             )}
-            {movie ? (    
+            {movie ? (
                 <Image
-                    key={movie.id}
+                    key={movie?.id}
                     w="200px"
                     h="300px"
+                    margin="auto"
                     alignSelf="center"
+                    blurRadius={movie.adult ? 8 : 0}
                     source={{ uri: imageUri }}
                     alt="Poster"
                 />
             ) : (
-                <Flex
-                    w="200px"
-                    h="300px"
-                    bg="base.700"
-                    alignSelf="center"
+                <Skeleton
+                    show={!movie}
+                    radius="square"
+                    width={200}
+                    height={300}
                 />
             )}
         </Flex>

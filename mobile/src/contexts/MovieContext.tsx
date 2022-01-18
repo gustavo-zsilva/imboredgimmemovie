@@ -35,6 +35,7 @@ type MovieProps = {
     genres: Genres,
     release_date: string,
     runtime: number,
+    adult: boolean,
 }
 
 export function MovieProvider({ children }: MovieProviderProps) {
@@ -62,6 +63,8 @@ export function MovieProvider({ children }: MovieProviderProps) {
     }, [isLazyMovieOn])
 
     function handleGetRandomMovie() {
+        setMovie(null)
+
         const randomPage = Math.floor(Math.random() * 500)
         const randomMovie = Math.floor(Math.random() * 20)
         
@@ -88,13 +91,14 @@ export function MovieProvider({ children }: MovieProviderProps) {
             runtime: rawDetails.data.runtime,
             vote_average: rawDetails.data.vote_average,
             genres: rawDetails.data.genres,
+            adult: rawDetails.data.adult,
         }
         setMovie(movieDetails)
     }
 
     async function handleAddToLikedMovies() {
         if (isCurrentMovieLiked) {
-            const newLikedMovies = likedMovies.filter(({ id }) => id !== movie.id)
+            const newLikedMovies = likedMovies.filter(({ id }) => id !== movie?.id)
             setLikedMovies(newLikedMovies)
             return
         }

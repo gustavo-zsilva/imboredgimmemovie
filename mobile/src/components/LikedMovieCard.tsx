@@ -19,6 +19,7 @@ type MovieProps = {
     genres: Genres,
     release_date: string,
     runtime: number,
+    adult: boolean,
 }
 
 type LikedMovieCardProps = {

@@ -9,7 +9,7 @@ export function MovieRating() {
 
     const { movie } = useMovie()
     const [layoutWidth, setLayoutWidth] = useState(0)
-    const voteAverage = movie?.vote_average * 10
+    const voteAverage = movie?.vote_average * 10 || 0
     const numberWidth = (voteAverage * layoutWidth) / 100
 
     return (

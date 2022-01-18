@@ -6,9 +6,17 @@ import { MovieRating } from '../components/MovieRating'
 import { useMovie } from '../hooks/useMovie'
 import { api } from '../services/api'
 
-import { SequenceItem } from 'moti'
+import { Skeleton } from 'moti/skeleton'
 import { FactoryMotiView } from '../components/FactoryMotiView'
-import { Container, Column, Flex, Stagger } from 'native-base'
+import {
+    Container,
+    Column,
+    Flex,
+    Stagger,
+    Text,
+    Row,
+    Spacer,
+} from 'native-base'
 
 type Cast = {
     name: string,
@@ -76,38 +84,79 @@ export function Credits() {
     }, [movie])
 
     return (
-        <Container>
-            <Header>
-                credits
-            </Header>
-
-            <Flex w="100%" flex="1" justifyContent="space-between">
-                <Column space="20px">
-                <Stagger
-                    visible={true}
-                    initial={{
-                        opacity: 0,
-                        translateY: -35,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        translateY: 0,
-                        transition: {
-                            stagger: {
-                                offset: 30
-                            }
+        <Column flex="1" bg="pink.400">
+            <Column p="20px">
+                <Header>
+                    credits
+                </Header>
+                <Flex>
+                    <Row alignItems="center" justifyContent="space-between" space="8px">
+                        <Skeleton show={!movie} colorMode="light">
+                            <Text fontSize="26px" fontWeight="bold" flexShrink="1">
+                                {movie?.title}
+                            </Text>
+                        </Skeleton>
+                        {
+                            movie?.adult &&
+                            <FactoryMotiView
+                                size={38}
+                                justifyContent="center"
+                                borderRadius="4px"
+                                bg="base.800"
+                                shadow={2}
+                                from={{
+                                    opacity: 0,
+                                    scale: 0.9,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    scale: 1,
+                                }}
+                                transition={{
+                                    type: 'spring',
+                                    duration: 350
+                                }}
+                            >
+                                <Text textAlign="center">+18</Text>
+                            </FactoryMotiView>
                         }
-                    }}
-                >
-                    <Bubble title="Cast" content={cast} />
-                    <Bubble title="Directors" content={directors} />
-                    <Bubble title="Producers" content={producers} />
-                    <Bubble title="Genres" content={genres} />
-                </Stagger>
+                    </Row>
+                    <Skeleton show={!movie} colorMode="light">
+                        <Text>{genres}</Text>
+                    </Skeleton>
+                </Flex>
+            </Column>
+
+            <Container
+                borderTopRadius="40px"
+                justifyContent="space-between"
+                shadow={6}
+            >
+                <Column space="20px" pt="30px" w="100%">
+                    <Stagger
+                        visible={true}
+                        initial={{
+                            opacity: 0,
+                            translateY: -35,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            translateY: 0,
+                            transition: {
+                                stagger: {
+                                    offset: 30
+                                }
+                            }
+                        }}
+                    >
+                        <Bubble title="Cast" content={cast} />
+                        <Bubble title="Directors" content={directors} />
+                        <Bubble title="Producers" content={producers} />
+                    </Stagger>
                 </Column>
 
                 <MovieRating />
-            </Flex>
-        </Container>
+            </Container>
+        </Column>
     )
 }

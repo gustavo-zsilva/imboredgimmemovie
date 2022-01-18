@@ -4,11 +4,12 @@ import { Button } from './Button'
 
 import FiIcon from 'react-native-vector-icons/Feather'
 import AiIcon from 'react-native-vector-icons/AntDesign'
-import { Row } from 'native-base'
+import { Row, Button as NativeButton } from 'native-base'
 import { useMovie } from '../hooks/useMovie'
 
 export function Controller() {
     const {
+        movie,
         handleGetRandomMovie,
         handleAddToLikedMovies,
         handleLazyMovie,
@@ -17,7 +18,7 @@ export function Controller() {
     } = useMovie()
 
     return (
-        <Row
+        <NativeButton.Group
             justifyContent="center"
             alignItems="center"
             space="10px"
@@ -26,11 +27,20 @@ export function Controller() {
             w="100%"
             p="10px"
             borderRadius="4px"
+            isDisabled={!movie}
         >
             <Button onPress={handleLazyMovie} bg={isLazyMovieOn ? "green.400" : "white.100"}>
                 <FiIcon name="repeat" size={25} color={isLazyMovieOn ? "#F7F4F3" : "#3A3838"} />
             </Button>
-            <Button w="65px" h="65px" onPress={handleGetRandomMovie}>
+            <Button
+                w="65px"
+                h="65px"
+                onPress={handleGetRandomMovie}
+                isLoading={!movie}
+                _spinner={{
+                    size: 'lg'
+                }}
+            >
                 <FiIcon name="shuffle" size={32} />
             </Button>
             <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }} onPress={handleAddToLikedMovies}>
@@ -40,6 +50,6 @@ export function Controller() {
                     <AiIcon name="hearto" size={25} color="#F7F4F3" />
                 )}
             </Button>
-        </Row>
+        </NativeButton.Group>
     )
 }

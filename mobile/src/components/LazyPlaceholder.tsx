@@ -25,7 +25,7 @@ export function LazyPlaceholder() {
                     duration: 1500,
                 }}
             >
-                <Icon name="movie-roll" size={80} color="#F7F4F3" />
+                <Icon name="movie-roll" size={80} color="#3A3838" />
             </FactoryMotiView>
         </Container>
     )
