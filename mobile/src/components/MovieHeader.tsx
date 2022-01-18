@@ -1,6 +1,6 @@
 import React from 'react'
-import { Row, Text, Divider } from 'native-base'
 import { useMovie } from '../hooks/useMovie'
+import { Row, Text, Divider } from 'native-base'
 
 export function MovieHeader() {
 

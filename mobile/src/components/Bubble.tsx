@@ -14,6 +14,7 @@ export function Bubble({ title, content }: BubbleProps) {
             bg="primary"
             borderRadius="2px"
             shadow="6"
+            mb="20px"
         >
             <Row alignItems="center" space="6px" mb="2px">
                 <Box h="2px" bg="white.100" flex="1" />

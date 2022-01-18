@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, Column, Flex } from 'native-base'
 import { Bubble } from '../components/Bubble'
 import { Header } from '../components/Header'
 import { MovieRating } from '../components/MovieRating'
 import { useMovie } from '../hooks/useMovie'
 import { api } from '../services/api'
+
+import { SequenceItem } from 'moti'
+import { FactoryMotiView } from '../components/FactoryMotiView'
+import { Container, Column, Flex, Stagger } from 'native-base'
 
 type Cast = {
     name: string,
@@ -79,14 +82,28 @@ export function Credits() {
             </Header>
 
             <Flex w="100%" flex="1" justifyContent="space-between">
-                <Column
-                    w="100%"
-                    space="20px"
+                <Column space="20px">
+                <Stagger
+                    visible={true}
+                    initial={{
+                        opacity: 0,
+                        translateY: -35,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        translateY: 0,
+                        transition: {
+                            stagger: {
+                                offset: 30
+                            }
+                        }
+                    }}
                 >
                     <Bubble title="Cast" content={cast} />
                     <Bubble title="Directors" content={directors} />
                     <Bubble title="Producers" content={producers} />
                     <Bubble title="Genres" content={genres} />
+                </Stagger>
                 </Column>
 
                 <MovieRating />

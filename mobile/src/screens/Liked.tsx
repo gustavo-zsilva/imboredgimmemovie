@@ -4,7 +4,8 @@ import { LikedMovieEmpty } from '../components/LikedMovieEmpty'
 import { Header } from '../components/Header'
 import { useMovie } from '../hooks/useMovie'
 
-import { Container, FlatList } from "native-base"
+import { MotiView } from 'moti'
+import { Container, FlatList, Factory, Stagger } from "native-base"
 
 export function Liked() {
 
@@ -15,6 +16,7 @@ export function Liked() {
             <Header>
                 liked
             </Header>
+
             <FlatList
                 data={likedMovies}
                 renderItem={({ item }) => (

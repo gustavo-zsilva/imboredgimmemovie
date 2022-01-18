@@ -6,5 +6,6 @@ module.exports = function(api) {
         // 'module:metro-react-native-babel-preset',
         // 'module:react-native-dotenv',
     ],
+    plugins: ['react-native-reanimated/plugin'],
   };
 };
