@@ -14,7 +14,7 @@ import {
 import { MovieProvider } from "./src/contexts/MovieContext";
 import { Routes } from "./src/routes";
 
-import { theme } from './src/styles/theme'
+import { theme, config } from './src/styles/theme'
 
 export default function App() {
 
@@ -29,7 +29,7 @@ export default function App() {
 
     return (
         <MovieProvider>
-            <NativeBaseProvider theme={theme}>
+            <NativeBaseProvider theme={theme} config={config}>
                 <StatusBar style="light" />
                 <Routes />
             </NativeBaseProvider>
