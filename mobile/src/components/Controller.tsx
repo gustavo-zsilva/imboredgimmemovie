@@ -15,6 +15,7 @@ export function Controller() {
         handleLazyMovie,
         isLazyMovieOn,
         isCurrentMovieLiked,
+        isMovieLoading,
     } = useMovie()
 
     return (
@@ -27,23 +28,34 @@ export function Controller() {
             w="100%"
             p="10px"
             borderRadius="4px"
-            isDisabled={!movie}
+            isDisabled={isMovieLoading}
         >
-            <Button onPress={handleLazyMovie} bg={isLazyMovieOn ? "green.400" : "white.100"}>
-                <FiIcon name="repeat" size={25} color={isLazyMovieOn ? "#F7F4F3" : "#3A3838"} />
+            <Button
+                onPress={handleLazyMovie}
+                bg={isLazyMovieOn ? "green.400" : "white.100"}
+            >
+                <FiIcon
+                    name="repeat"
+                    size={25}
+                    color={isLazyMovieOn ? "#F7F4F3" : "#3A3838"}
+                />
             </Button>
             <Button
                 w="65px"
                 h="65px"
                 onPress={handleGetRandomMovie}
-                isLoading={!movie}
+                isLoading={isMovieLoading}
                 _spinner={{
                     size: 'lg'
                 }}
             >
                 <FiIcon name="shuffle" size={32} />
             </Button>
-            <Button bg="secondary.100" _pressed={{ bg: 'secondary.200' }} onPress={handleAddToLikedMovies}>
+            <Button
+                bg="secondary.100"
+                _pressed={{ bg: 'secondary.200' }}
+                onPress={handleAddToLikedMovies}
+            >
                 {isCurrentMovieLiked ? (
                     <AiIcon name="heart" size={25} color="#F7F4F3" />
                 ) : (

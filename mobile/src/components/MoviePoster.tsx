@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMovie } from '../hooks/useMovie'
 
 import { Skeleton } from 'moti/skeleton'
-import { Flex, Image, Factory } from "native-base"
+import { Flex, Image, Pressable } from "native-base"
 
 export function MoviePoster() {
 
-    const { movie } = useMovie()
-    const imageUri = `https://image.tmdb.org/t/p/original${movie?.poster_path || '#'}`
-    const FactorySkeleton = Factory(Skeleton)
+    const { movie, isMovieLoading } = useMovie()
+    const [isShown, setIsShown] = useState(false)
+    const imageUri = `https://image.tmdb.org/t/p/original${movie?.poster_path}`
+
+    function handleShowPoster() {
+        setIsShown(true)
+    }
+
+    useEffect(() => {
+        setIsShown(false)
+    }, [movie])
 
     return (
         <Flex
@@ -35,17 +43,19 @@ export function MoviePoster() {
                     alt="Poster Background"
                 />
             )}
-            {movie ? (
-                <Image
-                    key={movie?.id}
-                    w="200px"
-                    h="300px"
-                    margin="auto"
-                    alignSelf="center"
-                    blurRadius={movie.adult ? 8 : 0}
-                    source={{ uri: imageUri }}
-                    alt="Poster"
-                />
+            {!isMovieLoading && movie ? (
+                <Pressable onPress={handleShowPoster}>
+                    <Image
+                        key={movie?.id}
+                        w="200px"
+                        h="300px"
+                        margin="auto"
+                        alignSelf="center"
+                        blurRadius={movie?.adult && !isShown ? 12 : 0}
+                        source={{ uri: imageUri }}
+                        alt="Poster"
+                    />
+                </Pressable>
             ) : (
                 <Skeleton
                     show={!movie}

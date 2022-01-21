@@ -8,6 +8,7 @@ import { api } from '../services/api'
 
 import { Skeleton } from 'moti/skeleton'
 import { FactoryMotiView } from '../components/FactoryMotiView'
+import { useDynamicAnimation } from 'moti'
 import {
     Container,
     Column,
@@ -15,7 +16,6 @@ import {
     Stagger,
     Text,
     Row,
-    Spacer,
 } from 'native-base'
 
 type Cast = {
@@ -83,80 +83,131 @@ export function Credits() {
         })
     }, [movie])
 
+    const topAnimation = useDynamicAnimation(() => ({
+        translateY: -35,
+        opacity: 0,
+    }))
+
+    const containerAnimation = useDynamicAnimation(() => ({
+        translateY: 160,
+    }))
+
+    const staggerAnimation = useDynamicAnimation(() => ({
+        opacity: 0,
+        translateY: -35,
+    }))
+
     return (
         <Column flex="1" bg="pink.400">
-            <Column p="20px">
-                <Header>
-                    credits
-                </Header>
-                <Flex>
-                    <Row alignItems="center" justifyContent="space-between" space="8px">
-                        <Skeleton show={!movie} colorMode="light">
+            <FactoryMotiView
+                state={topAnimation}
+                onLayout={() => {
+                    topAnimation.animateTo({
+                        translateY: 0,
+                        opacity: 1
+                    })
+                }}
+                transition={{
+                    type: 'timing',
+                    duration: 850,
+                }}
+            >
+                <Column p="20px">
+                    <Header>
+                        credits
+                    </Header>
+                    <Flex>
+                        <Row alignItems="center" justifyContent="space-between" space="8px">
                             <Text fontSize="26px" fontWeight="bold" flexShrink="1">
                                 {movie?.title}
                             </Text>
-                        </Skeleton>
-                        {
-                            movie?.adult &&
-                            <FactoryMotiView
-                                size={38}
-                                justifyContent="center"
-                                borderRadius="4px"
-                                bg="base.800"
-                                shadow={2}
-                                from={{
-                                    opacity: 0,
-                                    scale: 0.9,
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                }}
-                                transition={{
-                                    type: 'spring',
-                                    duration: 350
-                                }}
-                            >
-                                <Text textAlign="center">+18</Text>
-                            </FactoryMotiView>
-                        }
-                    </Row>
-                    <Skeleton show={!movie} colorMode="light">
-                        <Text>{genres}</Text>
-                    </Skeleton>
-                </Flex>
-            </Column>
-
-            <Container
-                borderTopRadius="40px"
-                justifyContent="space-between"
-                shadow={6}
-            >
-                <Column space="20px" pt="30px" w="100%">
-                    <Stagger
-                        visible={true}
-                        initial={{
-                            opacity: 0,
-                            translateY: -35,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateY: 0,
-                            transition: {
-                                stagger: {
-                                    offset: 30
-                                }
+                            {
+                                movie?.adult &&
+                                <FactoryMotiView
+                                    size={38}
+                                    justifyContent="center"
+                                    borderRadius="4px"
+                                    bg="base.800"
+                                    shadow={2}
+                                    from={{
+                                        opacity: 0,
+                                        scale: 0.9,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        scale: 1,
+                                    }}
+                                    transition={{
+                                        type: 'spring',
+                                        duration: 350
+                                    }}
+                                >
+                                    <Text textAlign="center">+18</Text>
+                                </FactoryMotiView>
                             }
-                        }}
-                    >
-                        <Bubble title="Cast" content={cast} />
-                        <Bubble title="Directors" content={directors} />
-                        <Bubble title="Producers" content={producers} />
-                    </Stagger>
+                        </Row>
+                        <Text>{genres}</Text>
+                    </Flex>
                 </Column>
+            </FactoryMotiView>
 
-                <MovieRating />
-            </Container>
+            <FactoryMotiView
+                flex="1"
+                state={containerAnimation}
+                onLayout={() => {
+                    containerAnimation.animateTo({ translateY: 0 })
+                }}
+                transition={{
+                    type: 'timing',
+                    duration: 850,
+                }}
+            >
+                <Container
+                    borderTopRadius="40px"
+                    justifyContent="space-between"
+                    shadow={6}
+                >
+                    <Column
+                        space="20px"
+                        pt="30px"
+                        w="100%"
+                    >
+                        {/* <Stagger
+                            visible={isStaggerMounted}
+                            initial={{
+                                opacity: 0,
+                                translateY: -35,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                translateY: 0,
+                                transition: {
+                                    stagger: {
+                                        offset: 30,
+                                    },
+                                    delay: 150,
+                                }
+                            }}
+                        > */}
+                        <FactoryMotiView
+                            state={staggerAnimation}
+                            transition={{
+                                delay: 350,
+                            }}
+                            onLayout={() => {
+                                staggerAnimation.animateTo({ opacity: 1, translateY: 0 })
+                            }}
+                        >
+                            <Bubble title="Cast" content={cast} />
+                            <Bubble title="Directors" content={directors} />
+                            <Bubble title="Producers" content={producers} />
+                        </FactoryMotiView>
+                        {/* </Stagger> */}
+                    </Column>
+
+                    <MovieRating />
+                </Container>
+            </FactoryMotiView>
         </Column>
     )
 }

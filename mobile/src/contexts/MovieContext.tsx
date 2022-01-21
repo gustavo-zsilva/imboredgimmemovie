@@ -10,6 +10,7 @@ type MovieContextProps = {
     isLazyMovieOn: boolean,
     isRefreshingLikedMovies: boolean,
     isCurrentMovieLiked: boolean,
+    isMovieLoading: boolean,
     handleGetRandomMovie: () => void,
     handleGetLikedMovies: () => void,
     handleAddToLikedMovies: () => void,
@@ -44,6 +45,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
     const [isRefreshingLikedMovies, setIsRefreshingLikedMovies] = useState(false)
     const [isLazyMovieOn, setIsLazyMovieOn] = useState(false)
+    const [isMovieLoading, setIsMovieLoading] = useState(false)
     const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie?.id)
     let intervalId: NodeJS.Timeout
     
@@ -63,7 +65,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
     }, [isLazyMovieOn])
 
     function handleGetRandomMovie() {
-        setMovie(null)
+        setIsMovieLoading(true)
 
         const randomPage = Math.floor(Math.random() * 500)
         const randomMovie = Math.floor(Math.random() * 20)
@@ -75,8 +77,10 @@ export function MovieProvider({ children }: MovieProviderProps) {
         }).then(response => {
             const id = response.data.results[randomMovie].id
             handleGetMovieDetails(id)
+            setIsMovieLoading(false)
         }).catch(err => {
             console.error(err)
+            setIsMovieLoading(false)
         })
     }
 
@@ -146,6 +150,7 @@ export function MovieProvider({ children }: MovieProviderProps) {
                 isLazyMovieOn,
                 isRefreshingLikedMovies,
                 isCurrentMovieLiked,
+                isMovieLoading,
                 handleGetRandomMovie,
                 handleGetLikedMovies,
                 handleAddToLikedMovies,

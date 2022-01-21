@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useMovie } from '../hooks/useMovie'
 
-import { useDynamicAnimation } from 'moti'
+import { useMovie } from '../hooks/useMovie'
+import { Indicator } from './Indicator'
+
+import { AnimatePresence, useAnimationState } from 'moti'
 import { FactoryMotiView } from './FactoryMotiView'
-import { Row, Box, Text, PresenceTransition } from 'native-base'
+import { Row, Box, Text } from 'native-base'
 
 export function MovieRating() {
 
@@ -13,34 +15,40 @@ export function MovieRating() {
     const numberWidth = (voteAverage * layoutWidth) / 100
 
     return (
-        <Row w="100%" alignItems="center" zIndex="1">
+        <Row w="100%" alignItems="center" position="relative">
+            <Indicator left={numberWidth} />
             <Box
-                h="60px"
-                borderRadius="2px"
                 flex="1"
-                bg="base.700"
-                onLayout={(e) => {
-                    setLayoutWidth(e.nativeEvent.layout.width)
-                }}
+                bg="green.800"
             >
-                <FactoryMotiView
-                    h="100%"
-                    bg="primary"
+                <Box
+                    h="60px"
                     borderRadius="2px"
-                    shadow="6"
-                    from={{
-                        width: 0,
+                    bg="base.700"
+                    onLayout={(e) => {
+                        setLayoutWidth(e.nativeEvent.layout.width)
                     }}
-                    animate={{
-                        width: numberWidth,
-                    }}
-                    transition={{
-                        type: 'timing',
-                        duration: 750,
-                    }}
-                />
+                >
+                    <FactoryMotiView
+                        h="100%"
+                        bg="primary"
+                        borderRadius="2px"
+                        shadow="6"
+                        from={{
+                            width: 0,
+                        }}
+                        animate={{
+                            width: numberWidth,
+                        }}
+                        transition={{
+                            type: 'timing',
+                            duration: 750,
+                        }}
+                        delay={250}
+                    />
+                </Box>
             </Box>
-
+            
             <FactoryMotiView
                 pl="14px"
                 from={{
@@ -54,6 +62,10 @@ export function MovieRating() {
                 transition={{
                     type: 'timing',
                     duration: 650
+                }}
+                exit={{
+                    opacity: 0,
+                    translateY: 30
                 }}
             >
                 <Text fontSize="28px">
