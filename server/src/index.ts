@@ -4,13 +4,13 @@ import puppeteer from 'puppeteer'
 
 export async function getDeepLinks(req: Request, res: Response) {
     
-    const { path } = req.query
+    const { countryCode, movie } = req.query
     
     try {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
 
-        await page.goto(`https://www.justwatch.com/${path[0] === '/' ? String(path).slice(1) : path}`)
+        await page.goto(`https://www.justwatch.com/${countryCode}/filme/${movie}`)
 
         const deepLinks = await page.evaluate(() => {
             const providers = []
