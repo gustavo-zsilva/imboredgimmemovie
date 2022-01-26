@@ -15,7 +15,11 @@ import { Footer } from '../components/Footer'
 
 import { api } from '../services/api'
 import { Flex } from '@chakra-ui/react'
-import { AdBanner } from '../components/AdBanner'
+
+type Genre = {
+    name: string,
+    id: number,
+}
 
 type MovieProps = {
     title: string,
@@ -24,19 +28,26 @@ type MovieProps = {
     overview: string,
     adult: boolean,
     release_date: string,
-    genre_ids: number[],
+    genres: Genre[],
     vote_average: number,
     popularity: number,
     poster_path: string,
+    runtime: number | null,
+}
+
+type Location = {
+    country: string,
+    countryCode: string,
 }
 
 type HomeProps = {
     movie: MovieProps,
+    location: Location,
 }
 
-export default function Home({ movie }: HomeProps) {
+export default function Home({ movie, location }: HomeProps) {
     return (
-        <MovieProvider defaultMovie={movie}>
+        <MovieProvider defaultMovie={movie} location={location}>
             <Head>
                 <title>imboredgimmemovie | Movie Randomizer</title>
             </Head>
@@ -100,11 +111,22 @@ export const getServerSideProps: GetServerSideProps = async () => {
         }
     })
 
-    const movie = response.data.results[movieIndex]
+    const randomMovieId = response.data.results[movieIndex].id
+
+    const rawMovieDetails = await api.get(`/movie/${randomMovieId}`)
+    const movie = rawMovieDetails.data
+
+    const rawLocation = await api.get('http://ip-api.com/json', {
+        params: {
+            fields: 3,
+        }
+    })
+    const location = rawLocation.data || { country: 'Brazil', countryCode: 'BR' }
 
     return {
         props: {
             movie,
+            location,
         }
     }
 }

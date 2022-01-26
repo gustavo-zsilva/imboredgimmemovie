@@ -46,25 +46,13 @@ export function Tabs() {
     const [genres, setGenres] = useState('')
 
     useEffect(() => {
-        api.get<GenreListProps>('/genre/movie/list')
-        .then(response => {
-            const { genres } = response.data
-            const parsedGenres = genres.map(genre => movie.genre_ids.includes(genre.id) && genre.name)
-                .filter(Boolean)
-                .join(', ')
-
-            setGenres(parsedGenres)
-            
-        }).catch(err => {
-            console.error(err)
-        })
-    }, [movie])
-
-    useEffect(() => {
         api.get<CreditsProps>(`/movie/${movie.id}/credits`)
         .then(response => {
 
             const { cast, crew } = response.data
+
+            const parsedGenres = movie.genres.map(genre => genre.name)
+                .join(', ')
 
             const parsedCast = cast.map(({ name }) => name)
                 .slice(0, 3)
@@ -80,6 +68,7 @@ export function Tabs() {
                 .slice(0, 3)
                 .join(', ')
 
+            setGenres(parsedGenres)
             setCast(parsedCast)
             setDirectors(parsedDirectors)
             setProducers(parsedProducers)
