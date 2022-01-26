@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
-
 import puppeteer from 'puppeteer'
+
+type DeepLink = {
+    name: string,
+    link: string,
+}
 
 export async function getDeepLinks(req: Request, res: Response) {
     
@@ -12,7 +16,7 @@ export async function getDeepLinks(req: Request, res: Response) {
 
         await page.goto(`https://www.justwatch.com/${countryCode}/filme/${movie}`)
 
-        const deepLinks = await page.evaluate(() => {
+        const deepLinks: DeepLink[] = await page.evaluate(() => {
             const providers = []
 
             const streamDiv = document.querySelector('.price-comparison__grid__row--stream')
