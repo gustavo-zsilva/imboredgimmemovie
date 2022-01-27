@@ -5,7 +5,7 @@ export function MovieRating() {
     const { movie } = useMovie()
 
     const ratingPercentage = movie.vote_average * 10
-    const rating = String(movie.vote_average).slice(0, 3)
+    const rating = movie.vote_average.toFixed(1)
 
     return (
         <Flex
