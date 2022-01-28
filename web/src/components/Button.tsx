@@ -1,12 +1,11 @@
-import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from "@chakra-ui/react"
-import { ButtonHTMLAttributes } from "react"
+import { IconButton as ChakraButton, IconButtonProps as ChakraButtonProps } from "@chakra-ui/react"
 
 type ButtonProps = ChakraButtonProps
 
 export function Button({ ...props }: ButtonProps) {
     return (
         <ChakraButton
-            borderRadius="50%"
+            isRound
             p="1rem"
             w="4rem"
             h="4rem"

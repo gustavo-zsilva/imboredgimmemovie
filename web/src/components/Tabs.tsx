@@ -11,6 +11,7 @@ import {
     TabPanels,
     Tab,
     TabPanel,
+    Text,
 } from '@chakra-ui/react'
 
 type Actors = {
@@ -27,23 +28,16 @@ type CreditsProps = {
     crew: Crewmate[],
 }
 
-type Genre = {
-    id: number,
-    name: string,
-}
-
-type GenreListProps = {
-    genres: Genre[],
-}
-
 export function Tabs() {
 
-    const { movie } = useMovie()
+    const { movie, likedMovies } = useMovie()
 
     const [directors, setDirectors] = useState('')
     const [cast, setCast] = useState('')
     const [producers, setProducers] = useState('')
     const [genres, setGenres] = useState('')
+
+    const [tabIndex, setTabIndex] = useState(0)
 
     useEffect(() => {
         api.get<CreditsProps>(`/movie/${movie.id}/credits`)
@@ -80,16 +74,26 @@ export function Tabs() {
 
     return (
         <ChakraTabs
+            id="1-tabs-id"
             variant="solid-rounded"
             colorScheme="primary"
             display="flex"
             flexDir="column"
             alignItems="center"
             mt={{ sm: '1rem', md: '0' }}
+            onChange={(index) => setTabIndex(index)}
+            
         >
             <TabList justifyContent="center">
                 <Tab>Credits</Tab>
-                <Tab>Movies</Tab>
+                <Tab>
+                    Movies
+                    {tabIndex === 1 &&
+                        <Text ml=".4rem" fontWeight="500">
+                            {likedMovies.length}
+                        </Text>
+                    }
+                </Tab>
             </TabList>
 
             <TabPanels display="inherit">

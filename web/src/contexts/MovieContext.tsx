@@ -14,6 +14,7 @@ type MovieContextProps = {
     handleGetRandomMovie: () => void,
     handleChangeMovie: (newMovie: MovieProps) => void,
     handleAddToLikedMovies: () => void,
+    handleClearLikedMovies: () => void,
     handleLazyMovie: () => void,
 }
 
@@ -90,7 +91,7 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
             const randomMovieId = randomMoviePage.data.results[movieIndex].id
 
             // Actual movie data
-            const rawMovieDetails = await api.get(`/movie/${randomMovieId}`, {
+            const rawMovieDetails = await api.get<MovieProps>(`/movie/${randomMovieId}`, {
                 params: {
                     language: userLocation.countryCode === 'BR'
                         ? 'pt-BR'
@@ -99,7 +100,19 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
             })
             const movie = rawMovieDetails.data
 
-            setMovie(movie)
+            setMovie({
+                title: movie.title,
+                id: movie.id,
+                original_title: movie.original_title,
+                overview: movie.overview,
+                adult: movie.adult,
+                release_date: movie.release_date,
+                genres: movie.genres,
+                vote_average: movie.vote_average,
+                popularity: movie.popularity,
+                poster_path: movie.poster_path,
+                runtime: movie.runtime,
+            })
         } catch (err) {
             console.error(err)
         } 
@@ -149,6 +162,10 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
         playAudio('/assets/soap-bubble-pop.wav')
     }
 
+    function handleClearLikedMovies() {
+        setLikedMovies([])
+    }
+
     return (
         <MovieContext.Provider
             value={{
@@ -158,6 +175,7 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
                 movieRecommendations,
                 handleChangeMovie,
                 handleAddToLikedMovies,
+                handleClearLikedMovies,
                 likedMovies,
                 isCurrentMovieLiked,
                 handleLazyMovie,

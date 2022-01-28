@@ -41,13 +41,24 @@ export function Controller() {
             justifyContent="center"
             alignItems="center"
         >
-            <Button onClick={handleGetRandomMovie}>
+            <Button
+                aria-label="Get Movie"
+                onClick={handleGetRandomMovie}
+            >
                 <FiShuffle color="#000" size={28} />
             </Button>
-            <Button bg="primary.100" onClick={handleSearchMovie}>
+            <Button
+                aria-label="Search Movie"
+                bg="primary.100"
+                onClick={handleSearchMovie}
+            >
                 <MdMovie size={28} />
             </Button>
-            <Button bg="primary.400" onClick={handleAddToLikedMovies}>
+            <Button
+                aria-label="Like Movie"
+                bg="primary.400"
+                onClick={handleAddToLikedMovies}
+            >
                 {isCurrentMovieLiked ? (
                     <AiFillHeart size={32} />
                 ) : (
@@ -55,6 +66,7 @@ export function Controller() {
                 )}
             </Button>
             <Button
+                aria-label="Lazy Movie Mode"
                 onClick={handleLazyMovie}
                 bg={isLazyMovie ? "green.400" : "primary.200"}
             >
