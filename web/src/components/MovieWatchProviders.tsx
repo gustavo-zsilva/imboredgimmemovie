@@ -49,19 +49,18 @@ export function MovieWatchProviders() {
     const { movie, userLocation } = useMovie()
     const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
-    const [deepLinks, setDeepLinks] = useState<DeepLinks[] | null>([])
-    
+    const [deepLinks, setDeepLinks] = useState<DeepLinks[] | null>(null)
 
     async function getDeepLinks() {
         try {
-            setDeepLinks([])
+            setDeepLinks(null)
 
             const parsedTitle = movie.title
                 .normalize('NFD')
                 .replace(/\p{Diacritic}/gu, '')
                 .replaceAll(' - ', ' ')
                 .replaceAll(': ', ' ')
-                .replaceAll('&', 'and')
+                .replaceAll('&', 'e')
                 .split(' ')
                 .join('-')
                 .toLowerCase()
