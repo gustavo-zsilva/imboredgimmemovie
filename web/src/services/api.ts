@@ -9,6 +9,7 @@ export const api = axios.create({
 api.interceptors.request.use(config => {
     config.params = config.params || {}
     config.params['api_key'] = apiKey
+    config.params['language'] = 'pt-BR'
 
     return config
 })

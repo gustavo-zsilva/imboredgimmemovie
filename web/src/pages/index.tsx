@@ -14,6 +14,7 @@ import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { Footer } from '../components/Footer'
 
 import { api } from '../services/api'
+import { graphQLClient } from '../pages/api/graphql'
 import { Flex } from '@chakra-ui/react'
 
 type Genre = {
@@ -101,20 +102,31 @@ export default function Home({ movie, location }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-
-    const page = Math.floor(Math.random() * 500)
-    const movieIndex = Math.floor(Math.random() * 20)
-
-    const response = await api.get('/movie/popular', {
-        params: {
-            page,
-        }
+    
+    const { data } = await graphQLClient.executeOperation({
+        query: `
+            {
+                randomMovie {
+                    title
+                    id
+                    original_title
+                    overview
+                    adult
+                    release_date
+                    genres {
+                        name
+                        id
+                    }
+                    vote_average
+                    popularity
+                    poster_path
+                    runtime
+                }
+            }
+        `
     })
 
-    const randomMovieId = response.data.results[movieIndex].id
-
-    const rawMovieDetails = await api.get(`/movie/${randomMovieId}`)
-    const movie = rawMovieDetails.data
+    const movie = data.randomMovie
 
     const rawLocation = await api.get('http://ip-api.com/json', {
         params: {

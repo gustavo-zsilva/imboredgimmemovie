@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useState, useEffect, useRef } from "react";
 import { api } from "../services/api";
+// import { client, gql } from "../services/apolloClient";
+import { graphQLClient } from "../pages/api/graphql";
 
 export const MovieContext = createContext({} as MovieContextProps)
 
@@ -79,40 +81,53 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
         try {
             setMovieRecommendations([])
 
-            const page = Math.floor(Math.random() * 500)
-            const movieIndex = Math.floor(Math.random() * 20)
+            // const page = Math.floor(Math.random() * 500)
+            // const movieIndex = Math.floor(Math.random() * 20)
             
-            const randomMoviePage = await api.get('/movie/popular', {
-                params: {
-                    page,
-                }
+            // const randomMoviePage = await api.get('/movie/popular', {
+            //     params: {
+            //         page,
+            //     }
+            // })
+
+            // const randomMovieId = randomMoviePage.data.results[movieIndex].id
+
+            // // Actual movie data
+            // const rawMovieDetails = await api.get<MovieProps>(`/movie/${randomMovieId}`, {
+            //     params: {
+            //         language: userLocation.countryCode === 'BR'
+            //             ? 'pt-BR'
+            //             : userLocation.countryCode.toLowerCase()
+            //     }
+            // })
+            // const movie = rawMovieDetails.data
+
+            const { data } = await graphQLClient.executeOperation({
+                query: `
+                    {
+                        randomMovie {
+                            title
+                            id
+                            original_title
+                            overview
+                            adult
+                            release_date
+                            genres {
+                                name
+                                id
+                            }
+                            vote_average
+                            popularity
+                            poster_path
+                            runtime
+                        }
+                    }
+                `
             })
 
-            const randomMovieId = randomMoviePage.data.results[movieIndex].id
-
-            // Actual movie data
-            const rawMovieDetails = await api.get<MovieProps>(`/movie/${randomMovieId}`, {
-                params: {
-                    language: userLocation.countryCode === 'BR'
-                        ? 'pt-BR'
-                        : userLocation.countryCode.toLowerCase()
-                }
-            })
-            const movie = rawMovieDetails.data
-
-            setMovie({
-                title: movie.title,
-                id: movie.id,
-                original_title: movie.original_title,
-                overview: movie.overview,
-                adult: movie.adult,
-                release_date: movie.release_date,
-                genres: movie.genres,
-                vote_average: movie.vote_average,
-                popularity: movie.popularity,
-                poster_path: movie.poster_path,
-                runtime: movie.runtime,
-            })
+            const movie = data.randomMovie
+            
+            setMovie(movie)
         } catch (err) {
             console.error(err)
         } 

@@ -37,7 +37,7 @@ export function LikedMovieList() {
             maxH="32rem"
             gridGap="1.2rem"
             h="100%"
-            overflowY="scroll"
+            overflowY="auto"
             position="relative"
         >
 
