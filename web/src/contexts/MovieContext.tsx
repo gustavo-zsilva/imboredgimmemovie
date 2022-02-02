@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState, useEffect, useRef } from "react";
 import { api } from "../services/api";
-// import { client, gql } from "../services/apolloClient";
 import { graphQLClient } from "../pages/api/graphql";
+import { setCookie } from "nookies"
 
 export const MovieContext = createContext({} as MovieContextProps)
 
@@ -48,13 +48,19 @@ type MovieProvider = {
     children: ReactNode,
     defaultMovie: MovieProps,
     location: Location,
+    initialLikedMovies: MovieProps[],
 }
 
-export function MovieProvider({ children, defaultMovie, location }: MovieProvider) {
+export function MovieProvider({
+    children,
+    defaultMovie,
+    location,
+    initialLikedMovies,
+}: MovieProvider) {
     
     const [movie, setMovie] = useState<MovieProps>(defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
-    const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
+    const [likedMovies, setLikedMovies] = useState<MovieProps[]>(initialLikedMovies)
     const [isLazyMovie, setIsLazyMovie] = useState(false)
     const [userLocation, setUserLocation] = useState<Location>(location)
 
@@ -67,40 +73,14 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
         audio.volume = 0.1
         audio.play()
     }
-    
-    useEffect(() => {
-        const savedMovies = JSON.parse(localStorage.getItem('ibgm.likedMovies')) || []
-        setLikedMovies(savedMovies)
-    }, [])
 
     useEffect(() => {
-        localStorage.setItem('ibgm.likedMovies', JSON.stringify(likedMovies))
+        setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies))
     }, [likedMovies])
 
     async function handleGetRandomMovie() {
         try {
             setMovieRecommendations([])
-
-            // const page = Math.floor(Math.random() * 500)
-            // const movieIndex = Math.floor(Math.random() * 20)
-            
-            // const randomMoviePage = await api.get('/movie/popular', {
-            //     params: {
-            //         page,
-            //     }
-            // })
-
-            // const randomMovieId = randomMoviePage.data.results[movieIndex].id
-
-            // // Actual movie data
-            // const rawMovieDetails = await api.get<MovieProps>(`/movie/${randomMovieId}`, {
-            //     params: {
-            //         language: userLocation.countryCode === 'BR'
-            //             ? 'pt-BR'
-            //             : userLocation.countryCode.toLowerCase()
-            //     }
-            // })
-            // const movie = rawMovieDetails.data
 
             const { data } = await graphQLClient.executeOperation({
                 query: `
@@ -149,9 +129,34 @@ export function MovieProvider({ children, defaultMovie, location }: MovieProvide
     }
 
     async function handleGetMovieRecommendations() {
-        const response = await api.get(`/movie/${movie.id}/recommendations`)
+        try {
+            const { data } = await graphQLClient.executeOperation({
+                query: `
+                    {
+                        movieRecommendations(movieId: "${movie.id}", last: 5) {
+                        title
+                        id
+                        original_title
+                        overview
+                        adult
+                        release_date
+                        genres {
+                            name
+                            id
+                        }
+                        vote_average
+                        popularity
+                        poster_path
+                        runtime
+                        }
+                    }
+                `
+            })
 
-        setMovieRecommendations(response.data.results.slice(0, 5))
+            setMovieRecommendations(data.movieRecommendations)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     function handleChangeMovie(newMovie: MovieProps) {

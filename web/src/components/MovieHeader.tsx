@@ -26,7 +26,8 @@ export function MovieHeader() {
                         <Text>
                             <MdExplicit size={32} />
                         </Text>
-                    </Tooltip>}
+                    </Tooltip>
+                }
             </Flex>
 
             <Flex gridGap=".4rem" bg="dark.200" p=".2rem .6rem" borderRadius=".2rem">

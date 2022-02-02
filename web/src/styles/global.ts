@@ -33,7 +33,7 @@ export const theme = extendTheme({
                 height: '100vh',
                 maxWidth: '80rem',
                 margin: 'auto',
-                background: '#312F2F',
+                background: 'dark.100',
             },
             "::-webkit-scrollbar": {
                 width: '8px'

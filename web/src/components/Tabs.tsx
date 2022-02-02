@@ -13,8 +13,9 @@ import {
     TabPanel,
     Text,
 } from '@chakra-ui/react'
+import { graphQLClient } from '../pages/api/graphql'
 
-type Actors = {
+type Actor = {
     name: string,
 }
 
@@ -24,7 +25,7 @@ type Crewmate = {
 }
 
 type CreditsProps = {
-    cast: Actors[],
+    cast: Actor[],
     crew: Crewmate[],
 }
 
@@ -35,39 +36,30 @@ export function Tabs() {
     const [directors, setDirectors] = useState('')
     const [cast, setCast] = useState('')
     const [producers, setProducers] = useState('')
-    const [genres, setGenres] = useState('')
 
     const [tabIndex, setTabIndex] = useState(0)
 
     useEffect(() => {
-        api.get<CreditsProps>(`/movie/${movie.id}/credits`)
-        .then(response => {
+        graphQLClient.executeOperation({
+            query: `
+                {
+                    movieCredits(movieId: "${movie.id}") {
+                        cast
+                        directors
+                        producers
+                    }
+                }
+            `
+        })
+        .then(({ data }) => {
 
-            const { cast, crew } = response.data
+            const { cast, directors, producers } = data.movieCredits
 
-            const parsedGenres = movie.genres.map(genre => genre.name)
-                .join(', ')
-
-            const parsedCast = cast.map(({ name }) => name)
-                .slice(0, 3)
-                .join(', ')
-            
-            const parsedDirectors = crew.map(({ department, name }) => department === 'Directing' && name)
-                .filter(Boolean)
-                .slice(0, 3)
-                .join(', ')
-
-            const parsedProducers = crew.map(({ department, name }) => department === 'Production' && name)
-                .filter(Boolean)
-                .slice(0, 3)
-                .join(', ')
-
-            setGenres(parsedGenres)
-            setCast(parsedCast)
-            setDirectors(parsedDirectors)
-            setProducers(parsedProducers)
-            
-        }).catch(err => {
+            setCast(cast)
+            setDirectors(directors)
+            setProducers(producers)
+        })
+        .catch(err => {
             console.error(err)
         })
     }, [movie])
@@ -106,7 +98,6 @@ export function Tabs() {
                     <Bubble title="Cast" description={cast} />
                     <Bubble title="Directors" description={directors} />
                     <Bubble title="Producers" description={producers} />
-                    <Bubble title="Genres" description={genres} />
                 </TabPanel>
                 <TabPanel
                     w="100%"

@@ -4,44 +4,14 @@ import Image from 'next/image'
 import { useMovie } from '../hooks/useMovie'
 import { Skeleton } from './Skeleton'
 
-import axios from 'axios'
-import { api } from '../services/api'
-import { Flex, Text, Tooltip, Link } from '@chakra-ui/react'
-
-type UserLocation = {
-    country: string,
-    countryCode: string,
-}
+import { graphQLClient } from '../pages/api/graphql'
+import { Flex, Text, Tooltip, Link, Spinner } from '@chakra-ui/react'
 
 type Provider = {
     logo_path: string,
     provider_name: string,
     provider_id: number,
-}
-
-type DeepLinks = {
     link: string,
-    name: string,
-}
-
-type DeepLinksResponse = {
-    deepLinks: DeepLinks[],
-    status: string,
-}
-
-type Translation = {
-    iso_3166_1: string,
-    data: TranslationData,
-}
-
-type TranslationData = {
-    title: string,
-    overview: string,
-}
-
-type TranslationsResponse = {
-    translations: Translation[],
-    name: string,
 }
 
 export function MovieWatchProviders() {
@@ -49,64 +19,63 @@ export function MovieWatchProviders() {
     const { movie, userLocation } = useMovie()
     const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
-    const [deepLinks, setDeepLinks] = useState<DeepLinks[] | null>(null)
-
-    async function getDeepLinks() {
-        try {
-            setDeepLinks(null)
-
-            const parsedTitle = movie.title
-                .normalize('NFD')
-                .replace(/\p{Diacritic}/gu, '')
-                .replaceAll(' - ', ' ')
-                .replaceAll(': ', ' ')
-                .replaceAll('&', 'e')
-                .split(' ')
-                .join('-')
-                .toLowerCase()
-                
-            const response = await axios.get<DeepLinksResponse>('http://localhost:3001', {
-                params: {
-                    countryCode: userLocation.countryCode.toLowerCase(),
-                    movie: parsedTitle,
-                }
-            })
-
-            setDeepLinks(response.data.deepLinks)
-        } catch (err) {
-            console.error(err)
-        }
-    }
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setIsImageLoaded(false)
+        setIsLoading(true)
+        setProvidersList(null)
 
-        api.get(`/movie/${movie.id}/watch/providers`)
-        .then(response => {
-            const localeList = response.data.results[userLocation.countryCode]?.flatrate
-            if (localeList) {
-                getDeepLinks()
-            }
+        const parsedTitle = movie.title
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .replaceAll(' - ', ' ')
+            .replaceAll(': ', ' ')
+            .replaceAll('&', 'e')
+            .split(' ')
+            .join('-')
+            .toLowerCase()
 
-            setProvidersList(localeList)
+        graphQLClient.executeOperation({
+            query: `
+                {
+                    watchProviders(
+                        movieId: "${movie.id}"
+                        countryCode: "${userLocation.countryCode}"
+                        movieSlug: "${parsedTitle}"
+                    ) {
+                        provider_id
+                        provider_name
+                        logo_path
+                        link
+                    }
+                }
+            `
+        }).then(({ data }) => {
+            setProvidersList(data.watchProviders)
+            setIsLoading(false)
         }).catch(err => {
             console.error(err)
             setProvidersList(null)
+            setIsLoading(false)
         })
+        
     }, [movie, userLocation])
 
     return (
         <Flex gridGap="1rem">
-            {!providersList ? (
+            {isLoading && <Spinner />}
+
+            {!providersList && !isLoading ? (
                 <Text fontSize=".9rem" alignSelf="center">
                     There are no providers for this movie in {userLocation.country}.
                 </Text>
             ) : (
-                providersList.map(provider => {
+                providersList?.map(provider => {
                     return (
                         <Link
                             key={provider.provider_id}
-                            href={deepLinks?.find(deepLink => deepLink.name === provider.provider_name)?.link}
+                            href={provider.link}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -120,7 +89,8 @@ export function MovieWatchProviders() {
                                     overflow="hidden"
                                     cursor="pointer"
                                     lineHeight="0"
-                                    opacity={!deepLinks ? .4 : 1}
+                                    opacity={!provider.link ? .4 : 1}
+
                                 >
                                     <Skeleton isLoaded={isImageLoaded}>
                                         <Image

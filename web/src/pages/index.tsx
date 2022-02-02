@@ -11,8 +11,10 @@ import { Controller } from '../components/Controller'
 import { MovieRating } from '../components/MovieRating'
 import { MovieRecommendations } from '../components/MovieRecommendations'
 import { MovieWatchProviders } from '../components/MovieWatchProviders'
+import { GenreList } from '../components/GenreList'
 import { Footer } from '../components/Footer'
 
+import nookies from 'nookies'
 import { api } from '../services/api'
 import { graphQLClient } from '../pages/api/graphql'
 import { Flex } from '@chakra-ui/react'
@@ -44,11 +46,16 @@ type Location = {
 type HomeProps = {
     movie: MovieProps,
     location: Location,
+    likedMovies: MovieProps[],
 }
 
-export default function Home({ movie, location }: HomeProps) {
+export default function Home({ movie, location, likedMovies }: HomeProps) {
     return (
-        <MovieProvider defaultMovie={movie} location={location}>
+        <MovieProvider
+            defaultMovie={movie}
+            location={location}
+            initialLikedMovies={likedMovies}
+        >
             <Head>
                 <title>imboredgimmemovie | Movie Randomizer</title>
             </Head>
@@ -76,6 +83,7 @@ export default function Home({ movie, location }: HomeProps) {
                 <Header />
 
                 <Flex flexDir="column" gridGap="1rem" gridArea="Movie">
+                    <GenreList />
                     <MoviePoster />
                     <MovieHeader />
                     <MovieWatchProviders />
@@ -101,8 +109,17 @@ export default function Home({ movie, location }: HomeProps) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
+    const {
+        '@ibgm_user_location': rawUserLocation,
+        '@ibgm_liked_movies': rawLikedMovies,
+    } = nookies.get(ctx)
+    const cookieLocation = rawUserLocation ? JSON.parse(rawUserLocation) : null
+    const cookieMovies = rawLikedMovies ? JSON.parse(rawLikedMovies) : []
+
+    const { locale } = ctx
+
     const { data } = await graphQLClient.executeOperation({
         query: `
             {
@@ -127,18 +144,24 @@ export const getServerSideProps: GetServerSideProps = async () => {
     })
 
     const movie = data.randomMovie
-
+    
     const rawLocation = await api.get('http://ip-api.com/json', {
         params: {
-            fields: 3,
+            fields: "country,countryCode",
         }
     })
     const location = rawLocation.data || { country: 'Brazil', countryCode: 'BR' }
+    location.locale = locale
+    
+    if (cookieLocation?.country !== location.country || !cookieLocation) {
+        nookies.set(ctx, '@ibgm_user_location', JSON.stringify(location))
+    }
 
     return {
         props: {
             movie,
             location,
+            likedMovies: cookieMovies,
         }
     }
 }

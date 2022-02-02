@@ -5,6 +5,7 @@ import { useMovie } from '../hooks/useMovie'
 
 import { BiGhost } from 'react-icons/bi'
 import { Flex, Text, Button } from "@chakra-ui/react"
+import { GenreTag } from './GenreTag'
 
 export function MoviePoster() {
 
@@ -18,6 +19,8 @@ export function MoviePoster() {
     function handleShowPoster() {
         setIsPosterShown(!isPosterShown)
     }
+
+    console.log(movie.genres)
 
     return (
         <Flex
@@ -40,6 +43,7 @@ export function MoviePoster() {
                 top="0"
                 bottom="0"
             />
+            
             <Flex m=".4rem 0" pos="relative" justifyContent="center">
                 {movie.adult && !isPosterShown &&
                     <Button
