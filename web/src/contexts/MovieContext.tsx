@@ -7,13 +7,15 @@ export const MovieContext = createContext({} as MovieContextProps)
 
 type MovieContextProps = {
     movie: MovieProps,
-    movieRecommendations: MovieProps[],
+    movieRecommendations: RecommendedMovie[],
     likedMovies: MovieProps[],
     isCurrentMovieLiked: boolean,
     isLazyMovie: boolean,
     userLocation: Location,
     handleSearchMovie: () => void,
     handleGetRandomMovie: () => void,
+    handleGetMovieRecommendations: () => void,
+    handleGetMovie: (id: number) => void,
     handleChangeMovie: (newMovie: MovieProps) => void,
     handleAddToLikedMovies: () => void,
     handleClearLikedMovies: () => void,
@@ -39,6 +41,12 @@ type MovieProps = {
     runtime: number | null,
 }
 
+type RecommendedMovie = {
+    id: number,
+    title: string,
+    poster_path: string,
+}
+
 type Location = {
     country: string,
     countryCode: string,
@@ -59,14 +67,13 @@ export function MovieProvider({
 }: MovieProvider) {
     
     const [movie, setMovie] = useState<MovieProps>(defaultMovie)
-    const [movieRecommendations, setMovieRecommendations] = useState<MovieProps[]>([])
+    const [movieRecommendations, setMovieRecommendations] = useState<RecommendedMovie[]>([])
     const [likedMovies, setLikedMovies] = useState<MovieProps[]>(initialLikedMovies)
     const [isLazyMovie, setIsLazyMovie] = useState(false)
     const [userLocation, setUserLocation] = useState<Location>(location)
 
     const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie.id)
     const intervalId = useRef<NodeJS.Timeout>(null)
-
 
     const playAudio = (url: string) => {
         const audio = new Audio(url)
@@ -75,7 +82,9 @@ export function MovieProvider({
     }
 
     useEffect(() => {
-        setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies))
+        setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies), {
+            secure: true,
+        })
     }, [likedMovies])
 
     async function handleGetRandomMovie() {
@@ -134,20 +143,9 @@ export function MovieProvider({
                 query: `
                     {
                         movieRecommendations(movieId: "${movie.id}", last: 5) {
-                        title
-                        id
-                        original_title
-                        overview
-                        adult
-                        release_date
-                        genres {
-                            name
                             id
-                        }
-                        vote_average
-                        popularity
-                        poster_path
-                        runtime
+                            title
+                            poster_path
                         }
                     }
                 `
@@ -161,6 +159,37 @@ export function MovieProvider({
 
     function handleChangeMovie(newMovie: MovieProps) {
         setMovie(newMovie)
+    }
+
+    async function handleGetMovie(id: number) {
+        try {
+            const { data } = await graphQLClient.executeOperation({
+                query: `
+                    {
+                        movie(movieId: "${id}") {
+                            title
+                            id
+                            original_title
+                            overview
+                            adult
+                            release_date
+                            genres {
+                                name
+                                id
+                            }
+                            vote_average
+                            popularity
+                            poster_path
+                            runtime
+                        }
+                    }
+                `
+            })
+
+            setMovie(data.movie)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     function handleSearchMovie() {
@@ -193,7 +222,9 @@ export function MovieProvider({
                 handleSearchMovie,
                 handleGetRandomMovie,
                 movieRecommendations,
+                handleGetMovieRecommendations,
                 handleChangeMovie,
+                handleGetMovie,
                 handleAddToLikedMovies,
                 handleClearLikedMovies,
                 likedMovies,
