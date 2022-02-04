@@ -4,7 +4,7 @@ import { Flex, Heading, Text, Grid } from '@chakra-ui/react'
 
 export function MovieRecommendations() {
 
-    const { movieRecommendations, handleChangeMovie } = useMovie()
+    const { movieRecommendations, handleGetMovie } = useMovie()
 
     if (movieRecommendations.length <= 0) return null
 
@@ -43,7 +43,7 @@ export function MovieRecommendations() {
                             transition=".2s"
                             cursor="pointer"
                             _hover={{ bg: 'dark.200' }}
-                            onClick={() => handleChangeMovie(movie)}
+                            onClick={() => handleGetMovie(movie.id)}
                         >
                             <Flex
                                 bgImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
