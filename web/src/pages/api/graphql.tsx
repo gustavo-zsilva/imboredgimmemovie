@@ -64,6 +64,7 @@ const typeDefs = gql`
 
     type Query {
         randomMovie: Movie!
+        movie(movieId: ID!): Movie!
         watchProviders(
             movieId: ID!,
             countryCode: String!,
@@ -97,6 +98,16 @@ const resolvers = {
                 const rawMovieDetails = await api.get(`/movie/${randomMovieId}`)
                 const movie = rawMovieDetails.data
     
+                return movie
+            } catch (err) {
+                throw err
+            }
+        },
+        movie: async (_, { movieId }) => {
+            try {
+                const response = await api.get(`/movie/${movieId}`)
+                const movie = response.data
+
                 return movie
             } catch (err) {
                 throw err
