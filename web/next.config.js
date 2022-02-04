@@ -10,7 +10,7 @@ module.exports = {
     API_KEY: process.env.API_KEY,
   },
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'pt'],
+    defaultLocale: 'us',
+    locales: ['us', 'pt', 'fr', 'de'],
   }
 }
