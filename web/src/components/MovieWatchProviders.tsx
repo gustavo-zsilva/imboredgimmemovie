@@ -16,7 +16,7 @@ type Provider = {
 
 export function MovieWatchProviders() {
 
-    const { movie, userLocation } = useMovie()
+    const { movie, userLocation, handleGetMovieRecommendations } = useMovie()
     const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -76,6 +76,7 @@ export function MovieWatchProviders() {
                         <Link
                             key={provider.provider_id}
                             href={provider.link}
+                            onClick={handleGetMovieRecommendations}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -90,7 +91,6 @@ export function MovieWatchProviders() {
                                     cursor="pointer"
                                     lineHeight="0"
                                     opacity={!provider.link ? .4 : 1}
-
                                 >
                                     <Skeleton isLoaded={isImageLoaded}>
                                         <Image
