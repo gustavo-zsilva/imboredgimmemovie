@@ -5,7 +5,6 @@ import { useMovie } from '../hooks/useMovie'
 
 import { BiGhost } from 'react-icons/bi'
 import { Flex, Text, Button } from "@chakra-ui/react"
-import { GenreTag } from './GenreTag'
 
 export function MoviePoster() {
 
@@ -19,9 +18,7 @@ export function MoviePoster() {
     function handleShowPoster() {
         setIsPosterShown(!isPosterShown)
     }
-
-    console.log(movie.genres)
-
+    
     return (
         <Flex
             boxShadow="0 0 5px 5px rgba(0, 0, 0, 0.1)"
