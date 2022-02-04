@@ -17,22 +17,6 @@ export function Controller() {
         isCurrentMovieLiked,
         isLazyMovie,
     } = useMovie()
-    // const [lazyMovieCounter, setLazyMovieCounter] = useState(1)
-    // const lazyMoviePercentage = (lazyMovieCounter / 8) * 100
-
-    // useEffect(() => {
-    //     if (!isLazyMovie || lazyMovieCounter >= 8) {
-    //         setLazyMovieCounter(0)
-    //         return
-    //     }
-        
-    //     const timeoutId = setTimeout(() => {
-    //         setLazyMovieCounter(prevState => prevState + 1)
-    //     }, 1000)
-
-    //     return () => clearTimeout(timeoutId)
-        
-    // }, [isLazyMovie, lazyMovieCounter, lazyMoviePercentage])
 
     return (
         <Flex

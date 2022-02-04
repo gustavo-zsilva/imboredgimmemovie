@@ -1,21 +1,28 @@
-import { GenreTag } from "./GenreTag"
 import { useMovie } from "../hooks/useMovie"
 
-import { Flex } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
 
 export function GenreList() {
     const { movie } = useMovie()
 
     return (
-        <Flex
-            gridGap=".2rem"
-        >
+        <Flex>
             {movie.genres.map(genre => (
-                <GenreTag
+                <Flex
                     key={genre.id}
-                    name={genre.name}
-                />
-
+                    borderY="2px solid"
+                    borderColor="primary.100"
+                    h="30px"
+                    py="15px"
+                    alignItems="center"
+                    justifyContent="center"
+                    cursor="pointer"
+                    flex="1"
+                    transition=".2s"
+                    overflow="hidden"
+                >
+                    <Text>{genre.name}</Text>
+                </Flex>
             ))}
         </Flex>
     )
