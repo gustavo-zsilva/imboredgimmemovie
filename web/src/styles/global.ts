@@ -19,6 +19,7 @@ export const theme = extendTheme({
         dark: {
             100: '#312F2F',
             200: '#3a3838',
+            300: '#606060',
         },
         secondary: {
             100: '#BF98A0',
