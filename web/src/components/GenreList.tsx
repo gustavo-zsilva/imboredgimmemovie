@@ -4,7 +4,6 @@ import { Flex, Text } from "@chakra-ui/react"
 
 export function GenreList() {
     const { movie } = useMovie()
-
     return (
         <Flex>
             {movie.genres.map(genre => (
@@ -21,7 +20,7 @@ export function GenreList() {
                     transition=".2s"
                     overflow="hidden"
                 >
-                    <Text>{genre.name}</Text>
+                    <Text fontSize=".95rem">{genre.name}</Text>
                 </Flex>
             ))}
         </Flex>
