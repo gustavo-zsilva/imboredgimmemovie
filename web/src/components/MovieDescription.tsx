@@ -10,7 +10,7 @@ export function MovieDescription() {
             borderColor="primary.100"
             pl="1rem"
             maxH="140px"
-            overflowY="scroll"
+            overflowY="auto"
         >
             <Text>{movie.overview}</Text>
         </Flex>
