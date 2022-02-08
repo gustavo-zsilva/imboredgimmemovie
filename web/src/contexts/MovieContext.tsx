@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useState, useEffect, useRef } from "react";
-import { api } from "../services/api";
+import { createContext, ReactNode, useState, useEffect, useRef, useCallback } from "react";
 import { graphQLClient } from "../pages/api/graphql";
 import { setCookie } from "nookies"
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from "../lib/firebase";
 
 export const MovieContext = createContext({} as MovieContextProps)
 
@@ -82,12 +83,27 @@ export function MovieProvider({
     }
 
     useEffect(() => {
-        setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies), {
-            secure: true,
-        })
+        // addToFirestore()
+        // setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies), {
+        //     secure: true,
+        // })
+        
     }, [likedMovies])
 
-    async function handleGetRandomMovie() {
+    async function addToFirestore() {
+        try {
+            const docRef = await addDoc(collection(db, "likedMovies"), {
+                name: 'Googas',
+                age: 16,
+            })
+
+            console.log('Document added with id: ', docRef.id)
+        } catch (err) {
+            console.error('ERR ON FIRESTORE:: ', err)
+        }
+    }
+
+    const handleGetRandomMovie = useCallback(async () => {
         try {
             setMovieRecommendations([])
 
@@ -120,7 +136,7 @@ export function MovieProvider({
         } catch (err) {
             console.error(err)
         } 
-    }
+    }, []) 
 
     function handleLazyMovie() {
         if (isLazyMovie) {
