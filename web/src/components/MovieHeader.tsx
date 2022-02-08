@@ -13,9 +13,14 @@ export function MovieHeader() {
     return (
         <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center">
-                <Text fontWeight="bold" fontSize="1.2rem" mr=".8rem">
-                    {movie.title}
-                </Text>
+                <Flex flexDir="column">
+                    <Text fontWeight="bold" fontSize="1.2rem" mr=".8rem">
+                        {movie.title}
+                    </Text>
+                    <Text fontSize=".9rem" color="dark.300">
+                        {movie.original_title}
+                    </Text>
+                </Flex>
                 {movie.adult &&
                     <Tooltip
                         label="Explicit"
