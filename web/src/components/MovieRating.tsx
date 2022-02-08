@@ -1,24 +1,33 @@
-import { Flex, Text } from '@chakra-ui/react'
+import useMeasure from 'react-use-measure'
+
 import { useMovie } from '../hooks/useMovie'
+import { RatingMarker } from './RatingMarker'
+
+import { Flex, Text } from '@chakra-ui/react'
 
 export function MovieRating() {
     const { movie } = useMovie()
+    const [ref, bounds] = useMeasure()
 
     const ratingPercentage = movie.vote_average * 10
     const rating = movie.vote_average.toFixed(1)
 
+    const offset = (ratingPercentage / 100) * Math.floor(bounds.width)
+    
     return (
         <Flex
-            w="100%"
             px={{ md: "1rem", lg: "3rem" }}
             alignItems="center"
             textAlign="right"
+            pos="relative"
         >
+            <RatingMarker offset={offset} />
             <Flex
                 h="2rem"
                 w="100%"
                 bg="dark.200"
                 borderRadius=".1rem"
+                ref={ref}
             >
                 <Flex
                     w={`${ratingPercentage}%`}
