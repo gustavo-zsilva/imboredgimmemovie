@@ -46,15 +46,13 @@ type Location = {
 type HomeProps = {
     movie: MovieProps,
     location: Location,
-    likedMovies: MovieProps[],
 }
 
-export default function Home({ movie, location, likedMovies }: HomeProps) {
+export default function Home({ movie, location }: HomeProps) {
     return (
         <MovieProvider
             defaultMovie={movie}
             location={location}
-            initialLikedMovies={likedMovies}
         >
             <Head>
                 <title>imboredgimmemovie | Movie Randomizer</title>
@@ -113,10 +111,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
     const {
         '@ibgm_user_location': rawUserLocation,
-        '@ibgm_liked_movies': rawLikedMovies,
     } = nookies.get(ctx)
     const cookieLocation = rawUserLocation ? JSON.parse(rawUserLocation) : null
-    const cookieMovies = rawLikedMovies ? JSON.parse(rawLikedMovies) : []
 
     const { locale } = ctx
 
@@ -161,7 +157,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         props: {
             movie,
             location,
-            likedMovies: cookieMovies,
         }
     }
 }
