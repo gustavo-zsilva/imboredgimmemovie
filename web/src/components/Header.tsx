@@ -1,11 +1,11 @@
 import { MdOutlineMovie } from 'react-icons/md'
 
-import { Flex, Text, Button } from "@chakra-ui/react";
 import { BuyMeACoffee } from './BuyMeACoffee';
 import { useAuth } from '../hooks/useAuth';
+import { Flex, Text, Button, Image } from "@chakra-ui/react";
 
 export function Header() {
-    const { signInWithGoogle } = useAuth()
+    const { user, signInWithGoogle, signOut } = useAuth()
 
     return (
         <Flex gridArea="Header" alignItems="center" justifyContent="space-between">
@@ -13,11 +13,33 @@ export function Header() {
                 imboredgimmemovie
                 <MdOutlineMovie />
             </Text>
-            <Flex>
-                <Button onClick={signInWithGoogle}>
-                    Sign in with Google
-                </Button>
+            <Flex alignItems="center" gridGap="1rem">
                 <BuyMeACoffee />
+                {user ? (
+                    <Button
+                        variant="unstyled"
+                        w="50px"
+                        h="50px"
+                        overflow="hidden"
+                        borderRadius="50%"
+                        bg="primary.100"
+                        p="3px"
+                        onClick={signOut}
+                    >
+                        <Image
+                            src={user.photoURL}
+                            alt={user.displayName}
+                            borderRadius="50%"
+                            objectFit="contain"
+                            border="3px solid"
+                            borderColor="dark.100"
+                        />
+                    </Button>
+                ) : (
+                    <Button onClick={signInWithGoogle}>
+                        Sign in with Google
+                    </Button>
+                )}
             </Flex>
         </Flex>
     )
