@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useState, useEffect, useRef, useCallback } from "react";
 import { graphQLClient } from "../pages/api/graphql";
 import { setCookie } from "nookies"
-import { addDoc, collection } from 'firebase/firestore'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from "../lib/firebase";
+import { useAuth } from "../hooks/useAuth";
 
 export const MovieContext = createContext({} as MovieContextProps)
 
@@ -57,21 +58,20 @@ type MovieProvider = {
     children: ReactNode,
     defaultMovie: MovieProps,
     location: Location,
-    initialLikedMovies: MovieProps[],
 }
 
 export function MovieProvider({
     children,
     defaultMovie,
     location,
-    initialLikedMovies,
 }: MovieProvider) {
     
     const [movie, setMovie] = useState<MovieProps>(defaultMovie)
     const [movieRecommendations, setMovieRecommendations] = useState<RecommendedMovie[]>([])
-    const [likedMovies, setLikedMovies] = useState<MovieProps[]>(initialLikedMovies)
+    const [likedMovies, setLikedMovies] = useState<MovieProps[]>([])
     const [isLazyMovie, setIsLazyMovie] = useState(false)
     const [userLocation, setUserLocation] = useState<Location>(location)
+    const { user } = useAuth()
 
     const isCurrentMovieLiked = likedMovies.some(({ id }) => id === movie.id)
     const intervalId = useRef<NodeJS.Timeout>(null)
@@ -83,25 +83,35 @@ export function MovieProvider({
     }
 
     useEffect(() => {
-        // addToFirestore()
-        // setCookie(null, '@ibgm_liked_movies', JSON.stringify(likedMovies), {
-        //     secure: true,
-        // })
+        if (!user) {
+            setLikedMovies([])
+            return
+        }
+
+        const docRef = doc(db, "likedMovies", user.uid)
+
+        getDoc(docRef)
+        .then(docSnap => {
+            if (!docSnap.exists()) return
+
+            setLikedMovies(docSnap.data().movies)
+        })
+        .catch(err => {
+            console.error('Error getting likedMovies: ', err)
+        })
+    }, [user])
+
+    useEffect(() => {
+        if (!user) return
+        
+        const likedMoviesRef = doc(db, "likedMovies", user.uid)
+
+        setDoc(likedMoviesRef, { movies: likedMovies })
+        .catch(err => {
+            console.error('Error saving liked movies: ', err)
+        })
         
     }, [likedMovies])
-
-    async function addToFirestore() {
-        try {
-            const docRef = await addDoc(collection(db, "likedMovies"), {
-                name: 'Googas',
-                age: 16,
-            })
-
-            console.log('Document added with id: ', docRef.id)
-        } catch (err) {
-            console.error('ERR ON FIRESTORE:: ', err)
-        }
-    }
 
     const handleGetRandomMovie = useCallback(async () => {
         try {
