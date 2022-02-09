@@ -60,7 +60,6 @@ export function MoviePoster() {
                     <Flex
                         filter={movie.adult && !isPosterShown && "blur(8px) brightness(0.7)"}
                         onClick={movie.adult ? handleShowPoster : null}
-                        boxShadow="0 0 5px 5px rgba(0, 0, 0, 0.03)"
                     >
                         <Image
                             width={300}
