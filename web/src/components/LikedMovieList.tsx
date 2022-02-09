@@ -1,10 +1,11 @@
 import { useRef } from 'react'
 
 import { useMovie } from '../hooks/useMovie'
+import { useAuth } from '../hooks/useAuth'
 import { Button } from './Button'
 
 import { BiGhost } from 'react-icons/bi'
-import { AiOutlineDelete } from 'react-icons/ai'
+import { AiOutlineDelete, AiOutlineFire } from 'react-icons/ai'
 import {
     Flex,
     Text,
@@ -24,6 +25,7 @@ export function LikedMovieList() {
     const { likedMovies, handleChangeMovie, handleClearLikedMovies } = useMovie()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
+    const { user } = useAuth()
 
     function handleClearMovies() {
         handleClearLikedMovies()
@@ -40,8 +42,39 @@ export function LikedMovieList() {
             overflowY="auto"
             position="relative"
         >
+            {!user && (
+                <Flex
+                    flexDir="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    m="auto"
+                    h="100vh"
+                    maxW="15rem"
+                >
+                    <AiOutlineFire size={32} />
+                    <Text mt="1rem">
+                        Login to have your movie list!
+                    </Text>
+                </Flex>
+            )}
 
-            {likedMovies.length > 0 ? likedMovies.map(movie => {
+            {likedMovies.length <= 0 && user && (
+                <Flex
+                    flexDir="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    m="auto"
+                    h="100vh"
+                    maxW="15rem"
+                >
+                    <BiGhost size={32} />
+                    <Text textAlign="center" mt="1rem">
+                        No favorite movies here.
+                    </Text>
+                </Flex>
+            )}
+
+            {likedMovies.length > 0 && likedMovies.map(movie => {
                 return (
                     <Flex
                         key={movie.id}
@@ -77,21 +110,7 @@ export function LikedMovieList() {
                         </Text>
                     </Flex>
                 )
-            }) : (
-                <Flex
-                    flexDir="column"
-                    alignItems="center"
-                    justifyContent="center"
-                    m="auto"
-                    h="100vh"
-                    maxW="15rem"
-                >
-                    <BiGhost size={32} />
-                    <Text textAlign="center" mt="1rem">
-                        No favorite movies here.
-                    </Text>
-                </Flex>
-            )}
+            })}
 
             <Flex
                 position="sticky"
@@ -103,7 +122,7 @@ export function LikedMovieList() {
                 <Button
                     aria-label="Clear Liked Movies"
                     onClick={onOpen}
-                    isDisabled={likedMovies.length <= 0}
+                    disabled={likedMovies.length <= 0}
                     bg="primary.400"
                     w="3.5rem"
                     h="3.5rem"
