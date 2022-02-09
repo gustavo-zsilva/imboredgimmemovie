@@ -5,7 +5,7 @@ import { useMovie } from '../hooks/useMovie'
 import { Skeleton } from './Skeleton'
 
 import { graphQLClient } from '../pages/api/graphql'
-import { Flex, Text, Tooltip, Link, Spinner } from '@chakra-ui/react'
+import { Flex, Text, Link, Spinner, Tooltip } from '@chakra-ui/react'
 
 type Provider = {
     logo_path: string,
@@ -80,11 +80,7 @@ export function MovieWatchProviders() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <Tooltip
-                                label={provider.provider_name}
-                                bg="dark.200"
-                                color="primary.200"
-                            >
+                            <Tooltip label={provider.provider_name}>
                                 <Flex
                                     borderRadius=".2rem"
                                     overflow="hidden"

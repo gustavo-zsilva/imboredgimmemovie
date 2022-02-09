@@ -11,8 +11,6 @@ export function BuyMeACoffee() {
         >
             <Tooltip
                 label="Buy me a coffee!"
-                bg="dark.200"
-                color="primary.200"
                 mt=".4rem"
             >
                 <Link

@@ -24,8 +24,6 @@ export function MovieHeader() {
                 {movie.adult &&
                     <Tooltip
                         label="Explicit"
-                        bg="dark.200"
-                        color="primary.200"
                         placement="top"
                     >
                         <Text>
@@ -38,11 +36,7 @@ export function MovieHeader() {
             <Flex gridGap=".4rem" bg="dark.200" p=".2rem .6rem" borderRadius=".2rem">
                 <Text>{releaseYear}</Text>
                 |
-                <Tooltip
-                    label={`${runtimeInHours} hours`}
-                    bg="dark.200"
-                    color="primary.200"
-                >
+                <Tooltip label={`${runtimeInHours} hours`}>
                     <Text>{movie.runtime} min</Text>
                 </Tooltip>
             </Flex>
