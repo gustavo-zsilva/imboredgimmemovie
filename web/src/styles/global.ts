@@ -49,5 +49,13 @@ export const theme = extendTheme({
             }
         }
     },
+    components: {
+        Tooltip: {
+            baseStyle: {
+                bg: 'dark.200',
+                color: 'primary.200',
+            }
+        },
+    },
     breakpoints,
 })
