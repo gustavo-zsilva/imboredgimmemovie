@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
-import { Button } from '../components/Button'
+import { Button } from './Button'
 import { useMovie } from '../hooks/useMovie'
+import { useAuth } from '../hooks/useAuth'
 
 import { MdMovie } from 'react-icons/md'
 import { FiShuffle, FiRepeat } from 'react-icons/fi'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+
 import { Flex } from '@chakra-ui/react'
 
 export function Controller() {
@@ -17,6 +18,7 @@ export function Controller() {
         isCurrentMovieLiked,
         isLazyMovie,
     } = useMovie()
+    const { user } = useAuth()
 
     return (
         <Flex
@@ -42,6 +44,7 @@ export function Controller() {
                 aria-label="Like Movie"
                 bg="primary.400"
                 onClick={handleAddToLikedMovies}
+                disabled={!user}
             >
                 {isCurrentMovieLiked ? (
                     <AiFillHeart size={32} />
