@@ -1,12 +1,18 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { auth } from '../lib/firebase'
-import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import {
+    onAuthStateChanged,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut as firebaseSignOut,
+} from 'firebase/auth'
 
 export const AuthContext = createContext({} as AuthContextProps)
 
 type AuthContextProps = {
     user: User | null,
     signInWithGoogle: () => void,
+    signOut: () => void,
 }
 
 type User = {
@@ -26,7 +32,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log('TRIGGERED')
             if (user) {
                 setUser({
                     displayName: user.displayName,
@@ -47,11 +52,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signInWithGoogle() {
         try {
             const provider = new GoogleAuthProvider()
-            const result = await signInWithPopup(auth, provider)
-            console.log('Google user: ', result.user)
+            await signInWithPopup(auth, provider)
             
         } catch (err) {
             console.error('Error on Google Auth: ', err)
+        }
+    }
+
+    async function signOut() {
+        try {
+            await firebaseSignOut(auth)
+        } catch (err) {
+            console.error('Error signing out: ', err)
         }
     }
 
@@ -60,6 +72,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             value={{
                 user,
                 signInWithGoogle,
+                signOut,
             }}
         >
             {children}
