@@ -2,10 +2,11 @@ import { MdOutlineMovie } from 'react-icons/md'
 
 import { BuyMeACoffee } from './BuyMeACoffee';
 import { useAuth } from '../hooks/useAuth';
-import { Flex, Text, Button, Image } from "@chakra-ui/react";
+import { Flex, Text, Button, Image, SkeletonCircle } from "@chakra-ui/react";
 
 export function Header() {
     const { user, signInWithGoogle, signOut } = useAuth()
+    console.log(user?.photoURL)
 
     return (
         <Flex gridArea="Header" alignItems="center" justifyContent="space-between">
@@ -26,14 +27,19 @@ export function Header() {
                         p="3px"
                         onClick={signOut}
                     >
-                        <Image
-                            src={user.photoURL}
-                            alt={user.displayName}
-                            borderRadius="50%"
-                            objectFit="contain"
-                            border="3px solid"
-                            borderColor="dark.100"
-                        />
+                        <SkeletonCircle
+                            isLoaded={!!user.photoURL}
+                            size="100%"
+                        >
+                            <Image
+                                src={user.photoURL}
+                                alt={user.displayName}
+                                borderRadius="50%"
+                                objectFit="contain"
+                                border="3px solid"
+                                borderColor="dark.100"
+                            />
+                        </SkeletonCircle>
                     </Button>
                 ) : (
                     <Button onClick={signInWithGoogle}>
