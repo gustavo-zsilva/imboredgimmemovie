@@ -7,9 +7,14 @@ export const api = axios.create({
     baseURL: `https://api.themoviedb.org/3`
 })
 
+api.interceptors.request.use((config) => {
+    console.log(config.params)
+    return config
+})
+
 if (typeof window !== undefined) {
 
-    const { '@ibgm_user_location': rawLocation } = parseCookies()
+    const { ['@ibgm_user_location']: rawLocation } = parseCookies()
     const { locale } = rawLocation
     ? JSON.parse(rawLocation)
     : { locale: 'us' }

@@ -110,7 +110,7 @@ export default function Home({ movie, location }: HomeProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
     const {
-        '@ibgm_user_location': rawUserLocation,
+        ['@ibgm_user_location']: rawUserLocation,
     } = nookies.get(ctx)
     const cookieLocation = rawUserLocation ? JSON.parse(rawUserLocation) : null
 
@@ -152,7 +152,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if (cookieLocation?.country !== location.country || !cookieLocation) {
         nookies.set(ctx, '@ibgm_user_location', JSON.stringify(location))
     }
-
+    
     return {
         props: {
             movie,
