@@ -2,14 +2,32 @@ import { MdOutlineMovie } from 'react-icons/md'
 
 import { BuyMeACoffee } from './BuyMeACoffee';
 import { useAuth } from '../hooks/useAuth';
-import { Flex, Text, Button, Image, SkeletonCircle } from "@chakra-ui/react";
+import { motion } from 'framer-motion';
+import {
+    Flex,
+    Text,
+    Button,
+    Image,
+    SkeletonCircle,
+    chakra,
+} from "@chakra-ui/react";
 
 export function Header() {
     const { user, signInWithGoogle, signOut } = useAuth()
     console.log(user?.photoURL)
 
+    const FactoryMotion = chakra(motion.div)
+
     return (
-        <Flex gridArea="Header" alignItems="center" justifyContent="space-between">
+        <FactoryMotion
+            display="flex"
+            gridArea="Header"
+            alignItems="center"
+            justifyContent="space-between"
+            initial={{ translateY: -50, opacity: 0 }}
+            animate={{ translateY: 0, opacity: 1 }}
+            transition=".4s"
+        >
             <Text fontWeight="bold" display="flex" alignItems="center" gridGap=".4rem">
                 imboredgimmemovie
                 <MdOutlineMovie />
@@ -47,6 +65,6 @@ export function Header() {
                     </Button>
                 )}
             </Flex>
-        </Flex>
+        </FactoryMotion>
     )
 }
