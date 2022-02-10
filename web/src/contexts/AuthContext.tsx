@@ -39,7 +39,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     photoURL: user.photoURL,
                     uid: user.uid,
                 })
-                console.log('Yessir')
                 return
             }
     
