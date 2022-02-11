@@ -6,6 +6,7 @@ import { Button } from './Button'
 
 import { BiGhost } from 'react-icons/bi'
 import { AiOutlineDelete, AiOutlineFire } from 'react-icons/ai'
+import { motion } from 'framer-motion'
 import {
     Flex,
     Text,
@@ -18,9 +19,11 @@ import {
     AlertDialogContent,
     AlertDialogCloseButton,
     Button as ChakraButton,
+    chakra,
 } from '@chakra-ui/react'
 
 export function LikedMovieList() {
+    const FactoryMotion = chakra(motion.div)
 
     const { likedMovies, handleChangeMovie, handleClearLikedMovies } = useMovie()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -32,8 +35,36 @@ export function LikedMovieList() {
         onClose()
     }
 
+    const list = {
+        visible: {
+            opacity: 1,
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+        hidden: {
+            opacity: 0,
+            transition: {
+                when: "afterChildren",
+            },
+        }
+    }
+
+    const item = {
+        visible: {
+            opacity: 1,
+            y: 0,
+        },
+        hidden: {
+            opacity: 0,
+            y: -80
+        },
+    }
+
     return (
-        <Flex
+        <FactoryMotion
+            display="flex"
             flexDir="column"
             w="100%"
             maxH="32rem"
@@ -41,6 +72,9 @@ export function LikedMovieList() {
             h="100%"
             overflowY="auto"
             position="relative"
+            initial="hidden"
+            animate="visible"
+            variants={list}
         >
             {!user && (
                 <Flex
@@ -76,8 +110,9 @@ export function LikedMovieList() {
 
             {likedMovies.length > 0 && likedMovies.map(movie => {
                 return (
-                    <Flex
+                    <FactoryMotion
                         key={movie.id}
+                        display="flex"
                         pos="relative"
                         px="1rem"
                         borderRadius=".2rem"
@@ -87,6 +122,7 @@ export function LikedMovieList() {
                         minH="5rem"
                         cursor="pointer"
                         onClick={() => handleChangeMovie(movie)}
+                        variants={item}
                     >
                         <Flex
                             bgImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -108,7 +144,7 @@ export function LikedMovieList() {
                         >
                             {movie.title}
                         </Text>
-                    </Flex>
+                    </FactoryMotion>
                 )
             })}
 
@@ -137,6 +173,7 @@ export function LikedMovieList() {
                     onClose={onClose}
                     isOpen={isOpen}
                     isCentered
+                    preserveScrollBarGap
                 >
                     <AlertDialogOverlay />
 
@@ -158,6 +195,6 @@ export function LikedMovieList() {
                     </AlertDialogContent>
                 </AlertDialog>
             </Flex>
-        </Flex>
+        </FactoryMotion>
     )
 }
