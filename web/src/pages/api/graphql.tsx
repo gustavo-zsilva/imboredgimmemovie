@@ -157,7 +157,7 @@ const resolvers = {
         },
         movieCredits: async (_, { movieId }) => {
             try {
-                const response = await api.get(`/movie/${movieId}/credits`)
+                const response = await api.get<CreditsResponse>(`/movie/${movieId}/credits`)
 
                 const { cast, crew } = response.data
 
