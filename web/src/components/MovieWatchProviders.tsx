@@ -5,7 +5,8 @@ import { useMovie } from '../hooks/useMovie'
 import { Skeleton } from './Skeleton'
 
 import { graphQLClient } from '../pages/api/graphql'
-import { Flex, Text, Link, Spinner, Tooltip } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
+import { Flex, Text, Spinner, Tooltip, chakra } from '@chakra-ui/react'
 
 type Provider = {
     logo_path: string,
@@ -20,6 +21,36 @@ export function MovieWatchProviders() {
     const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+    const FactoryMotion = chakra(motion.div)
+    const FactoryMotionLink = chakra(motion.a)
+
+    const list = {
+        hidden: {
+            opacity: 0,
+            transition: {
+                when: "afterChildren",
+            }
+        },
+        visible: {
+            opacity: 1,
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            }
+        }
+    }
+
+    const item = {
+        hidden: {
+            opacity: 0,
+            y: -10,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+        }
+    }
 
     useEffect(() => {
         setIsImageLoaded(false)
@@ -63,7 +94,13 @@ export function MovieWatchProviders() {
     }, [movie, userLocation])
 
     return (
-        <Flex gridGap="1rem">
+        <FactoryMotion
+            display="flex"
+            gridGap="1rem"
+            initial="hidden"
+            animate="visible"
+            variants={list}
+        >
             {isLoading && <Spinner />}
 
             {!providersList && !isLoading ? (
@@ -73,12 +110,13 @@ export function MovieWatchProviders() {
             ) : (
                 providersList?.map(provider => {
                     return (
-                        <Link
+                        <FactoryMotionLink
                             key={provider.provider_id}
                             href={provider.link}
                             onClick={handleGetMovieRecommendations}
                             target="_blank"
                             rel="noopener noreferrer"
+                            variants={item}
                         >
                             <Tooltip label={provider.provider_name}>
                                 <Flex
@@ -99,10 +137,10 @@ export function MovieWatchProviders() {
                                     </Skeleton>
                                 </Flex>
                             </Tooltip>
-                        </Link>
+                        </FactoryMotionLink>
                     )
                 })
             )}
-        </Flex>
+        </FactoryMotion>
     )
 }

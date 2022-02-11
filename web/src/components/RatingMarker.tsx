@@ -1,8 +1,10 @@
 import { ReactNode } from 'react'
-import { BiSad, BiSmile, BiWinkSmile, BiHappyHeartEyes } from 'react-icons/bi'
-import { MdOutlineSentimentNeutral } from 'react-icons/md'
-import { Flex, Text } from "@chakra-ui/react"
 import { useMovie } from '../hooks/useMovie'
+
+import { MdOutlineSentimentNeutral } from 'react-icons/md'
+import { BiSad, BiSmile, BiWinkSmile, BiHappyHeartEyes } from 'react-icons/bi'
+import { motion } from 'framer-motion'
+import { Flex, Text, chakra } from "@chakra-ui/react"
 
 type RatingMarkerProps = {
     offset: number,
@@ -17,6 +19,7 @@ type MovieRating = {
 type MovieRatings = Record<number, MovieRating>
 
 export function RatingMarker({ offset }: RatingMarkerProps) {
+    const FactoryMotion = chakra(motion.div)
 
     const { movie } = useMovie()
     const movieRatings: MovieRatings = {
@@ -41,7 +44,7 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
             icon: <BiSmile size={32} />,
         },
         9: {
-            bg: 'linear-gradient(0deg, #ff096f 0%, #ffc118 80%)',
+            bg: 'linear-gradient(#ffc55b 0%, #ff62a5 80%)',
             message: 'Probably the greatest movie ever.',
             icon: <BiHappyHeartEyes size={32} />,
         }
@@ -58,7 +61,7 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
     const marker = movieRatings[Number(rating)]
     
     return (
-        <Flex
+        <FactoryMotion
             flexDir="column"
             bg={marker.bg}
             p=".6rem"
@@ -73,10 +76,11 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
             h="50px"
             cursor="pointer"
             justifyContent="baseline"
-            _hover={{
+            
+            whileHover={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 'auto',
+                width: '20rem',
                 height: 'auto',
                 top: "-20",
             }}
@@ -85,6 +89,6 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
                 {marker.icon}
             </Flex>
             <Text textAlign="center">{marker.message}</Text>
-        </Flex>
+        </FactoryMotion>
     )
 }
