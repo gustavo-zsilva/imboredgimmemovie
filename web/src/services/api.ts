@@ -8,7 +8,6 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-    console.log(config.params)
     return config
 })
 
