@@ -22,9 +22,12 @@ export const theme = extendTheme({
             300: '#606060',
         },
         secondary: {
-            100: '#BF98A0',
-            200: '#BCCCE0',
-        }
+            100: '#da5cd8',
+            200: '#ff62a5',
+            300: '#ff8e75',
+            400: '#ffc55b',
+            500: '#f9f871',
+        },
     },
     styles: {
         global: {
