@@ -1,20 +1,18 @@
-import { MdOutlineMovie } from 'react-icons/md'
+import { MdOutlineMovie } from 'react-icons/md';
 
 import { BuyMeACoffee } from './BuyMeACoffee';
+import { UserMenu } from './UserMenu';
 import { useAuth } from '../hooks/useAuth';
 import { motion } from 'framer-motion';
 import {
     Flex,
     Text,
     Button,
-    Image,
-    SkeletonCircle,
     chakra,
 } from "@chakra-ui/react";
 
 export function Header() {
     const { user, signInWithGoogle, signOut } = useAuth()
-    console.log(user?.photoURL)
 
     const FactoryMotion = chakra(motion.div)
 
@@ -26,7 +24,8 @@ export function Header() {
             justifyContent="space-between"
             initial={{ translateY: -50, opacity: 0 }}
             animate={{ translateY: 0, opacity: 1 }}
-            transition=".4s"
+            transition={{ ease: 'easeOut' }}
+            transitionDelay="2"
         >
             <Text fontWeight="bold" display="flex" alignItems="center" gridGap=".4rem">
                 imboredgimmemovie
@@ -35,30 +34,7 @@ export function Header() {
             <Flex alignItems="center" gridGap="1rem">
                 <BuyMeACoffee />
                 {user ? (
-                    <Button
-                        variant="unstyled"
-                        w="50px"
-                        h="50px"
-                        overflow="hidden"
-                        borderRadius="50%"
-                        bg="primary.100"
-                        p="3px"
-                        onClick={signOut}
-                    >
-                        <SkeletonCircle
-                            isLoaded={!!user.photoURL}
-                            size="100%"
-                        >
-                            <Image
-                                src={user.photoURL}
-                                alt={user.displayName}
-                                borderRadius="50%"
-                                objectFit="contain"
-                                border="3px solid"
-                                borderColor="dark.100"
-                            />
-                        </SkeletonCircle>
-                    </Button>
+                    <UserMenu />
                 ) : (
                     <Button onClick={signInWithGoogle}>
                         Sign in with Google
