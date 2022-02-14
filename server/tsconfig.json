@@ -6,6 +6,8 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "outDir": "build",
+    "declaration": true,
   }
 }
