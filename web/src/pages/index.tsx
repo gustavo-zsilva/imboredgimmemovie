@@ -14,7 +14,8 @@ import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { GenreList } from '../components/GenreList'
 import { Footer } from '../components/Footer'
 
-import nookies from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
+import axios from 'axios'
 import { api } from '../services/api'
 import { graphQLClient } from '../pages/api/graphql'
 import { Flex } from '@chakra-ui/react'
@@ -111,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
     const {
         ['@ibgm_user_location']: rawUserLocation,
-    } = nookies.get(ctx)
+    } = parseCookies(ctx)
     const cookieLocation = rawUserLocation ? JSON.parse(rawUserLocation) : null
 
     const { locale } = ctx
@@ -119,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { data } = await graphQLClient.executeOperation({
         query: `
             {
-                randomMovie {
+                randomMovie(locale: "${locale}") {
                     title
                     id
                     original_title
@@ -141,7 +142,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const movie = data.randomMovie
     
-    const rawLocation = await api.get('http://ip-api.com/json', {
+    const rawLocation = await axios.get('http://ip-api.com/json', {
         params: {
             fields: "country,countryCode",
         }
@@ -150,7 +151,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     location.locale = locale
     
     if (cookieLocation?.country !== location.country || !cookieLocation) {
-        nookies.set(ctx, '@ibgm_user_location', JSON.stringify(location))
+        setCookie(ctx, '@ibgm_user_location', JSON.stringify(location))
     }
     
     return {

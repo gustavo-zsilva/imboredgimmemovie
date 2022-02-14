@@ -63,7 +63,9 @@ const typeDefs = gql`
     }
 
     type Query {
-        randomMovie: Movie!
+        randomMovie(
+            locale: String,
+        ): Movie!
         movie(movieId: ID!): Movie!
         watchProviders(
             movieId: ID!,
@@ -82,10 +84,11 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        randomMovie: async () => {
+        randomMovie: async (_, { locale }) => {
             try {
                 const page = Math.floor(Math.random() * 500)
                 const movieIndex = Math.floor(Math.random() * 20)
+                const language = locale || api.defaults.params.language
     
                 const response = await api.get('/movie/popular', {
                     params: {
@@ -95,7 +98,11 @@ const resolvers = {
     
                 const randomMovieId = response.data.results[movieIndex].id
     
-                const rawMovieDetails = await api.get(`/movie/${randomMovieId}`)
+                const rawMovieDetails = await api.get(`/movie/${randomMovieId}`, {
+                    params: {
+                        language,
+                    }
+                })
                 const movie = rawMovieDetails.data
     
                 return movie
