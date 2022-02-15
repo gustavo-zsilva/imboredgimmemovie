@@ -126,7 +126,7 @@ const resolvers = {
                 const providers: Provider[] = providersResponse.data.results[countryCode]?.flatrate
 
 
-                const deepLinksResponse = await axios.get(`http://localhost:3001`, {
+                const deepLinksResponse = await axios.get(`https://imboredgimmemovie-server.herokuapp.com/`, {
                     params: {
                         countryCode: countryCode.toLowerCase(),
                         movie: movieSlug,
