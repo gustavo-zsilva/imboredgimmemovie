@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/server.js",
     "dev": "ts-node-dev --respawn src/server.ts",
-    "compile": "tsc"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/node": "^17.0.10",
