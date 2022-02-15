@@ -62,7 +62,8 @@ export default function Home({ movie, location }: HomeProps) {
                 display="grid"
                 gridTemplateColumns="1fr 1fr"
                 gridTemplateRows="10vh 75vh 15vh auto auto"
-                gridTemplateAreas={{sm: `
+                gridTemplateAreas={{
+                    sm: `
                     'Header Header'
                     'Movie Movie'
                     'Controller Controller'
