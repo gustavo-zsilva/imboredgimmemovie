@@ -8,6 +8,7 @@ export function BuyMeACoffee() {
             w="45px"
             h="45px"
             borderRadius="50%"
+            aria-label="Support Developer"
         >
             <Tooltip
                 label="Buy me a coffee!"
