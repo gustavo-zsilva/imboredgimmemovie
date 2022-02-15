@@ -16,8 +16,6 @@ import { Footer } from '../components/Footer'
 
 import axios from 'axios'
 import { parseCookies, setCookie } from 'nookies'
-import axios from 'axios'
-import { api } from '../services/api'
 import { graphQLClient } from '../pages/api/graphql'
 import { Flex } from '@chakra-ui/react'
 
