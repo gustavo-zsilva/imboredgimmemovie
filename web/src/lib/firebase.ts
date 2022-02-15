@@ -3,13 +3,12 @@ import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAY5bCUzzsaWI0F_ts8r_FTshAcigYLtD0",
-    authDomain: "imboredgimmemovie.firebaseapp.com",
-    projectId: "imboredgimmemovie",
-    storageBucket: "imboredgimmemovie.appspot.com",
-    messagingSenderId: "84165990493",
-    appId: "1:84165990493:web:001693f7f69ab718eb95b4",
-    measurementId: "G-KB8H1VJNZ6",
+    apiKey: "AIzaSyAANU9Ru0RdFU356c1wWQim758GXUZu0dg",
+    authDomain: "imboredgimmemovie-prod.firebaseapp.com",
+    projectId: "imboredgimmemovie-prod",
+    storageBucket: "imboredgimmemovie-prod.appspot.com",
+    appId: "1:537392804235:web:2daaaba00e5e03828dff8e",
+    measurementId: "G-NHBRQ1Y0QS"
 }
 
 const app = initializeApp(firebaseConfig)
