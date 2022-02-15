@@ -14,6 +14,7 @@ import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { GenreList } from '../components/GenreList'
 import { Footer } from '../components/Footer'
 
+import axios from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 import axios from 'axios'
 import { api } from '../services/api'
