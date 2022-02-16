@@ -17,9 +17,16 @@ export const theme = extendTheme({
             400: '#F44336',
         },
         dark: {
-            100: '#312F2F',
-            200: '#3a3838',
-            300: '#606060',
+            50: '#f9f0f0',
+            100: '#dad8d8',
+            200: '#bfbfbf',
+            300: '#a5a5a5',
+            400: '#8b8b8b',
+            500: '#717171',
+            600: '#525050',
+            700: '#3A3838',
+            800: '#312F2F',
+            900: '#130a0a',
         },
         secondary: {
             100: '#da5cd8',
@@ -37,7 +44,7 @@ export const theme = extendTheme({
                 height: '100vh',
                 maxWidth: '80rem',
                 margin: 'auto',
-                background: 'dark.100',
+                background: 'dark.800',
             },
             "::-webkit-scrollbar": {
                 width: '8px'
@@ -55,7 +62,7 @@ export const theme = extendTheme({
     components: {
         Tooltip: {
             baseStyle: {
-                bg: 'dark.200',
+                bg: 'dark.700',
                 color: 'primary.200',
             }
         },
