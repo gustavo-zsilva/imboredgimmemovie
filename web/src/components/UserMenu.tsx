@@ -17,7 +17,7 @@ export function UserMenu() {
     const { user, signOut } = useAuth()
 
     return (
-        <Menu placement="bottom" colorScheme="blue">
+        <Menu placement="bottom">
             <MenuButton
                 as={Button}
                 variant="unstyled"
@@ -43,14 +43,22 @@ export function UserMenu() {
                     />
                 </SkeletonCircle>
             </MenuButton>
-            <MenuList>
+            <MenuList bgGradient="linear(to-t, secondary.100, secondary.300)">
                 <Flex flexDir="column" textAlign="center" m="1rem">
                     <Text fontSize=".8rem">logged as</Text>
                     <Text fontSize="1.2rem" fontWeight="bold">{user.displayName}</Text>
                     <Text fontSize=".9rem" mt=".6rem">{user.email}</Text>
                 </Flex>
                 <MenuDivider />
-                <MenuItem icon={<FiLogOut size={18} />} onClick={signOut}>Sign Out</MenuItem>
+                <MenuItem
+                    icon={<FiLogOut size={18} />}
+                    _hover={{
+                        bg: 'secondary.200',
+                    }}
+                    onClick={signOut}
+                >
+                    Sign Out
+                </MenuItem>
             </MenuList>
         </Menu>
     )

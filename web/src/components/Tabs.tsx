@@ -4,7 +4,6 @@ import { useMovie } from '../hooks/useMovie'
 import { Bubble } from './Bubble'
 import { LikedMovieList } from './LikedMovieList'
 
-import { api } from '../services/api'
 import {
     Tabs as ChakraTabs,
     TabList,
@@ -67,18 +66,26 @@ export function Tabs() {
     return (
         <ChakraTabs
             id="1-tabs-id"
-            variant="solid-rounded"
-            colorScheme="primary"
+            variant="unstyled"
             display="flex"
             flexDir="column"
             alignItems="center"
             mt={{ sm: '1rem', md: '0' }}
             onChange={(index) => setTabIndex(index)}
-            
         >
             <TabList justifyContent="center">
-                <Tab>Credits</Tab>
-                <Tab>
+                <Tab
+                    fontWeight="bold"
+                    borderRadius="9999px"
+                    _selected={{ color: 'dark.800', bg: 'primary.300' }}
+                >
+                    Credits
+                </Tab>
+                <Tab
+                    fontWeight="bold"
+                    borderRadius="9999px"
+                    _selected={{ color: 'dark.800', bg: 'primary.300' }}
+                >
                     Movies
                     {tabIndex === 1 &&
                         <Text ml=".4rem" fontWeight="500">
