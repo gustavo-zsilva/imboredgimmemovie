@@ -17,7 +17,7 @@ export function MovieHeader() {
                     <Text fontWeight="bold" fontSize="1.2rem" mr=".8rem">
                         {movie.title}
                     </Text>
-                    <Text fontSize=".9rem" color="dark.300">
+                    <Text fontSize=".9rem" color="dark.500">
                         {movie.original_title}
                     </Text>
                 </Flex>
@@ -33,7 +33,7 @@ export function MovieHeader() {
                 }
             </Flex>
 
-            <Flex gridGap=".4rem" bg="dark.200" p=".2rem .6rem" borderRadius=".2rem">
+            <Flex gridGap=".4rem" bg="dark.700" p=".2rem .6rem" borderRadius=".2rem">
                 <Text>{releaseYear}</Text>
                 |
                 <Tooltip label={`${runtimeInHours} hours`}>

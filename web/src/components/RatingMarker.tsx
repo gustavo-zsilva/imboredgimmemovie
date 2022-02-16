@@ -3,7 +3,7 @@ import { useMovie } from '../hooks/useMovie'
 
 import { MdOutlineSentimentNeutral } from 'react-icons/md'
 import { BiSad, BiSmile, BiWinkSmile, BiHappyHeartEyes } from 'react-icons/bi'
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
 import { Flex, Text, chakra } from "@chakra-ui/react"
 
 type RatingMarkerProps = {
@@ -19,7 +19,7 @@ type MovieRating = {
 type MovieRatings = Record<number, MovieRating>
 
 export function RatingMarker({ offset }: RatingMarkerProps) {
-    const FactoryMotion = chakra(motion.div)
+    // const FactoryMotion = chakra(motion.div)
 
     const { movie } = useMovie()
     const movieRatings: MovieRatings = {
@@ -61,7 +61,7 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
     const marker = movieRatings[Number(rating)]
     
     return (
-        <FactoryMotion
+        <Flex
             flexDir="column"
             bg={marker.bg}
             p=".6rem"
@@ -77,18 +77,18 @@ export function RatingMarker({ offset }: RatingMarkerProps) {
             cursor="pointer"
             justifyContent="baseline"
             
-            whileHover={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '20rem',
-                height: 'auto',
-                top: "-20",
-            }}
+            // whileHover={{
+            //     justifyContent: 'center',
+            //     alignItems: 'center',
+            //     width: '20rem',
+            //     height: 'auto',
+            //     top: "-20",
+            // }}
         >
             <Flex mb=".2rem">
                 {marker.icon}
             </Flex>
             <Text textAlign="center">{marker.message}</Text>
-        </FactoryMotion>
+        </Flex>
     )
 }

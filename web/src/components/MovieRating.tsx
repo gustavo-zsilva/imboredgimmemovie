@@ -25,7 +25,7 @@ export function MovieRating() {
             <Flex
                 h="2rem"
                 w="100%"
-                bg="dark.200"
+                bg="dark.700"
                 borderRadius=".1rem"
                 ref={ref}
             >

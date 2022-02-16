@@ -5,6 +5,7 @@ export function BuyMeACoffee() {
     return (
         <Button
             variant="ghost"
+            _hover={{ bg: "dark.600" }}
             w="45px"
             h="45px"
             borderRadius="50%"

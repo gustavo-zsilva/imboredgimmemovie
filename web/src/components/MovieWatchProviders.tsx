@@ -5,8 +5,8 @@ import { useMovie } from '../hooks/useMovie'
 import { Skeleton } from './Skeleton'
 
 import { graphQLClient } from '../pages/api/graphql'
-import { motion } from 'framer-motion'
-import { Flex, Text, Spinner, Tooltip, chakra } from '@chakra-ui/react'
+// import { motion } from 'framer-motion'
+import { Flex, Text, Spinner, Tooltip, Link, chakra } from '@chakra-ui/react'
 
 type Provider = {
     logo_path: string,
@@ -22,8 +22,8 @@ export function MovieWatchProviders() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
-    const FactoryMotion = chakra(motion.div)
-    const FactoryMotionLink = chakra(motion.a)
+    // const FactoryMotion = chakra(motion.div)
+    // const FactoryMotionLink = chakra(motion.a)
 
     const list = {
         hidden: {
@@ -94,7 +94,7 @@ export function MovieWatchProviders() {
     }, [movie, userLocation])
 
     return (
-        <FactoryMotion
+        <Flex
             display="flex"
             gridGap="1rem"
             initial="hidden"
@@ -110,13 +110,13 @@ export function MovieWatchProviders() {
             ) : (
                 providersList?.map(provider => {
                     return (
-                        <FactoryMotionLink
+                        <Link
                             key={provider.provider_id}
                             href={provider.link}
                             onClick={handleGetMovieRecommendations}
                             target="_blank"
                             rel="noopener noreferrer"
-                            variants={item}
+                            // variants={item}
                         >
                             <Tooltip label={provider.provider_name}>
                                 <Flex
@@ -137,10 +137,10 @@ export function MovieWatchProviders() {
                                     </Skeleton>
                                 </Flex>
                             </Tooltip>
-                        </FactoryMotionLink>
+                        </Link>
                     )
                 })
             )}
-        </FactoryMotion>
+        </Flex>
     )
 }

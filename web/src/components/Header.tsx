@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic'
 import { MdOutlineMovie } from 'react-icons/md';
 
 import { BuyMeACoffee } from './BuyMeACoffee';
-import { UserMenu } from './UserMenu';
+// Dynamic Import (code splitting) - Performance
+const UserMenu = dynamic(() => import('./UserMenu').then(mod => mod.UserMenu))
 import { useAuth } from '../hooks/useAuth';
 // import { motion } from 'framer-motion';
 import {
@@ -38,6 +40,8 @@ export function Header() {
                 ) : (
                     <Button
                         onClick={signInWithGoogle}
+                        bg="dark.700"
+                        _hover={{ bg: "dark.600" }}
                         fontSize={{
                             sm: '75%',
                             md: 'initial',
