@@ -1,16 +1,16 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
+import { getPerformance } from 'firebase/performance'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAANU9Ru0RdFU356c1wWQim758GXUZu0dg",
-    authDomain: "imboredgimmemovie-prod.firebaseapp.com",
-    projectId: "imboredgimmemovie-prod",
-    storageBucket: "imboredgimmemovie-prod.appspot.com",
-    appId: "1:537392804235:web:2daaaba00e5e03828dff8e",
-    measurementId: "G-NHBRQ1Y0QS"
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    appId: process.env.FIREBASE_APP_ID,
 }
 
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const auth = getAuth(app)
+export const perf = getPerformance(app)
