@@ -6,7 +6,7 @@ import { Button } from './Button'
 
 import { BiGhost } from 'react-icons/bi'
 import { AiOutlineDelete, AiOutlineFire } from 'react-icons/ai'
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
 import {
     Flex,
     Text,
@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react'
 
 export function LikedMovieList() {
-    const FactoryMotion = chakra(motion.div)
+    // const FactoryMotion = chakra(motion.div)
 
     const { likedMovies, handleChangeMovie, handleClearLikedMovies } = useMovie()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -35,35 +35,35 @@ export function LikedMovieList() {
         onClose()
     }
 
-    const list = {
-        visible: {
-            opacity: 1,
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
-        },
-        hidden: {
-            opacity: 0,
-            transition: {
-                when: "afterChildren",
-            },
-        }
-    }
+    // const list = {
+    //     visible: {
+    //         opacity: 1,
+    //         transition: {
+    //             when: "beforeChildren",
+    //             staggerChildren: 0.1,
+    //         },
+    //     },
+    //     hidden: {
+    //         opacity: 0,
+    //         transition: {
+    //             when: "afterChildren",
+    //         },
+    //     }
+    // }
 
-    const item = {
-        visible: {
-            opacity: 1,
-            y: 0,
-        },
-        hidden: {
-            opacity: 0,
-            y: -80
-        },
-    }
+    // const item = {
+    //     visible: {
+    //         opacity: 1,
+    //         y: 0,
+    //     },
+    //     hidden: {
+    //         opacity: 0,
+    //         y: -80
+    //     },
+    // }
 
     return (
-        <FactoryMotion
+        <Flex
             display="flex"
             flexDir="column"
             w="100%"
@@ -74,7 +74,7 @@ export function LikedMovieList() {
             position="relative"
             initial="hidden"
             animate="visible"
-            variants={list}
+            // variants={list}
         >
             {!user && (
                 <Flex
@@ -110,7 +110,7 @@ export function LikedMovieList() {
 
             {likedMovies.length > 0 && likedMovies.map(movie => {
                 return (
-                    <FactoryMotion
+                    <Flex
                         key={movie.id}
                         display="flex"
                         pos="relative"
@@ -122,7 +122,7 @@ export function LikedMovieList() {
                         minH="5rem"
                         cursor="pointer"
                         onClick={() => handleChangeMovie(movie)}
-                        variants={item}
+                        // variants={item}
                     >
                         <Flex
                             bgImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -144,7 +144,7 @@ export function LikedMovieList() {
                         >
                             {movie.title}
                         </Text>
-                    </FactoryMotion>
+                    </Flex>
                 )
             })}
 
@@ -195,6 +195,6 @@ export function LikedMovieList() {
                     </AlertDialogContent>
                 </AlertDialog>
             </Flex>
-        </FactoryMotion>
+        </Flex>
     )
 }
