@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useState, useEffect, useRef, useCallback } from "react";
 import { graphQLClient } from "../pages/api/graphql";
-import { setCookie } from "nookies"
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
