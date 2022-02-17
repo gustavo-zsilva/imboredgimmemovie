@@ -70,6 +70,7 @@ export function Tabs() {
             display="flex"
             flexDir="column"
             alignItems="center"
+            w="100%"
             mt={{ sm: '1rem', md: '0' }}
             onChange={(index) => setTabIndex(index)}
         >
@@ -99,8 +100,9 @@ export function Tabs() {
                 <TabPanel
                     m="auto"
                     display={{ sm: 'grid', md: 'initial' }}
-                    gridTemplateColumns={{ sm: '1fr 1fr', md: '1fr' }}
                     gridGap={{ sm: '1rem', md: '0' }}
+                    px={{ sm: '0', md: 'inherit' }}
+                    w={{ sm: '100%', md: 'initial' }}
                 >
                     <Bubble title="Cast" description={cast} />
                     <Bubble title="Directors" description={directors} />

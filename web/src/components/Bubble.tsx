@@ -15,21 +15,21 @@ export function Bubble({ title, description }: BubbleProps) {
             flexDir="column"
             boxShadow="0 0 6px 6px rgba(0, 0, 0, 0.03)"
             w={{
-                sm: "auto",
+                sm: "100%",
                 md: "20rem"
             }}
-            h={{
-                sm: "100%",
-                md: "fit-content"
+            textAlign={{
+                sm: 'center',
+                md: 'initial'
             }}
             _odd={{
-                sm: { pb: 'inherit' },
+                sm: { pb: '1rem' },
                 md: { pb: '3rem' }
             }}
             _even={{
-                sm: { bg: '#3c5fd4' },
-                md: { transform: 'translateY(-25%) translateX(15%)', bg: '#3c5fd4' },
-                lg: { transform: 'translateY(-25%) translateX(35%)', bg: '#3c5fd4' }
+                sm: { bg: 'primary.500' },
+                md: { transform: 'translateY(-25%) translateX(15%)', bg: 'primary.500' },
+                lg: { transform: 'translateY(-25%) translateX(35%)', bg: 'primary.500' },
             }}
         >
             <Text fontSize="1.2rem" fontWeight="bold">{title}</Text>
