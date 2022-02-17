@@ -17,6 +17,7 @@ export function MovieRating() {
     return (
         <Flex
             px={{ md: "1rem", lg: "3rem" }}
+            mt={{ sm: "2.5rem", md: "initial" }}
             alignItems="center"
             textAlign="right"
             pos="relative"

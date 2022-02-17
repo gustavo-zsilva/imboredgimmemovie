@@ -22,14 +22,15 @@ export function MovieRecommendations() {
                 alignItems="baseline"
             >
                 Recommendations for you
-                <Text color="gray.500" fontSize="1rem">{movieRecommendations.length}</Text>
+                <Text color="gray.500" fontSize="1rem">
+                    {movieRecommendations.length}
+                </Text>
             </Heading>
             
-            <Grid
-                display={{ sm: "grid", lg: "flex" }}
-                gridTemplateColumns="1fr 1fr"
+            <Flex
                 gridRowGap="1rem"
                 justifyContent="space-between"
+                flexWrap="wrap"
                 mt="2rem"
             >
                 {movieRecommendations.map(movie => {
@@ -61,7 +62,7 @@ export function MovieRecommendations() {
                         </Flex>
                     )
                 })}
-            </Grid>
+            </Flex>
         </Flex>
     )
 }
