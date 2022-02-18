@@ -41,11 +41,17 @@ const typeDefs = gql`
         producers: String
     }
 
-    type WatchProvider {
+    type LinkWatchProvider {
         logo_path: String!
         provider_name: String!
         provider_id: Int!
         link: String
+    }
+
+    type WatchProvider {
+        logo_path: String!
+        provider_name: String!
+        provider_id: Int!
     }
 
     type Movie {
@@ -71,7 +77,7 @@ const typeDefs = gql`
             movieId: ID!,
             countryCode: String!,
             movieSlug: String!,
-        ): [WatchProvider!]
+        ): [LinkWatchProvider!]
         movieRecommendations(
             movieId: ID!,
             last: Int,
@@ -79,6 +85,9 @@ const typeDefs = gql`
         movieCredits(
             movieId: ID!,
         ): Credits
+        allWatchProviders(
+            region: String!
+        ): [WatchProvider!]
     }
 `
 
@@ -192,6 +201,20 @@ const resolvers = {
                 throw err
             }
         },
+        allWatchProviders: async (_, { region }) => {
+            try {
+                const response = await api.get(`/watch/providers/movie`, {
+                    params: {
+                        watch_region: region,
+                    }
+                })
+
+                const allWatchProviders = response.data.results
+                return allWatchProviders
+            } catch (err) {
+                throw err
+            }
+        }
     }
 }
 
