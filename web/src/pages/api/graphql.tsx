@@ -54,6 +54,11 @@ const typeDefs = gql`
         provider_id: Int!
     }
 
+    type Genre {
+        name: String!
+        id: ID!
+    }
+
     type Movie {
         title: String!
         id: ID!
@@ -88,6 +93,7 @@ const typeDefs = gql`
         allWatchProviders(
             region: String!
         ): [WatchProvider!]
+        genres: [Genre!]
     }
 `
 
@@ -214,7 +220,17 @@ const resolvers = {
             } catch (err) {
                 throw err
             }
-        }
+        },
+        genres: async () => {
+            try {
+                const response = await api.get(`/genre/movie/list`)
+                const genres = response.data.genres
+
+                return genres
+            } catch (err) {
+                throw err
+            }
+        },
     }
 }
 
