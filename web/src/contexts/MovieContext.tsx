@@ -51,6 +51,7 @@ type RecommendedMovie = {
 type Location = {
     country: string,
     countryCode: string,
+    locale: string,
 }
 
 type MovieProvider = {

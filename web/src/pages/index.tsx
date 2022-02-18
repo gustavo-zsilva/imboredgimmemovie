@@ -41,6 +41,7 @@ type MovieProps = {
 type Location = {
     country: string,
     countryCode: string,
+    locale: string,
 }
 
 type HomeProps = {
