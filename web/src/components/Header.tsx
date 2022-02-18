@@ -4,6 +4,7 @@ import { MdOutlineMovie } from 'react-icons/md';
 import { BuyMeACoffee } from './BuyMeACoffee';
 // Dynamic Import (code splitting) - Performance
 const UserMenu = dynamic(() => import('./UserMenu').then(mod => mod.UserMenu))
+import { Config } from './Config';
 import { useAuth } from '../hooks/useAuth';
 // import { motion } from 'framer-motion';
 import {
@@ -35,6 +36,7 @@ export function Header() {
             </Text>
             <Flex alignItems="center" gridGap="1rem">
                 <BuyMeACoffee />
+                <Config />
                 {user ? (
                     <UserMenu />
                 ) : (
