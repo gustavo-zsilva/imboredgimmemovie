@@ -14,6 +14,8 @@ import { MovieWatchProviders } from '../components/MovieWatchProviders'
 import { GenreList } from '../components/GenreList'
 import { Footer } from '../components/Footer'
 
+import lookup from 'country-code-lookup'
+
 import axios from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 import { graphQLClient } from '../pages/api/graphql'
@@ -148,10 +150,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             fields: "country,countryCode",
         }
     })
-    const location = rawLocation.data || { country: 'Brazil', countryCode: 'BR' }
+    const { country, internet: countryCode } = lookup.byIso(locale)
+    const location = rawLocation.data || { country, countryCode }
     location.locale = locale
     
-    if (cookieLocation?.country !== location.country || !cookieLocation) {
+    if (!cookieLocation) {
         setCookie(ctx, '@ibgm_user_location', JSON.stringify(location))
     }
     

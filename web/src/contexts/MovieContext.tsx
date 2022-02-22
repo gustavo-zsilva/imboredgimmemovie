@@ -21,6 +21,7 @@ type MovieContextProps = {
     handleAddToLikedMovies: () => void,
     handleClearLikedMovies: () => void,
     handleLazyMovie: () => void,
+    handleChangeUserLocation: (location: Location) => void,
 }
 
 type Genre = {
@@ -111,7 +112,7 @@ export function MovieProvider({
             console.error('Error saving liked movies: ', err)
         })
         
-    }, [likedMovies])
+    }, [likedMovies, user])
 
     const handleGetRandomMovie = useCallback(async () => {
         try {
@@ -146,7 +147,7 @@ export function MovieProvider({
         } catch (err) {
             console.error(err)
         } 
-    }, []) 
+    }, [])
 
     function handleLazyMovie() {
         if (isLazyMovie) {
@@ -241,6 +242,10 @@ export function MovieProvider({
         setLikedMovies([])
     }
 
+    function handleChangeUserLocation(location: Location) {
+        setUserLocation(location)
+    }
+
     return (
         <MovieContext.Provider
             value={{
@@ -258,6 +263,7 @@ export function MovieProvider({
                 handleLazyMovie,
                 isLazyMovie,
                 userLocation,
+                handleChangeUserLocation,
             }}
         >
             {children}

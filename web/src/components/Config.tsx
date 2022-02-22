@@ -1,4 +1,13 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState, memo } from 'react'
+import { useRouter } from 'next/router'
+
+import { setCookie } from 'nookies'
+import lookup from 'country-code-lookup'
+
+import { ConfigBox } from './ConfigBox'
+import { useMovie } from '../hooks/useMovie'
+import { useConfig } from '../hooks/useConfig'
+import { graphQLClient } from '../pages/api/graphql'
 
 import { BiCog } from 'react-icons/bi'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
@@ -24,9 +33,6 @@ import {
     SliderThumb,
     SliderMark,
 } from '@chakra-ui/react'
-import { ConfigBox } from './ConfigBox'
-import { graphQLClient } from '../pages/api/graphql'
-import { useMovie } from '../hooks/useMovie'
 
 type Provider = {
     logo_path: string,
@@ -40,8 +46,16 @@ type Genre = {
 }
 
 export function Config() {
+    const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { userLocation } = useMovie()
+    const { userLocation, handleChangeUserLocation } = useMovie()
+    const {
+        providers,
+        handleAddProvider,
+        handleRemoveProvider,
+        handleAddAllProviders,
+        handleRemoveAllProviders,
+    } = useConfig()
     const [allWatchProviders, setAllWatchProviders] = useState<Provider[]>([])
     const [genres, setGenres] = useState<Genre[]>([])
 
@@ -82,6 +96,21 @@ export function Config() {
         })
     }, [userLocation])
 
+    function addAllProviders() {
+        const idList = allWatchProviders.map(provider => provider.provider_id)
+        handleAddAllProviders(idList)
+    }
+
+    function handleChangeLanguage(e: ChangeEvent<HTMLSelectElement>) {
+        const locale = e.currentTarget.value
+        const { country, internet: countryCode } = lookup.byIso(locale)
+        const newUserLocation = { country, countryCode, locale }
+
+        handleChangeUserLocation(newUserLocation)
+        setCookie(null, '@ibgm_user_location', JSON.stringify(newUserLocation))
+        router.push('/', null, { locale })
+    }
+
     return (
         <>
             <IconButton
@@ -111,9 +140,9 @@ export function Config() {
                                 title="Language"
                                 description="select your favorite language"
                             >
-                                <Select>
+                                <Select onChange={handleChangeLanguage} defaultValue={userLocation.locale}>
                                     <option value="pt">🇧🇷 Portuguese</option>
-                                    <option value="en">🇺🇸 English</option>
+                                    <option value="us">🇺🇸 English</option>
                                     <option value="fr">🇫🇷 French</option>
                                     <option value="de">🇩🇪 German</option>
                                 </Select>
@@ -124,8 +153,8 @@ export function Config() {
                             >
                                 <Flex flexDir="column" gridGap="1rem" w="100%">
                                     <HStack>
-                                        <Button>All</Button>
-                                        <Button>None</Button>
+                                        <Button onClick={addAllProviders}>All</Button>
+                                        <Button onClick={handleRemoveAllProviders}>None</Button>
                                     </HStack>
                                     <HStack justifyContent="space-between">
                                         <IconButton
