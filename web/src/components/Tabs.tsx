@@ -4,6 +4,9 @@ import { useMovie } from '../hooks/useMovie'
 import { Bubble } from './Bubble'
 import { LikedMovieList } from './LikedMovieList'
 
+import { useQuery } from 'react-query'
+import { graphQLClient } from '../pages/api/graphql'
+
 import {
     Tabs as ChakraTabs,
     TabList,
@@ -12,7 +15,6 @@ import {
     TabPanel,
     Text,
 } from '@chakra-ui/react'
-import { graphQLClient } from '../pages/api/graphql'
 
 type Actor = {
     name: string,
@@ -24,44 +26,34 @@ type Crewmate = {
 }
 
 type CreditsProps = {
-    cast: Actor[],
-    crew: Crewmate[],
+    cast: string,
+    directors: string,
+    producers: string,
 }
 
 export function Tabs() {
 
     const { movie, likedMovies } = useMovie()
-
-    const [directors, setDirectors] = useState('')
-    const [cast, setCast] = useState('')
-    const [producers, setProducers] = useState('')
-
     const [tabIndex, setTabIndex] = useState(0)
 
-    useEffect(() => {
-        graphQLClient.executeOperation({
-            query: `
-                {
-                    movieCredits(movieId: "${movie.id}") {
-                        cast
-                        directors
-                        producers
+    const { data: { cast, directors, producers } } = useQuery<CreditsProps, Error>(
+        ['credits', movie],
+        async () => {
+            const { data } = await graphQLClient.executeOperation({
+                query: `
+                    {
+                        movieCredits(movieId: "${movie.id}") {
+                            cast
+                            directors
+                            producers
+                        }
                     }
-                }
-            `
-        })
-        .then(({ data }) => {
+                `
+            })
 
-            const { cast, directors, producers } = data.movieCredits
-
-            setCast(cast)
-            setDirectors(directors)
-            setProducers(producers)
-        })
-        .catch(err => {
-            console.error(err)
-        })
-    }, [movie])
+            return data.movieCredits
+        }
+    )
 
     return (
         <ChakraTabs
