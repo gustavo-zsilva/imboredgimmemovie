@@ -18,6 +18,7 @@ import lookup from 'country-code-lookup'
 
 import axios from 'axios'
 import { parseCookies, setCookie } from 'nookies'
+import { queryClient } from '../lib/queryClient'
 import { graphQLClient } from '../pages/api/graphql'
 import { Flex } from '@chakra-ui/react'
 
@@ -119,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookieLocation = rawUserLocation ? JSON.parse(rawUserLocation) : null
 
     const { locale } = ctx
-
+    
     const { data } = await graphQLClient.executeOperation({
         query: `
             {
@@ -142,8 +143,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         `
     })
-
+    
     const movie = data.randomMovie
+
+    // Set randomMovie to cache
+    queryClient.setQueryData('movie', movie)
     
     const rawLocation = await axios.get('http://ip-api.com/json', {
         params: {

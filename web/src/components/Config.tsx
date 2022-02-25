@@ -8,6 +8,7 @@ import { ConfigBox } from './ConfigBox'
 import { useMovie } from '../hooks/useMovie'
 import { useConfig } from '../hooks/useConfig'
 import { graphQLClient } from '../pages/api/graphql'
+import { useQueries } from 'react-query'
 
 import { BiCog } from 'react-icons/bi'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
@@ -56,48 +57,47 @@ export function Config() {
         handleAddAllProviders,
         handleRemoveAllProviders,
     } = useConfig()
-    const [allWatchProviders, setAllWatchProviders] = useState<Provider[]>([])
-    const [genres, setGenres] = useState<Genre[]>([])
 
-    useEffect(() => {
-        graphQLClient.executeOperation({
-            query: `
-                {
-                    allWatchProviders(region: "${userLocation.countryCode}") {
-                        provider_name
-                        logo_path
-                        provider_id
-                    }
-                }
-            `
-        })
-        .then(({ data }) => {
-            setAllWatchProviders(data.allWatchProviders)
-        })
-        .catch(err => {
-            console.error(err)
-        })
-
-        graphQLClient.executeOperation({
-            query: `
-                {
-                    genres {
-                        name
-                        id
-                    }
-                }
-            `
-        })
-        .then(({ data }) => {
-            setGenres(data.genres)
-        })
-        .catch(err => {
-            console.error(err)
-        })
-    }, [userLocation])
+    const [{ data: regionWatchProviders }, { data: genres }] = useQueries([
+        {
+            queryKey: ['regionWatchProviders', userLocation],
+            queryFn: async () => {
+                const { data } = await graphQLClient.executeOperation({
+                    query: `
+                        {
+                            regionWatchProviders(region: "${userLocation.countryCode}") {
+                                provider_name
+                                logo_path
+                                provider_id
+                            }
+                        }
+                    `
+                })
+        
+                return data.regionWatchProviders
+            }
+        },
+        {
+            queryKey: 'genres',
+            queryFn: async () => {
+                const { data } = await graphQLClient.executeOperation({
+                    query: `
+                        {
+                            genres {
+                                name
+                                id
+                            }
+                        }
+                    `
+                })
+        
+                return data.genres
+            }
+        }
+    ])
 
     function addAllProviders() {
-        const idList = allWatchProviders.map(provider => provider.provider_id)
+        const idList = regionWatchProviders?.map(provider => provider.provider_id)
         handleAddAllProviders(idList)
     }
 
@@ -164,7 +164,7 @@ export function Config() {
                                         >
                                             <FiArrowLeft size={20} />
                                         </IconButton>
-                                        {allWatchProviders.splice(0, 5).map(provider => (
+                                        {regionWatchProviders?.splice(0, 5).map(provider => (
                                             <Tooltip
                                                 key={provider.provider_id}
                                                 label={provider.provider_name}
@@ -213,7 +213,7 @@ export function Config() {
                                         >
                                             <FiArrowLeft size={20} />
                                         </IconButton>
-                                        {genres.splice(0, 5).map(genre => (
+                                        {genres?.splice(0, 5).map(genre => (
                                             <Flex
                                                 key={genre.id}
                                                 w="50px"

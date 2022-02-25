@@ -4,8 +4,8 @@ import Image from 'next/image'
 import { useMovie } from '../hooks/useMovie'
 import { Skeleton } from './Skeleton'
 
+import { useQuery } from 'react-query'
 import { graphQLClient } from '../pages/api/graphql'
-// import { motion } from 'framer-motion'
 import { Flex, Text, Spinner, Tooltip, Link, chakra } from '@chakra-ui/react'
 
 type Provider = {
@@ -18,97 +18,56 @@ type Provider = {
 export function MovieWatchProviders() {
 
     const { movie, userLocation, handleGetMovieRecommendations } = useMovie()
-    const [providersList, setProvidersList] = useState<Provider[] | null>(null)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
 
-    // const FactoryMotion = chakra(motion.div)
-    // const FactoryMotionLink = chakra(motion.a)
+    const { data: watchProviders, isLoading } = useQuery<Provider[], Error>(
+        ['watchProviders', movie, userLocation],
+        async () => {
+            const parsedTitle = movie.title
+                .normalize('NFD')
+                .replace(/\p{Diacritic}/gu, '')
+                .replaceAll(' - ', ' ')
+                .replaceAll(': ', ' ')
+                .replaceAll('&', 'e')
+                .split(' ')
+                .join('-')
+                .toLowerCase()
 
-    const list = {
-        hidden: {
-            opacity: 0,
-            transition: {
-                when: "afterChildren",
-            }
-        },
-        visible: {
-            opacity: 1,
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            }
-        }
-    }
-
-    const item = {
-        hidden: {
-            opacity: 0,
-            y: -10,
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-        }
-    }
-
-    useEffect(() => {
-        setIsImageLoaded(false)
-        setIsLoading(true)
-        setProvidersList(null)
-
-        const parsedTitle = movie.title
-            .normalize('NFD')
-            .replace(/\p{Diacritic}/gu, '')
-            .replaceAll(' - ', ' ')
-            .replaceAll(': ', ' ')
-            .replaceAll('&', 'e')
-            .split(' ')
-            .join('-')
-            .toLowerCase()
-
-        graphQLClient.executeOperation({
-            query: `
-                {
-                    watchProviders(
-                        movieId: "${movie.id}"
-                        countryCode: "${userLocation.countryCode}"
-                        movieSlug: "${parsedTitle}"
-                    ) {
-                        provider_id
-                        provider_name
-                        logo_path
-                        link
+            const { data } = await graphQLClient.executeOperation({
+                query: `
+                    {
+                        watchProviders(
+                            movieId: "${movie.id}"
+                            countryCode: "${userLocation.countryCode}"
+                            movieSlug: "${parsedTitle}"
+                        ) {
+                            provider_id
+                            provider_name
+                            logo_path
+                            link
+                        }
                     }
-                }
-            `
-        }).then(({ data }) => {
-            setProvidersList(data.watchProviders)
-            setIsLoading(false)
-        }).catch(err => {
-            console.error(err)
-            setProvidersList(null)
-            setIsLoading(false)
-        })
-        
-    }, [movie, userLocation])
-
+                `
+            })
+            
+            return data.watchProviders
+    })
+    
     return (
         <Flex
             display="flex"
             gridGap="1rem"
             initial="hidden"
             animate="visible"
-            variants={list}
         >
             {isLoading && <Spinner />}
 
-            {!providersList && !isLoading ? (
+            {!watchProviders && !isLoading ? (
                 <Text fontSize=".9rem" alignSelf="center">
                     There are no providers for this movie in {userLocation.country}.
                 </Text>
             ) : (
-                providersList?.map(provider => {
+                watchProviders?.map(provider => {
                     return (
                         <Link
                             key={provider.provider_id}
@@ -116,7 +75,6 @@ export function MovieWatchProviders() {
                             onClick={handleGetMovieRecommendations}
                             target="_blank"
                             rel="noopener noreferrer"
-                            // variants={item}
                         >
                             <Tooltip label={provider.provider_name}>
                                 <Flex
