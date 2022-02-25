@@ -51,7 +51,8 @@ export function MovieWatchProviders() {
             })
             
             return data.watchProviders
-    })
+        }
+    )
     
     return (
         <Flex
