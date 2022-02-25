@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useState, useEffect, useRef, useCallback } from "react";
-import { graphQLClient } from "../pages/api/graphql";
+import { useAuth } from "../hooks/useAuth";
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { db } from "../lib/firebase";
-import { useAuth } from "../hooks/useAuth";
+import { graphQLClient } from "../pages/api/graphql";
 
 export const MovieContext = createContext({} as MovieContextProps)
 

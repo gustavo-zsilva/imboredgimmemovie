@@ -90,7 +90,7 @@ const typeDefs = gql`
         movieCredits(
             movieId: ID!,
         ): Credits
-        allWatchProviders(
+        regionWatchProviders(
             region: String!
         ): [WatchProvider!]
         genres: [Genre!]
@@ -207,7 +207,7 @@ const resolvers = {
                 throw err
             }
         },
-        allWatchProviders: async (_, { region }) => {
+        regionWatchProviders: async (_, { region }) => {
             try {
                 const response = await api.get(`/watch/providers/movie`, {
                     params: {

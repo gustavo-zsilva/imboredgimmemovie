@@ -21,11 +21,6 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
     const [providers, setProviders] = useState<number[]>([])
     const [genres, setGenres] = useState<number[]>([])
 
-    useEffect(() => {
-        console.log(providers);
-        
-    }, [providers])
-
     function handleAddGenre(id: number) {
         setGenres([...genres, id])
     }

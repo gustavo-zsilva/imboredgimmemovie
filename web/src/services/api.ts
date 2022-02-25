@@ -1,5 +1,4 @@
 import axios from "axios";
-import { GetServerSidePropsContext } from "next";
 import { parseCookies } from 'nookies'
 
 const apiKey = process.env.API_KEY
