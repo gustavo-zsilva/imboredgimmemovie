@@ -1,6 +1,8 @@
-<h1 align="center">imboredgimmemovie</h1>
+# imboredgimmemovie
 
-### This is the most bizarre movie finder ever. It gets random movies every time you click, and needless to say, there can be some very peculiar ones out there (and there are!).
+> This is the most bizarre movie finder ever. It gets random movies every time you click, and needless to say, there can be some very peculiar ones out there (and there are!).
+
+![image](https://user-images.githubusercontent.com/65104544/157585007-dca04b84-d6a0-4354-9e6d-13232dc37948.png)
 
 ## Technologies 👨🏻‍💻
 
