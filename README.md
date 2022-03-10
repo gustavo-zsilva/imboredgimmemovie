@@ -1,5 +1,14 @@
 # imboredgimmemovie
 
+<p>
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/gustavo-zsilva/shopit">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/gustavo-zsilva/shopit">
+  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/gustavo-zsilva/shopit">
+  <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fshopit-ten.vercel.app">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/gustavo-zsilva/shopit?style=social">
+  <img alt="Twitch Status" src="https://img.shields.io/twitch/status/admpoggers?style=social">
+</p>
+
 > This is the most bizarre movie finder ever. It gets random movies every time you click, and needless to say, there can be some very peculiar ones out there (and there are!).
 
 ![image](https://user-images.githubusercontent.com/65104544/157585007-dca04b84-d6a0-4354-9e6d-13232dc37948.png)
@@ -20,7 +29,7 @@
 - react-icons (Iconization)
 - react-use-measure (Get components measure)
 
-## What have I learned from this journey?
+## What have I learned from this journey? 🔥
 
 I don't remember learning so many cool things from a single project of mine.
 To begin with, I've used NextJS features I have never used before (Internationalizaton: getting the user region),
@@ -30,7 +39,7 @@ AND made a really cool responsive UI.
 Last but not least, I tried out the new Firebase API, for the 'modularized web', and it was great.
 This project took me a really long time to "finish", but it sure was a enjoyable journey.
 
-## Contributing
+## Contributing ✨
 
 Every contribution is welcome, so feel free to contribute to this project!
 
