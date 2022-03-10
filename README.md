@@ -1,11 +1,11 @@
 # imboredgimmemovie
 
 <p>
-  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/gustavo-zsilva/shopit">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/gustavo-zsilva/shopit">
-  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/gustavo-zsilva/shopit">
-  <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fshopit-ten.vercel.app">
-  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/gustavo-zsilva/shopit?style=social">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/gustavo-zsilva/imboredgimmemovie">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/gustavo-zsilva/imboredgimmemovie">
+  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/gustavo-zsilva/imboredgimmemovie">
+  <img alt="Website" src="https://img.shields.io/website?url=https://imboredgimmemovie.vercel.app">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/gustavo-zsilva/imboredgimmemovie?style=social">
   <img alt="Twitch Status" src="https://img.shields.io/twitch/status/admpoggers?style=social">
 </p>
 
